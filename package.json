@@ -1,0 +1,22 @@
+{
+  "name": "svgutils",
+  "version": "0.1.0",
+  "description": "Svg Utils for pasing SVGFile and manipulate Matrix object like Snap.svg",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/throrin19/svgutils.git"
+  },
+  "keywords": [
+    "svg",
+    "matrix",
+    "parsing"
+  ],
+  "author": "Benjamin Besse",
+  "license": "Apache",
+  "readmeFilename": "README.md",
+  "gitHead": "5c71469ee5f51b6e08bc8f5e3cd2b0fadf0ed89a"
+}
