@@ -3,7 +3,8 @@
 var fs      = require('fs'),
     xml2js  = require('xml2js'),
     _       = require('underscore'),
-    Polygon = require(__dirname + '/objects/polygon');
+    Polygon = require(__dirname + '/objects/polygon'),
+    Group   = require(__dirname + '/objects/group');
 
 /**
  * Create SVG Parser
@@ -17,15 +18,13 @@ var Parser = function(){};
  */
 Parser.prototype._svg = null;
 
-module.exports = Parser;
-
 /**
  * Read SVG File, set _svgContent and  return the content into callback
  *
  * @param {string}      path            SVG FilePath
  * @param {function}    callback        Callback Function
  */
-module.exports.prototype.parseFile = function(path, callback){
+Parser.prototype.parseFile = function(path, callback){
 
     var parser  = new xml2js.Parser(),
         self    = this;
@@ -44,46 +43,61 @@ module.exports.prototype.parseFile = function(path, callback){
     });
 };
 
-module.exports.prototype._convert = function(callback){
+Parser.prototype._convert = function(callback){
     if(this._svg == null || typeof this._svg.svg == 'undefined' || this._svg.svg == null){
         callback(new Error("Your SVG is empty or invalid"));
         return;
     }
 
-    this._parseNode(this._svg.svg, true);
-    callback();
+    var elements = this.parseNode(this._svg.svg);
+    callback(null, elements);
 };
 
-module.exports.prototype._parseNode = function(node, ignoreAttributes){
-    var nodeObj = {},
+Parser.prototype.parseNode = function(node){
+    var nodes = [],
         self    = this;
-
-    nodeObj.childs = [];
 
     _.each(node, function(content, index){
         switch(index){
             case 'g' :
-                var objs = self._parseGroup(content);
-                nodeObj.childs.push(objs);
+                nodes = _.union(nodes, self.parseGroup(content));
                 break;
             case 'polygon' :
-                var obj = Polygon.fromNode(content[0]);
-                nodeObj.childs.push(obj);
-                console.log(obj.toJSON());
+                nodes = _.union(nodes, self.parsePolygon(content));
+                break;
+            case 'polyline' :
+                nodes = _.union(nodes, self.parsePolygon(content, true));
                 break;
         }
     });
 
-    return nodeObj;
+    return nodes;
 };
 
-module.exports.prototype._parseGroup = function(group){
-    var objs = [],
-        self = this;
+/**
+ * Parse Group Elements Array
+ *
+ * @param {Array} array         xml2js elements array
+ * @returns {Array}             Groups array
+ */
+Parser.prototype.parseGroup = function(array){
+    var groups = [];
 
-    _.each(group, function(object){
-        objs.push(self._parseNode(object));
+    _.each(array, function(item){
+        groups.push(Group.fromNode(item));
     });
 
-    return objs;
+    return groups;
 };
+
+Parser.prototype.parsePolygon = function(array, isPolyline){
+    var polygons = [];
+
+    _.each(array, function(item){
+        polygons.push(Polygon.fromNode(item, isPolyline));
+    });
+
+    return polygons;
+};
+
+module.exports = Parser;

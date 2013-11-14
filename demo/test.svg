@@ -2,8 +2,10 @@
   <script xlink:href="../../../../js/libs/vendors/svg/SVGPan.js"/>
   <g id="viewport" >
     <defs id="SvgjsDefs1001"></defs>
-      <image transform="matrix(1,0,0,1,-120,-160)" xlink:href="../../../../maps/SVG/319-SMCL/img/fond21.png" x="50" y="-50" height="3000" width="3000"/>
-<g><polygon transform="matrix(2.35,0,0,2.35,30,385)" id="2.1B 06" fill="#003e70" stroke="black" points="911.2,294.6 927.52,294.6 927.52,319.2 911.2,319.2 911.2,294.6"/>
+    <image transform="matrix(1,0,0,1,-120,-160)" xlink:href="../../../../maps/SVG/319-SMCL/img/fond21.png" x="50" y="-50" height="3000" width="3000"/>
+    <g>
+
+<polygon transform="matrix(2.35,0,0,2.35,30,385)" id="2.1B 06" fill="#003e70" stroke="black" points="911.2,294.6 927.52,294.6 927.52,319.2 911.2,319.2 911.2,294.6"/>
 
 <text fill="white" pointer-events="none" transform="matrix(2.35,0,0,2.35,30,385)" text-anchor="middle" font-family="arial" font-weight="bold" font-size="6px" x="919.36" y="306.9">B 06</text></g><g><polygon transform="matrix(2.35,0,0,2.35,30,385)" id="2.1B 08" fill="#003e70" stroke="black" points="868.24,319.2 901,319.2 901,294.6 868.24,294.6 868.24,319.2"/>
 

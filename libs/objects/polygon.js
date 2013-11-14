@@ -5,7 +5,7 @@ var Matrix      = require(__dirname + '/../matrix'),
     _           = require('underscore');
 
 var Polygon = function(){
-    SvgObject.call();
+    SvgObject.call(this);
 };
 
 Polygon.prototype = new SvgObject();
@@ -67,25 +67,11 @@ module.exports.fromNode = function(node, line){
     if(line == true)
         polygon.type = 'polyline';
 
-    if(typeof node.$ != 'undefined'){
+    if(typeof node != 'undefined' && typeof node.$ != 'undefined'){
+        SvgObject.fromNode.call(polygon, node);
+
         if(typeof node.$.points != 'undefined'){
             polygon.setPointsFromString(node.$.points);
-        }
-        if(typeof node.$['class'] != 'undefined'){
-            polygon.setClassesFromString(node.$['class']);
-        }
-        if(typeof node.$.id != 'undefined'){
-            polygon.setId(node.$.id);
-            polygon.setName(node.$.id);
-        }
-        if(typeof node.$.stroke != 'undefined'){
-            polygon.setStroke(node.$.stroke);
-        }
-        if(typeof node.$.fill != 'undefined'){
-            polygon.setFill(node.$.fill);
-        }
-        if(typeof node.$.style != 'undefined'){
-            polygon.setStyleFromString(node.$.style);
         }
 
         // gestion du transform

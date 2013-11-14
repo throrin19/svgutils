@@ -89,3 +89,30 @@ SvgObject.prototype.toJSON = function(){
 };
 
 module.exports = SvgObject;
+
+/**
+ * Generate SVGElement from SVG node
+ *
+ * @param {SvgObject}   object      SvgObject element (polygon|group|...
+ * @param {object}      node        xml2js element
+ */
+module.exports.fromNode = function(object, node){
+    if(typeof node != 'undefined' && typeof node.$ != 'undefined'){
+        if(typeof node.$['class'] != 'undefined'){
+            object.setClassesFromString(node.$['class']);
+        }
+        if(typeof node.$.id != 'undefined'){
+            object.setId(node.$.id);
+            object.setName(node.$.id);
+        }
+        if(typeof node.$.stroke != 'undefined'){
+            object.setStroke(node.$.stroke);
+        }
+        if(typeof node.$.fill != 'undefined'){
+            object.setFill(node.$.fill);
+        }
+        if(typeof node.$.style != 'undefined'){
+            object.setStyleFromString(node.$.style);
+        }
+    }
+};
