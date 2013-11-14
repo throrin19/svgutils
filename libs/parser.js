@@ -2,7 +2,8 @@
 
 var fs      = require('fs'),
     xml2js  = require('xml2js'),
-    _       = require('underscore');
+    _       = require('underscore'),
+    Polygon = require(__dirname + '/objects/polygon');
 
 /**
  * Create SVG Parser
@@ -66,9 +67,9 @@ module.exports.prototype._parseNode = function(node, ignoreAttributes){
                 nodeObj.childs.push(objs);
                 break;
             case 'polygon' :
-                console.log(content);
-                var obj = self._parseNode(content);
+                var obj = Polygon.fromNode(content[0]);
                 nodeObj.childs.push(obj);
+                console.log(obj.toJSON());
                 break;
         }
     });
