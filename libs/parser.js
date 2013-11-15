@@ -5,7 +5,8 @@ var fs      = require('fs'),
     _       = require('underscore'),
     Polygon = require(__dirname + '/objects/polygon'),
     Group   = require(__dirname + '/objects/group'),
-    Rect    = require(__dirname + '/objects/rect');
+    Rect    = require(__dirname + '/objects/rect'),
+    Text    = require(__dirname + '/objects/text');
 
 /**
  * Create SVG Parser
@@ -140,7 +141,7 @@ Parser.prototype.parseText = function(array){
     var texts = [];
 
     _.each(array, function(item){
-
+        texts.push(Text.fromNode(item));
     });
 
     return texts;

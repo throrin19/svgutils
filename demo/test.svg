@@ -5,4 +5,8 @@
   <!-- Texte en dehors -->
   <text x="500" y="500" fill="green">Texte en dehors</text>
   <rect transform="rotate(45) matrix(1,0,0,1,600,0)" x="30" y="30" width="300" height="100" fill="pink" stroke="purple"/>
+  <text x="100" y="420" style="fill:red;">Several lines:
+      <tspan x="100" y="450">First line</tspan>
+      <tspan x="100" y="470">Second line</tspan>
+    </text>
 </svg>
