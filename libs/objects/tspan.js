@@ -13,7 +13,7 @@ Tspan.prototype.x        = 0;
 Tspan.prototype.y        = 0;
 
 Tspan.prototype.toJSON = function(){
-    var parentJSON = SvgObject.toJSON.call(this);
+    var parentJSON = SvgObject.prototype.toJSON.call(this);
 
     parentJSON.value    = this.value;
     parentJSON.x        = this.x;

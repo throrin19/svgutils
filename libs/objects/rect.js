@@ -16,7 +16,7 @@ Rect.prototype.rx       = 0;
 Rect.prototype.ry       = 0;
 
 Rect.prototype.toJSON = function(){
-    var parentJSON = SvgObject.toJSON.call(this);
+    var parentJSON = SvgObject.prototype.toJSON.call(this);
 
     parentJSON.x        = this.x;
     parentJSON.y        = this.y;

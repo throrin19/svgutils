@@ -5,7 +5,7 @@ var SvgObject   = require(__dirname + '/svgobject'),
     Tspan       = require(__dirname + '/tspan');
 
 var Text = function(){
-    SvgObject.call(this);
+    //SvgObject.call(this);
 };
 
 Text.prototype          = new SvgObject();
@@ -16,7 +16,7 @@ Text.prototype.y        = 0;
 Text.prototype.childs   = [];
 
 Text.prototype.toJSON = function(){
-    var parentJSON = SvgObject.toJSON.call(this);
+    var parentJSON = SvgObject.prototype.toJSON.call(this);
 
     parentJSON.value    = this.value;
     parentJSON.x        = this.x;
