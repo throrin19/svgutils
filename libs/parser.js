@@ -4,7 +4,8 @@ var fs      = require('fs'),
     xml2js  = require('xml2js'),
     _       = require('underscore'),
     Polygon = require(__dirname + '/objects/polygon'),
-    Group   = require(__dirname + '/objects/group');
+    Group   = require(__dirname + '/objects/group'),
+    Rect    = require(__dirname + '/objects/rect');
 
 /**
  * Create SVG Parser
@@ -123,7 +124,7 @@ Parser.prototype.parseRect = function(array){
     var rects = [];
 
     _.each(array, function(item){
-
+        rects.push(Rect.fromNode(item));
     });
 
     return rects;
