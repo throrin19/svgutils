@@ -1,6 +1,3 @@
-'use strict';
-
-// MATRIX
 function Matrix(a, b, c, d, e, f) {
     if (b == null && objectToString.call(a) == "[object SVGMatrix]") {
         this.a = a.a;
