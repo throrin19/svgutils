@@ -15,6 +15,22 @@ Text.prototype.x        = 0;
 Text.prototype.y        = 0;
 Text.prototype.childs   = [];
 
+Text.prototype.toJSON = function(){
+    var parentJSON = SvgObject.toJSON.call(this);
+
+    parentJSON.value    = this.value;
+    parentJSON.x        = this.x;
+    parentJSON.y        = this.y;
+
+    parentJSON.childs = [];
+
+    _.each(this.childs, function(child){
+        parentJSON.childs.push(child.toJSON());
+    });
+
+    return parentJSON;
+};
+
 module.exports = Text;
 
 module.exports.fromNode = function(node){

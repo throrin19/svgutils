@@ -12,6 +12,16 @@ Tspan.prototype.value    = "";
 Tspan.prototype.x        = 0;
 Tspan.prototype.y        = 0;
 
+Tspan.prototype.toJSON = function(){
+    var parentJSON = SvgObject.toJSON.call(this);
+
+    parentJSON.value    = this.value;
+    parentJSON.x        = this.x;
+    parentJSON.y        = this.y;
+
+    return parentJSON;
+};
+
 module.exports = Tspan;
 
 module.exports.fromNode = function(node){
