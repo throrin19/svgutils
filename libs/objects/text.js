@@ -1,6 +1,8 @@
 "use strict";
 
-var SvgObject = require(__dirname + '/svgobject');
+var SvgObject   = require(__dirname + '/svgobject'),
+    _           = require('underscore'),
+    Tspan       = require(__dirname + '/tspan');
 
 var Text = function(){
     SvgObject.call(this);
@@ -36,9 +38,11 @@ module.exports.fromNode = function(node){
 
         if(typeof node.tspan != 'undefined'){
             // we are children
+            _.each(node.tspan, function(tspan){
+                text.childs.push(Tspan.fromNode(tspan));
+            });
         }
     }
-
 
     return text;
 };
