@@ -68,6 +68,12 @@ Parser.prototype.parseNode = function(node){
             case 'polyline' :
                 nodes = _.union(nodes, self.parsePolygon(content, true));
                 break;
+            case 'rect' :
+                nodes = _.union(nodes, self.parseRect(content));
+                break;
+            case 'text' :
+                nodes = _.union(nodes, self.parseText(content));
+                break;
         }
     });
 
@@ -77,8 +83,8 @@ Parser.prototype.parseNode = function(node){
 /**
  * Parse Group Elements Array
  *
- * @param {Array} array         xml2js elements array
- * @returns {Array}             Groups array
+ * @param {Array}   array               xml2js elements array
+ * @returns {Array}                     Groups array
  */
 Parser.prototype.parseGroup = function(array){
     var groups = [];
@@ -90,6 +96,13 @@ Parser.prototype.parseGroup = function(array){
     return groups;
 };
 
+/**
+ * Parse Group Elements Array
+ *
+ * @param {Array}   array               xml2js elements array
+ * @param {boolean} [isPolyline]        true : polyline. false : polygon. (default : false)
+ * @returns {Array}                     Polygons array
+ */
 Parser.prototype.parsePolygon = function(array, isPolyline){
     var polygons = [];
 
@@ -98,6 +111,38 @@ Parser.prototype.parsePolygon = function(array, isPolyline){
     });
 
     return polygons;
+};
+
+/**
+ * Parse Rect Elements Array
+ *
+ * @param {Array}   array               xml2js elements array
+ * @returns {Array}                     Rects array
+ */
+Parser.prototype.parseRect = function(array){
+    var rects = [];
+
+    _.each(array, function(item){
+
+    });
+
+    return rects;
+};
+
+/**
+ * Parse Text Elements Array
+ *
+ * @param {Array}   array               xml2js elements array
+ * @returns {Array}                     Texts array
+ */
+Parser.prototype.parseText = function(array){
+    var texts = [];
+
+    _.each(array, function(item){
+
+    });
+
+    return texts;
 };
 
 module.exports = Parser;
