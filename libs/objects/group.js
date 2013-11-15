@@ -21,7 +21,11 @@ Group.prototype.toJSON = function(){
     var parentJSON = SvgObject.prototype.toJSON.call(this);
 
     parentJSON.type     = this.type;
-    parentJSON.childs   = this.childs;
+    parentJSON.childs   = [];
+
+    _.each(this.childs, function(child){
+        parentJSON.push(child.toJSON());
+    });
 
     return parentJSON;
 };

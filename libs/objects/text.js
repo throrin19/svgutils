@@ -5,7 +5,7 @@ var SvgObject   = require(__dirname + '/svgobject'),
     Tspan       = require(__dirname + '/tspan');
 
 var Text = function(){
-    //SvgObject.call(this);
+    SvgObject.call(this);
 };
 
 Text.prototype          = new SvgObject();
