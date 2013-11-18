@@ -1,6 +1,7 @@
 'use strict';
 
 var Matrix      = require(__dirname + '/../matrix/extends'),
+    utils       = require(__dirname + '/../matrix/utils'),
     SvgObject   = require(__dirname + '/svgobject'),
     _           = require('underscore');
 
@@ -22,7 +23,7 @@ Polygon.prototype.setPointsFromString = function(points){
     var coords  = [],
         point   = {};
 
-    _.each(points.split(','), function(xy, index){
+    _.each(points.split(/[, ]/), function(xy, index){
         if(index%2 == 0){
             point.x = xy;
         }else{
@@ -52,6 +53,30 @@ Polygon.prototype.toJSON = function(){
     return parentJSON;
 };
 
+Polygon.prototype.getBBox = function(){
+    var minX = Number.POSITIVE_INFINITY,
+        minY = Number.POSITIVE_INFINITY,
+        maxX = Number.NEGATIVE_INFINITY,
+        maxY = Number.NEGATIVE_INFINITY,
+        width,
+        height;
+
+    _.each(this.points, function(point){
+
+        console.log(point);
+
+        minX = Math.min(minX, point.x);
+        minY = Math.min(minY, point.y);
+        maxX = Math.max(maxX, point.x);
+        maxY = Math.max(maxY, point.y);
+    });
+
+    width = maxX - minX;
+    height = maxY - minY;
+
+    return utils.bbox(minX, minY, width, height);
+};
+
 module.exports = Polygon;
 
 /**
@@ -73,8 +98,6 @@ module.exports.fromNode = function(node, line){
         if(typeof node.$.points != 'undefined'){
             polygon.setPointsFromString(node.$.points);
         }
-
-        // gestion du transform
     }
 
     return polygon;
