@@ -2,7 +2,8 @@
 
 var SvgObject   = require(__dirname + '/svgobject'),
     _           = require('underscore'),
-    Tspan       = require(__dirname + '/tspan');
+    Tspan       = require(__dirname + '/tspan'),
+    utils       = require(__dirname + '/../utils');
 
 var Text = function(){
     SvgObject.call(this);
@@ -34,8 +35,8 @@ Text.prototype.toJSON = function(){
 Text.prototype.toXml = function(){
     var xml = SvgObject.prototype.toXml.call(this);
 
-    xml.att('x', this.x);
-    xml.att('y', this.y);
+    xml.att('x', this.x + 'px');
+    xml.att('y', this.y + 'px');
     xml.txt(this.value);
 
     _.each(this.childs, function(child){
@@ -44,6 +45,15 @@ Text.prototype.toXml = function(){
 
     return xml;
 };
+
+//Text.prototype.getBBox = function(){
+//    var self = this;
+//    utils.loadSvg(function(window){
+//        var $ = window.$;
+//        $('svg').append(self.toString());
+//        console.log($(self.type)[0].getBoundingClientRect());
+//    });
+//};
 
 module.exports = Text;
 

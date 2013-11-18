@@ -3,7 +3,8 @@
 var Matrix      = require(__dirname + '/../matrix/extends'),
     utils       = require(__dirname + '/../matrix/utils'),
     SvgObject   = require(__dirname + '/svgobject'),
-    _           = require('underscore');
+    _           = require('underscore'),
+    utilsSvg    = require(__dirname + '/../utils');
 
 var Polygon = function(){
     SvgObject.call(this);
@@ -54,27 +55,33 @@ Polygon.prototype.toJSON = function(){
 };
 
 Polygon.prototype.getBBox = function(){
-    var minX = Number.POSITIVE_INFINITY,
-        minY = Number.POSITIVE_INFINITY,
-        maxX = Number.NEGATIVE_INFINITY,
-        maxY = Number.NEGATIVE_INFINITY,
-        width,
-        height;
-
-    _.each(this.points, function(point){
-
-        console.log(point);
-
-        minX = Math.min(minX, point.x);
-        minY = Math.min(minY, point.y);
-        maxX = Math.max(maxX, point.x);
-        maxY = Math.max(maxY, point.y);
+//    var minX = Number.POSITIVE_INFINITY,
+//        minY = Number.POSITIVE_INFINITY,
+//        maxX = Number.NEGATIVE_INFINITY,
+//        maxY = Number.NEGATIVE_INFINITY,
+//        width,
+//        height;
+//
+//    _.each(this.points, function(point){
+//
+//        console.log(point);
+//
+//        minX = Math.min(minX, point.x);
+//        minY = Math.min(minY, point.y);
+//        maxX = Math.max(maxX, point.x);
+//        maxY = Math.max(maxY, point.y);
+//    });
+//
+//    width = maxX - minX;
+//    height = maxY - minY;
+//
+//    return utils.bbox(minX, minY, width, height);
+    var self = this;
+    utilsSvg.loadSvg(function(window){
+        var $ = window.$;
+        $('svg').append(self.toString());
+        console.log($(self.type)[0].getBoundingClientRect());
     });
-
-    width = maxX - minX;
-    height = maxY - minY;
-
-    return utils.bbox(minX, minY, width, height);
 };
 
 Polygon.prototype.toXml = function(){
