@@ -1,6 +1,6 @@
 'use strict';
 
-var Matrix      = require(__dirname + '/../matrix'),
+var Matrix      = require(__dirname + '/../matrix/extends'),
     SvgObject   = require(__dirname + '/svgobject'),
     _           = require('underscore');
 

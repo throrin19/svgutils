@@ -1,7 +1,7 @@
 "use strict";
 
-var Matrix = require(__dirname + './matrix'),
-    utils  = require(__dirname + './utils');
+var Matrix = require(__dirname + '/matrix'),
+    utils  = require(__dirname + '/utils');
 
 module.exports = Matrix;
 

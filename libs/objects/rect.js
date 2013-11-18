@@ -1,6 +1,7 @@
 "use strict";
 
-var SvgObject = require(__dirname + "/svgobject");
+var SvgObject = require(__dirname + "/svgobject"),
+    utils     = require(__dirname + "/../matrix/utils");
 
 var Rect = function(){
     SvgObject.call(this);
@@ -28,13 +29,17 @@ Rect.prototype.toJSON = function(){
     return parentJSON;
 };
 
+Rect.prototype.getBBox = function(){
+    return utils.bbox(this.x, this.y, this.width, this.height);
+};
+
 module.exports = Rect;
 
 /**
  * Create Rect from SVG polygon|polyline node
  *
  * @param   {object}    node        xml2js node from SVG file
- * @returns {Rect}               the rect object
+ * @returns {Rect}                  the rect object
  */
 module.exports.fromNode = function(node){
     var rect = new Rect();
@@ -43,22 +48,22 @@ module.exports.fromNode = function(node){
 
     if(typeof node != 'undefined' && typeof node.$ != 'undefined'){
         if(typeof node.$.x != 'undefined'){
-            rect.x = node.$.x;
+            rect.x = parseInt(node.$.x);
         }
         if(typeof node.$.y != 'undefined'){
-            rect.y = node.$.y;
+            rect.y = parseInt(node.$.y);
         }
         if(typeof node.$.rx != 'undefined'){
-            rect.rx = node.$.rx;
+            rect.rx = parseInt(node.$.rx);
         }
         if(typeof node.$.ry != 'undefined'){
-            rect.ry = node.$.ry;
+            rect.ry = parseInt(node.$.ry);
         }
         if(typeof node.$.width != 'undefined'){
-            rect.width = node.$.width;
+            rect.width = parseInt(node.$.width);
         }
         if(typeof node.$.height != 'undefined'){
-            rect.height = node.$.height;
+            rect.height = parseInt(node.$.height);
         }
     }
 
