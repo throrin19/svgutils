@@ -22,12 +22,22 @@ Tspan.prototype.toJSON = function(){
     return parentJSON;
 };
 
+Tspan.prototype.toXml = function(){
+    var xml = SvgObject.prototype.toXml.call(this);
+
+    xml.att('x', this.x);
+    xml.att('y', this.y);
+    xml.txt(this.value);
+
+    return xml;
+};
+
 module.exports = Tspan;
 
 module.exports.fromNode = function(node){
     var text = new Tspan();
 
-    SvgObject.fromNode.call(this, node);
+    SvgObject.fromNode.call(this, text, node);
 
     if(typeof node != 'undefined'){
         if(typeof node.$ != 'undefined'){

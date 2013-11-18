@@ -77,6 +77,20 @@ Polygon.prototype.getBBox = function(){
     return utils.bbox(minX, minY, width, height);
 };
 
+Polygon.prototype.toXml = function(){
+
+    var xml = SvgObject.prototype.toXml.call(this);
+
+    var points = "";
+    _.each(this.points, function(point){
+       points += point.x + "," + point.y + " ";
+    });
+
+    xml.att('points', points.substr(0, points.length-1));
+
+    return xml;
+};
+
 module.exports = Polygon;
 
 /**
@@ -93,7 +107,7 @@ module.exports.fromNode = function(node, line){
         polygon.type = 'polyline';
 
     if(typeof node != 'undefined' && typeof node.$ != 'undefined'){
-        SvgObject.fromNode.call(polygon, node);
+        SvgObject.fromNode.call(this, polygon, node);
 
         if(typeof node.$.points != 'undefined'){
             polygon.setPointsFromString(node.$.points);

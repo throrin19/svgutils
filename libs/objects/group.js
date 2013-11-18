@@ -9,8 +9,6 @@ var Group = function(){
 Group.prototype         = new SvgObject();
 Group.prototype.childs  = [];
 Group.prototype.type    = 'g';
-Group.prototype.stroke  = undefined;
-Group.prototype.fill    = undefined;
 
 /**
  * Return JSON from object
@@ -28,6 +26,16 @@ Group.prototype.toJSON = function(){
     });
 
     return parentJSON;
+};
+
+Group.prototype.toXml = function(){
+    var xml = SvgObject.prototype.toXml.call(this);
+
+    _.each(this.childs, function(child){
+        xml.children.push(child.toXml());
+    });
+
+    return xml;
 };
 
 module.exports = Group;

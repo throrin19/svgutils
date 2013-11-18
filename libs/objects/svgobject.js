@@ -1,5 +1,6 @@
-var _ = require('underscore'),
-    util = require('util');
+var _       = require('underscore'),
+    util    = require('util'),
+    builder = require('xmlbuilder');
 
 /**
  * @constructor
@@ -9,8 +10,8 @@ var SvgObject = function(){};
 SvgObject.prototype.classes   = [];
 SvgObject.prototype.id        = "";
 SvgObject.prototype.name      = "";
-SvgObject.prototype.stroke    = "black";
-SvgObject.prototype.fill      = "black";
+SvgObject.prototype.stroke    = "";
+SvgObject.prototype.fill      = "";
 SvgObject.prototype.style     = {};
 SvgObject.prototype.transform = undefined;
 
@@ -72,7 +73,6 @@ SvgObject.prototype.setTransform = function(transform){
  */
 SvgObject.prototype.setStyleFromString = function(styleStr){
     var self = this;
-
     styleStr.split(';').forEach(function(line){
         if(line.length > 0){
             var style = line.split(':');
@@ -104,6 +104,36 @@ SvgObject.prototype.toJSON = function(){
         fill    : this.fill,
         style   : this.style
     }
+};
+
+SvgObject.prototype.toXml = function(){
+    var xml = builder.create(this.type);
+
+    var style = "";
+    _.each(this.style, function(value, index){
+        style += index + ":" + value + ";"
+    });
+
+    if(this.classes.length > 0)
+        xml.att("class", this.classes.join(" "));
+    if(typeof this.transform != 'undefined')
+        xml.att("transform", this.transform);
+    if(this.id.length > 0)
+        xml.att("id", this.id);
+    if(this.name.length > 0)
+        xml.att("name", this.name);
+    if(this.stroke.length > 0)
+        xml.att("stroke", this.stroke);
+    if(this.fill.length > 0)
+        xml.att("fill", this.fill);
+
+    xml.att("style", style);
+
+    return xml;
+};
+
+SvgObject.prototype.toString = function(){
+    return this.toXml().toString();
 };
 
 module.exports = SvgObject;

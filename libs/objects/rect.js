@@ -33,6 +33,19 @@ Rect.prototype.getBBox = function(){
     return utils.bbox(this.x, this.y, this.width, this.height);
 };
 
+Rect.prototype.toXml = function(){
+    var xml = SvgObject.prototype.toXml.call(this);
+
+    xml.att('x', this.x);
+    xml.att('y', this.y);
+    xml.att('width', this.width);
+    xml.att('height', this.height);
+    xml.att('rx', this.rx);
+    xml.att('ry', this.ry);
+
+    return xml;
+};
+
 module.exports = Rect;
 
 /**
@@ -44,7 +57,7 @@ module.exports = Rect;
 module.exports.fromNode = function(node){
     var rect = new Rect();
 
-    SvgObject.fromNode.call(this, node);
+    SvgObject.fromNode.call(this, rect, node);
 
     if(typeof node != 'undefined' && typeof node.$ != 'undefined'){
         if(typeof node.$.x != 'undefined'){

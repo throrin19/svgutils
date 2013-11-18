@@ -31,12 +31,26 @@ Text.prototype.toJSON = function(){
     return parentJSON;
 };
 
+Text.prototype.toXml = function(){
+    var xml = SvgObject.prototype.toXml.call(this);
+
+    xml.att('x', this.x);
+    xml.att('y', this.y);
+    xml.txt(this.value);
+
+    _.each(this.childs, function(child){
+        xml.children.push(child);
+    });
+
+    return xml;
+};
+
 module.exports = Text;
 
 module.exports.fromNode = function(node){
     var text = new Text();
 
-    SvgObject.fromNode.call(this, node);
+    SvgObject.fromNode.call(this, text, node);
 
     if(typeof node != 'undefined'){
         if(typeof node.$ != 'undefined'){
