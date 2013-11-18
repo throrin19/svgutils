@@ -12,6 +12,7 @@ SvgObject.prototype.name      = "";
 SvgObject.prototype.stroke    = "black";
 SvgObject.prototype.fill      = "black";
 SvgObject.prototype.style     = {};
+SvgObject.transform           = {};
 
 /**
  * Set classes
@@ -54,6 +55,10 @@ SvgObject.prototype.setId = function(id){
  */
 SvgObject.prototype.setName = function(name){
     this.name = name;
+};
+
+SvgObject.setTransform = function(transform){
+    this.transform = transform;
 };
 
 /**
@@ -113,6 +118,9 @@ module.exports.fromNode = function(object, node){
         }
         if(typeof node.$.style != 'undefined'){
             object.setStyleFromString(node.$.style);
+        }
+        if(typeof node.$.transform != 'undefined'){
+            object.setTransform(node.$.transform);
         }
     }
 };
