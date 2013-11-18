@@ -12,7 +12,7 @@ SvgObject.prototype.name      = "";
 SvgObject.prototype.stroke    = "black";
 SvgObject.prototype.fill      = "black";
 SvgObject.prototype.style     = {};
-SvgObject.transform           = {};
+SvgObject.prototype.transform = undefined;
 
 /**
  * Set classes
@@ -57,7 +57,11 @@ SvgObject.prototype.setName = function(name){
     this.name = name;
 };
 
-SvgObject.setTransform = function(transform){
+/**
+ * Set Transformation String
+ * @param {string} transform    Transformation in SVG format
+ */
+SvgObject.prototype.setTransform = function(transform){
     this.transform = transform;
 };
 
@@ -75,6 +79,15 @@ SvgObject.prototype.setStyleFromString = function(styleStr){
             self.style[style[0].replace(/^\s+|\s+$/g, '')] = style[1].replace(/^\s+|\s+$/g, '');
         }
     });
+};
+
+/**
+ * Get the current Element BBox
+ *
+ * @returns {object}            Element bbox
+ */
+SvgObject.prototype.getBBox = function(){
+    return {};
 };
 
 /**
