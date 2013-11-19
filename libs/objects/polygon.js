@@ -77,11 +77,7 @@ Polygon.prototype.getBBox = function(){
 //
 //    return utils.bbox(minX, minY, width, height);
     var self = this;
-    utilsSvg.loadSvg(function(window){
-        var $ = window.$;
-        $('svg').append(self.toString());
-        console.log($(self.type)[0].getBoundingClientRect());
-    });
+    utilsSvg.loadSvg(this.toString(), this.type);
 };
 
 Polygon.prototype.toXml = function(){
@@ -120,6 +116,8 @@ module.exports.fromNode = function(node, line){
             polygon.setPointsFromString(node.$.points);
         }
     }
+
+    polygon.getBBox();
 
     return polygon;
 };
