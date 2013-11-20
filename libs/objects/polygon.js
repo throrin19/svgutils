@@ -65,6 +65,26 @@ Polygon.prototype.toXml = function(matrix){
     return xml;
 };
 
+Polygon.prototype.applyMatrix = function(matrix){
+    var polygon = new Polygon();
+    polygon.style   = this.style;
+    polygon.classes = this.classes;
+    polygon.id      = this.id;
+    polygon.name    = this.name;
+    polygon.stroke  = this.stroke;
+    polygon.fill    = this.fill;
+    polygon.type    = this.type;
+
+    _.each(this.points, function(point){
+        polygon.addPoint(
+            matrix.x(point.x, point.y),
+            matrix.y(point.x, point.y)
+        );
+    });
+
+    return polygon;
+};
+
 module.exports = Polygon;
 
 /**

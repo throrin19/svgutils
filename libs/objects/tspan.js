@@ -32,6 +32,22 @@ Tspan.prototype.toXml = function(matrix){
     return xml;
 };
 
+Tspan.prototype.applyMatrix = function(matrix){
+    var tspan = new Tspan();
+    tspan.style   = this.style;
+    tspan.classes = this.classes;
+    tspan.id      = this.id;
+    tspan.name    = this.name;
+    tspan.stroke  = this.stroke;
+    tspan.fill    = this.fill;
+    tspan.type    = this.type;
+    tspan.value   = this.value;
+    tspan.x       = matrix.x(this.x, this.y);
+    tspan.y       = matrix.y(this.x, this.y);
+
+    return tspan;
+};
+
 module.exports = Tspan;
 
 module.exports.fromNode = function(node){
