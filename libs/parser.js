@@ -1,11 +1,8 @@
 'use strict';
 
-var fs      = require('fs'),
-    _       = require('underscore'),
-    Polygon = require(__dirname + '/objects/polygon'),
-    Group   = require(__dirname + '/objects/group'),
-    Rect    = require(__dirname + '/objects/rect'),
-    Text    = require(__dirname + '/objects/text');
+var fs          = require('fs'),
+    _           = require('underscore'),
+    elements    = require(__dirname + '/objects/index');
 
 var Parser = function(){};
 
@@ -57,7 +54,7 @@ Parser.parseGroup = function(array){
     var groups = [];
 
     _.each(array, function(item){
-        groups.push(Group.fromNode(item));
+        groups.push(elements.Group.fromNode(item));
     });
 
     return groups;
@@ -74,7 +71,7 @@ Parser.parsePolygon = function(array, isPolyline){
     var polygons = [];
 
     _.each(array, function(item){
-        polygons.push(Polygon.fromNode(item, isPolyline));
+        polygons.push(elements.Polygon.fromNode(item, isPolyline));
     });
 
     return polygons;
@@ -90,7 +87,7 @@ Parser.parseRect = function(array){
     var rects = [];
 
     _.each(array, function(item){
-        rects.push(Rect.fromNode(item));
+        rects.push(elements.Rect.fromNode(item));
     });
 
     return rects;
@@ -106,7 +103,7 @@ Parser.parseText = function(array){
     var texts = [];
 
     _.each(array, function(item){
-        texts.push(Text.fromNode(item));
+        texts.push(elements.Text.fromNode(item));
     });
 
     return texts;
