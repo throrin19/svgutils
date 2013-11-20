@@ -11,7 +11,7 @@ module.exports = Matrix;
  * @param {SvgObject}   element         Svg Element
  * @return {Matrix}                     Applied Matrix object
  */
-module.exports.fromElement = function(element){
+module.exports.fromElement = function(bbox, element){
 
     if(typeof element.transform != 'undefined'){
         var tstr = element.transform;
@@ -39,7 +39,7 @@ module.exports.fromElement = function(element){
             }
             return all;
         });
-        return utils.transform2matrix(res, element.getBBox());
+        return utils.transform2matrix(res, bbox);
     }
     return new Matrix();
 };

@@ -1,7 +1,11 @@
 "use strict";
 
 var Matrix = require(__dirname + '/matrix'),
-    spaces = "\x09\x0a\x0b\x0c\x0d\x20\xa0\u1680\u180e\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u202f\u205f\u3000\u2028\u2029";
+    spaces = "\x09\x0a\x0b\x0c\x0d\x20\xa0\u1680\u180e\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u202f\u205f\u3000\u2028\u2029",
+    Str     = String,
+    has     = "hasOwnProperty";
+
+
 
 module.exports = {
     clone : function(obj) {
@@ -10,9 +14,23 @@ module.exports = {
         }
         var res = new obj.constructor;
         for (var key in obj) if (obj[has](key)) {
-            res[key] = clone(obj[key]);
+            res[key] = this.clone(obj[key]);
         }
         return res;
+    },
+    is : function(o, type) {
+        type = Str.prototype.toLowerCase.call(type);
+        if (type == "finite") {
+            return isFinite(o);
+        }
+        if (type == "array" &&
+            (o instanceof Array || Array.isArray && Array.isArray(o))) {
+            return true;
+        }
+        return  (type == "null" && o === null) ||
+            (type == typeof o && o !== null) ||
+            (type == "object" && o === Object(o)) ||
+            objectToString.call(o).slice(8, -1).toLowerCase() == type;
     },
     parseTransformString : function(TString){
         if (!TString) {
@@ -20,7 +38,7 @@ module.exports = {
         }
         var paramCounts = {r: 3, s: 4, t: 2, m: 6},
             data = [];
-        if (is(TString, "array") && is(TString[0], "array")) { // rough assumption
+        if (this.is(TString, "array") && this.is(TString[0], "array")) { // rough assumption
             data = this.clone(TString);
         }
         if (!data.length) {

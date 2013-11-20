@@ -38,6 +38,10 @@ Polygon.prototype.setPointsFromString = function(points){
     this.points = coords;
 };
 
+Polygon.prototype.addPoint = function(x, y){
+    this.points.push({ x : x, y : y });
+};
+
 Polygon.prototype.toJSON = function(matrix){
     var parentJSON = SvgObject.prototype.toJSON.call(this, matrix);
 

@@ -1,7 +1,9 @@
 "use strict";
 
 var SvgObject = require(__dirname + "/svgobject"),
-    utils     = require(__dirname + "/../matrix/utils");
+    utils     = require(__dirname + "/../matrix/utils"),
+    Matrix    = require(__dirname + '/../matrix/extends'),
+    Polygon   = require(__dirname + '/polygon');
 
 var Rect = function(){
     SvgObject.call(this);
@@ -40,6 +42,42 @@ Rect.prototype.toXml = function(matrix){
     xml.att('ry', this.ry);
 
     return xml;
+};
+
+Rect.prototype.getMatrix = function(callback){
+    var self = this;
+    this.getBBox(function(bbox){
+        callback(Matrix.fromElement(bbox, self));
+    });
+};
+
+Rect.prototype.applyMatrix = function(matrix){
+    var polygon = new Polygon();
+    polygon.style   = this.style;
+    polygon.classes = this.classes;
+    polygon.id      = this.id;
+    polygon.name    = this.name;
+    polygon.stroke  = this.stroke;
+    polygon.fill    = this.fill;
+
+    polygon.addPoint(
+        matrix.x(this.x, this.y),
+        matrix.y(this.x, this.y)
+    );
+    polygon.addPoint(
+        matrix.x(this.x+this.width, this.y),
+        matrix.y(this.x+this.width, this.y)
+    );
+    polygon.addPoint(
+        matrix.x(this.x+this.width, this.y+this.height),
+        matrix.y(this.x+this.width, this.y+this.height)
+    );
+    polygon.addPoint(
+        matrix.x(this.x, this.y+this.height),
+        matrix.y(this.x, this.y+this.height)
+    );
+
+    return polygon;
 };
 
 module.exports = Rect;
