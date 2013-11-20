@@ -1,6 +1,7 @@
 var _       = require('underscore'),
     util    = require('util'),
-    builder = require('xmlbuilder');
+    builder = require('xmlbuilder'),
+    utils   = require(__dirname + '/../utils');
 
 /**
  * @constructor
@@ -134,6 +135,10 @@ SvgObject.prototype.toXml = function(){
 
 SvgObject.prototype.toString = function(){
     return this.toXml().toString();
+};
+
+SvgObject.prototype.getBBox = function(callback){
+    utils.loadSvg(this.toString(), this.type, callback);
 };
 
 module.exports = SvgObject;

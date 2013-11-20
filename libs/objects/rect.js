@@ -29,10 +29,6 @@ Rect.prototype.toJSON = function(){
     return parentJSON;
 };
 
-Rect.prototype.getBBox = function(){
-    return utils.bbox(this.x, this.y, this.width, this.height);
-};
-
 Rect.prototype.toXml = function(){
     var xml = SvgObject.prototype.toXml.call(this);
 
