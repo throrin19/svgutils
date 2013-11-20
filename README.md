@@ -20,3 +20,7 @@ For MacOSX :
 brew update && brew install phantomjs
 ```
 
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/throrin19/svgutils/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
