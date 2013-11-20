@@ -1,6 +1,6 @@
-var svgParser = require('../index').Parser;
+var Svg = require('../index').Svg;
 
-var parser = new svgParser();
-parser.parseFile(__dirname + '/test.svg', function(err, file){
-    console.log(file);
+
+Svg.fromSvgDocument(__dirname + '/test.svg', function(err, svg){
+    console.log(svg);
 });
