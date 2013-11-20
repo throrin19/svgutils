@@ -38,13 +38,8 @@ Polygon.prototype.setPointsFromString = function(points){
     this.points = coords;
 };
 
-/**
- * Return JSON from object
- *
- * @returns {object}
- */
-Polygon.prototype.toJSON = function(){
-    var parentJSON = SvgObject.prototype.toJSON.call(this);
+Polygon.prototype.toJSON = function(matrix){
+    var parentJSON = SvgObject.prototype.toJSON.call(this, matrix);
 
     parentJSON.type     = this.type;
     parentJSON.points   = this.points;
@@ -52,9 +47,9 @@ Polygon.prototype.toJSON = function(){
     return parentJSON;
 };
 
-Polygon.prototype.toXml = function(){
+Polygon.prototype.toXml = function(matrix){
 
-    var xml = SvgObject.prototype.toXml.call(this);
+    var xml = SvgObject.prototype.toXml.call(this, matrix);
 
     var points = "";
     _.each(this.points, function(point){

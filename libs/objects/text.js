@@ -16,8 +16,8 @@ Text.prototype.x        = 0;
 Text.prototype.y        = 0;
 Text.prototype.childs   = [];
 
-Text.prototype.toJSON = function(){
-    var parentJSON = SvgObject.prototype.toJSON.call(this);
+Text.prototype.toJSON = function(matrix){
+    var parentJSON = SvgObject.prototype.toJSON.call(this, matrix);
 
     parentJSON.value    = this.value;
     parentJSON.x        = this.x;
@@ -32,8 +32,8 @@ Text.prototype.toJSON = function(){
     return parentJSON;
 };
 
-Text.prototype.toXml = function(){
-    var xml = SvgObject.prototype.toXml.call(this);
+Text.prototype.toXml = function(matrix){
+    var xml = SvgObject.prototype.toXml.call(this, matrix);
 
     xml.att('x', this.x + 'px');
     xml.att('y', this.y + 'px');
@@ -45,15 +45,6 @@ Text.prototype.toXml = function(){
 
     return xml;
 };
-
-//Text.prototype.getBBox = function(){
-//    var self = this;
-//    utils.loadSvg(function(window){
-//        var $ = window.$;
-//        $('svg').append(self.toString());
-//        console.log($(self.type)[0].getBoundingClientRect());
-//    });
-//};
 
 module.exports = Text;
 

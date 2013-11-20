@@ -28,7 +28,7 @@ Svg.prototype.addElement = function(element){
 
 /**
  * Convert Svg to Json format
- * @param {boolean}     matrix              Applies Matrix and convert rect to polygon and circle to ellipse
+ * @param {boolean}     matrix              String representation without transform attribute
  * @returns {object}                        Svg Json Object representation
  */
 Svg.prototype.toJSON = function(matrix){
@@ -47,7 +47,7 @@ Svg.prototype.toJSON = function(matrix){
 
 /**
  * Convert Svg to Xml format
- * @param {boolean}     matrix              Applies Matrix and convert rect to polygon and circle to ellipse
+ * @param {boolean}     matrix              String representation without transform attribute
  * @returns {object}                        XMLBuilder Svg representation
  */
 Svg.prototype.toXml = function(matrix){
@@ -67,7 +67,7 @@ Svg.prototype.toXml = function(matrix){
 /**
  * Convert SVG to String :
  *     '<svg>...</svg>'
- * @param {boolean}     matrix              Applies Matrix and convert rect to polygon and circle to ellipse
+ * @param {boolean}     matrix              String representation without transform attribute
  * @returns {string}                        Svg String representation
  */
 Svg.prototype.toString = function(matrix){

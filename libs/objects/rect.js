@@ -16,8 +16,8 @@ Rect.prototype.height   = 0;
 Rect.prototype.rx       = 0;
 Rect.prototype.ry       = 0;
 
-Rect.prototype.toJSON = function(){
-    var parentJSON = SvgObject.prototype.toJSON.call(this);
+Rect.prototype.toJSON = function(matrix){
+    var parentJSON = SvgObject.prototype.toJSON.call(this, matrix);
 
     parentJSON.x        = this.x;
     parentJSON.y        = this.y;
@@ -29,8 +29,8 @@ Rect.prototype.toJSON = function(){
     return parentJSON;
 };
 
-Rect.prototype.toXml = function(){
-    var xml = SvgObject.prototype.toXml.call(this);
+Rect.prototype.toXml = function(matrix){
+    var xml = SvgObject.prototype.toXml.call(this, matrix);
 
     xml.att('x', this.x);
     xml.att('y', this.y);

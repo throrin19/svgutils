@@ -12,8 +12,8 @@ Tspan.prototype.value    = "";
 Tspan.prototype.x        = 0;
 Tspan.prototype.y        = 0;
 
-Tspan.prototype.toJSON = function(){
-    var parentJSON = SvgObject.prototype.toJSON.call(this);
+Tspan.prototype.toJSON = function(matrix){
+    var parentJSON = SvgObject.prototype.toJSON.call(this, matrix);
 
     parentJSON.value    = this.value;
     parentJSON.x        = this.x;
@@ -22,8 +22,8 @@ Tspan.prototype.toJSON = function(){
     return parentJSON;
 };
 
-Tspan.prototype.toXml = function(){
-    var xml = SvgObject.prototype.toXml.call(this);
+Tspan.prototype.toXml = function(matrix){
+    var xml = SvgObject.prototype.toXml.call(this, matrix);
 
     xml.att('x', this.x);
     xml.att('y', this.y);

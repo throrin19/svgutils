@@ -96,19 +96,20 @@ SvgObject.prototype.getBBox = function(){
  *
  * @returns {object}
  */
-SvgObject.prototype.toJSON = function(){
+SvgObject.prototype.toJSON = function(matrix){
     return {
-        type    : this.type,
-        classes : this.classes,
-        id      : this.id,
-        name    : this.name,
-        stroke  : this.stroke,
-        fill    : this.fill,
-        style   : this.style
+        type        : this.type,
+        classes     : this.classes,
+        id          : this.id,
+        name        : this.name,
+        stroke      : this.stroke,
+        fill        : this.fill,
+        style       : this.style,
+        transform   : matrix != true ? this.transform : ''
     }
 };
 
-SvgObject.prototype.toXml = function(){
+SvgObject.prototype.toXml = function(matrix){
     var xml = builder.create(this.type);
 
     var style = "";
@@ -118,7 +119,7 @@ SvgObject.prototype.toXml = function(){
 
     if(this.classes.length > 0)
         xml.att("class", this.classes.join(" "));
-    if(typeof this.transform != 'undefined')
+    if(typeof this.transform != 'undefined' && matrix != true)
         xml.att("transform", this.transform);
     if(this.id.length > 0)
         xml.att("id", this.id);

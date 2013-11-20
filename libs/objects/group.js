@@ -11,29 +11,24 @@ Group.prototype         = new SvgObject();
 Group.prototype.childs  = [];
 Group.prototype.type    = 'g';
 
-/**
- * Return JSON from object
- *
- * @returns {object}
- */
-Group.prototype.toJSON = function(){
-    var parentJSON = SvgObject.prototype.toJSON.call(this);
+Group.prototype.toJSON = function(matrix){
+    var parentJSON = SvgObject.prototype.toJSON.call(this, matrix);
 
     parentJSON.type     = this.type;
     parentJSON.childs   = [];
 
     _.each(this.childs, function(child){
-        parentJSON.push(child.toJSON());
+        parentJSON.push(child.toJSON(matrix));
     });
 
     return parentJSON;
 };
 
-Group.prototype.toXml = function(){
-    var xml = SvgObject.prototype.toXml.call(this);
+Group.prototype.toXml = function(matrix){
+    var xml = SvgObject.prototype.toXml.call(this, matrix);
 
     _.each(this.childs, function(child){
-        xml.children.push(child.toXml());
+        xml.children.push(child.toXml(matrix));
     });
 
     return xml;
