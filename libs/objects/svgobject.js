@@ -98,6 +98,7 @@ SvgObject.prototype.getBBox = function(){
  */
 SvgObject.prototype.toJSON = function(){
     return {
+        type    : this.type,
         classes : this.classes,
         id      : this.id,
         name    : this.name,

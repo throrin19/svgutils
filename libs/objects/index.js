@@ -1,7 +1,7 @@
 "use strict";
 
 module.exports = {
-    Group       : require(__dirnale + '/group'),
+    Group       : require(__dirname + '/group'),
     Polygon     : require(__dirname + '/polygon'),
     Rect        : require(__dirname + '/rect'),
     SvgObject   : require(__dirname + '/svgobject'),

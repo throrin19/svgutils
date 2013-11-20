@@ -40,7 +40,7 @@ Text.prototype.toXml = function(){
     xml.txt(this.value);
 
     _.each(this.childs, function(child){
-        xml.children.push(child);
+        xml.children.push(child.toXml());
     });
 
     return xml;
