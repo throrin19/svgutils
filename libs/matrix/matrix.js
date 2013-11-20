@@ -2,16 +2,18 @@
  * Snap.svg Matrix subclass
  */
 
+var PI      = Math.PI,
+    math    = Math;
+
+function rad(deg) {
+    return deg % 360 * PI / 180;
+}
+function deg(rad) {
+    return rad * 180 / PI % 360;
+}
+
+
 function Matrix(a, b, c, d, e, f) {
-//    if (b == null && objectToString.call(a) == "[object SVGMatrix]") {
-//        this.a = a.a;
-//        this.b = a.b;
-//        this.c = a.c;
-//        this.d = a.d;
-//        this.e = a.e;
-//        this.f = a.f;
-//        return;
-//    }
     if (a != null) {
         this.a = +a;
         this.b = +b;
