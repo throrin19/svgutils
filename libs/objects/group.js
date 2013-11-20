@@ -1,6 +1,7 @@
 "use strict";
 
-var SvgObject = require(__dirname + '/svgobject');
+var SvgObject = require(__dirname + '/svgobject'),
+    _         = require('underscore');
 
 var Group = function(){
     SvgObject.call(this);
@@ -38,6 +39,32 @@ Group.prototype.toXml = function(){
     return xml;
 };
 
+/**
+ * Find elements in Group and return new Group object with all elements by selected type
+ *
+ * @param   {string}    type                Selected type (rect|polygon|g|...)
+ * @param   {boolean}   all                 true : Return all elements in same level and children groups
+ * @returns {Group}                         new Group object with selected types elements
+ */
+Group.prototype.findByType = function(type, all){
+    var group = new Group(),
+        elems = [];
+
+    _.each(this.childs, function(elem){
+        if(elem.type == type)
+            elems.push(elem);
+
+        if(all && elem.type == 'g'){
+            var subgroup = elem.findByType(type, all);
+            elems = _.union(elems, subgroup.childs);
+        }
+    });
+
+    group.childs = _.union(group.childs, elems);
+
+    return group;
+};
+
 module.exports = Group;
 
 module.exports.fromNode = function(node){
@@ -45,10 +72,9 @@ module.exports.fromNode = function(node){
 
     SvgObject.fromNode.call(this, group, node);
 
-    var Parser  = require(__dirname + '/../parser'),
-        parser  = new Parser();
+    var Parser  = require(__dirname + '/../parser');
 
-    group.childs = parser.parseNode(node);
+    group.childs = Parser.parseNode(node);
 
     return group;
 };

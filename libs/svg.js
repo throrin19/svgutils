@@ -32,12 +32,14 @@ Svg.prototype.addElement = function(element){
  * @returns {object}                        Svg Json Object representation
  */
 Svg.prototype.toJSON = function(matrix){
+    if(typeof matrix == 'undefined') matrix = false;
+
     var json = {
         elements : []
     };
 
     _.each(this.elements, function(element){
-        json.elements.push(element.toJSON());
+        json.elements.push(element.toJSON(matrix));
     });
 
     return json;
@@ -49,12 +51,14 @@ Svg.prototype.toJSON = function(matrix){
  * @returns {object}                        XMLBuilder Svg representation
  */
 Svg.prototype.toXml = function(matrix){
+    if(typeof matrix == 'undefined') matrix = false;
+
     var xml = builder.create('svg');
     xml.att('version', '1.1');
     xml.att('xmlns', 'http://www.w3.org/2000/svg');
 
     _.each(this.elements, function(element){
-        xml.children.push(element.toXml());
+        xml.children.push(element.toXml(matrix));
     });
 
     return xml;
@@ -67,7 +71,33 @@ Svg.prototype.toXml = function(matrix){
  * @returns {string}                        Svg String representation
  */
 Svg.prototype.toString = function(matrix){
+    if(typeof matrix == 'undefined') matrix = false;
+
     return this.toXml(matrix).toString();
+};
+
+/**
+ * Find elements in SVG and return new Svg object with all elements by selected type
+ *
+ * @param   {string}    type                Selected type (rect|polygon|g|...)
+ * @returns {Svg}                           new Svg object with selected types elements
+ */
+Svg.prototype.findByType = function(type, all){
+    var svg = new Svg();
+
+    _.each(this.elements, function(elem){
+        if(elem.type == type)
+            svg.addElement(elem);
+
+        if(all && elem.type == 'g'){
+            var group = elem.findByType(type, all);
+            _.each(group.childs, function(child){
+                svg.addElement(child);
+            });
+        }
+    });
+
+    return svg;
 };
 
 module.exports = Svg;
