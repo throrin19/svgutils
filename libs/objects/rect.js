@@ -51,7 +51,7 @@ Rect.prototype.getMatrix = function(callback){
     });
 };
 
-Rect.prototype.applyMatrix = function(matrix){
+Rect.prototype.applyMatrix = function(matrix, callback){
     var polygon = new Polygon();
     polygon.style   = this.style;
     polygon.classes = this.classes;
@@ -77,7 +77,7 @@ Rect.prototype.applyMatrix = function(matrix){
         matrix.y(this.x, this.y+this.height)
     );
 
-    return polygon;
+    callback(polygon);
 };
 
 module.exports = Rect;

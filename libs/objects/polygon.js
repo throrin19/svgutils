@@ -65,7 +65,7 @@ Polygon.prototype.toXml = function(matrix){
     return xml;
 };
 
-Polygon.prototype.applyMatrix = function(matrix){
+Polygon.prototype.applyMatrix = function(matrix, callback){
     var polygon = new Polygon();
     polygon.style   = this.style;
     polygon.classes = this.classes;
@@ -82,7 +82,7 @@ Polygon.prototype.applyMatrix = function(matrix){
         );
     });
 
-    return polygon;
+    callback(polygon);
 };
 
 module.exports = Polygon;
