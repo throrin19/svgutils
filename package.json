@@ -23,6 +23,7 @@
     "underscore": "~1.5.2",
     "xml2js": "~0.2.8",
     "xmlbuilder": "~0.4.3",
-    "node-phantom": "~0.2.5"
+    "node-phantom": "~0.2.5",
+    "async": "~0.2.9"
   }
 }
