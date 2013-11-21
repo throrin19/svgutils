@@ -7,36 +7,36 @@ var fs          = require('fs'),
 var Parser = function(){};
 
 
-Parser.convert = function(svg, callback){
+Parser.convertXml = function(svg, callback){
     if(svg == null || typeof svg.svg == 'undefined' || svg.svg == null){
         callback(new Error("Your SVG is empty or invalid"));
         return;
     }
 
-    var elements = this.parseNode(svg.svg);
+    var elements = this.parseXmlNode(svg.svg);
     callback(null, elements);
 };
 
-Parser.parseNode = function(node){
+Parser.parseXmlNode = function(node){
     var nodes = [],
         self    = this;
 
     _.each(node, function(content, index){
         switch(index){
             case 'g' :
-                nodes = _.union(nodes, self.parseGroup(content));
+                nodes = _.union(nodes, self.parseXmlGroup(content));
                 break;
             case 'polygon' :
-                nodes = _.union(nodes, self.parsePolygon(content));
+                nodes = _.union(nodes, self.parseXmlPolygon(content));
                 break;
             case 'polyline' :
-                nodes = _.union(nodes, self.parsePolygon(content, true));
+                nodes = _.union(nodes, self.parseXmlPolygon(content, true));
                 break;
             case 'rect' :
-                nodes = _.union(nodes, self.parseRect(content));
+                nodes = _.union(nodes, self.parseXmlRect(content));
                 break;
             case 'text' :
-                nodes = _.union(nodes, self.parseText(content));
+                nodes = _.union(nodes, self.parseXmlText(content));
                 break;
         }
     });
@@ -50,7 +50,7 @@ Parser.parseNode = function(node){
  * @param {Array}   array               xml2js elements array
  * @returns {Array}                     Groups array
  */
-Parser.parseGroup = function(array){
+Parser.parseXmlGroup = function(array){
     var groups = [];
 
     _.each(array, function(item){
@@ -67,7 +67,7 @@ Parser.parseGroup = function(array){
  * @param {boolean} [isPolyline]        true : polyline. false : polygon. (default : false)
  * @returns {Array}                     Polygons array
  */
-Parser.parsePolygon = function(array, isPolyline){
+Parser.parseXmlPolygon = function(array, isPolyline){
     var polygons = [];
 
     _.each(array, function(item){
@@ -83,7 +83,7 @@ Parser.parsePolygon = function(array, isPolyline){
  * @param {Array}   array               xml2js elements array
  * @returns {Array}                     Rects array
  */
-Parser.parseRect = function(array){
+Parser.parseXmlRect = function(array){
     var rects = [];
 
     _.each(array, function(item){
@@ -99,7 +99,7 @@ Parser.parseRect = function(array){
  * @param {Array}   array               xml2js elements array
  * @returns {Array}                     Texts array
  */
-Parser.parseText = function(array){
+Parser.parseXmlText = function(array){
     var texts = [];
 
     _.each(array, function(item){

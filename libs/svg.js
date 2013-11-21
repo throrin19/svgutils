@@ -145,7 +145,7 @@ module.exports.fromString = function(string, callback){
         self    = this;
 
     parser.addListener('end', function(result) {
-        SvgParser.convert(result, function(err, elements){
+        SvgParser.convertXml(result, function(err, elements){
             if(err){
                 callback(err);
                 return;
@@ -159,3 +159,4 @@ module.exports.fromString = function(string, callback){
 
     parser.parseString(string);
 };
+

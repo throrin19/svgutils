@@ -97,7 +97,7 @@ module.exports.fromNode = function(node){
 
     var Parser  = require(__dirname + '/../parser');
 
-    group.childs = Parser.parseNode(node);
+    group.childs = Parser.parseXmlNode(node);
 
     return group;
 };
