@@ -2,9 +2,11 @@
 
 var SvgObject   = require(__dirname + '/svgobject'),
     _           = require('underscore'),
-    Tspan       = require(__dirname + '/tspan');
+    Tspan       = require(__dirname + '/tspan'),
+    async       = require('async');
 
 var Text = function(){
+    SvgObject.call(this);
     this.type     = 'text';
     this.value    = "";
     this.x        = 0;
@@ -58,9 +60,18 @@ Text.prototype.applyMatrix = function(matrix, callback){
     text.value   = this.value;
     text.x       = matrix.x(this.x, this.y);
     text.y       = matrix.y(this.x, this.y);
-    text.childs  = this.childs;
+    //text.childs  = this.childs;
 
-    callback(text);
+    async.each(this.childs, function(child, c){
+        child.applyMatrix(matrix, function(tspan){
+            text.childs.push(tspan);
+            c();
+        });
+    }, function(){
+        callback(text);
+    });
+
+
 //    async.each(this.childs, function(child, c){
 //        child.getBBox(function(bbox){
 //            var childMatrix = Matrix.fromElement(bbox, child);

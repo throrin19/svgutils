@@ -5,6 +5,7 @@ var Matrix      = require(__dirname + '/../matrix/extends'),
     _           = require('underscore');
 
 var Polygon = function(){
+    SvgObject.call(this);
     this.type   = "polygon";
     this.points = [];
 };

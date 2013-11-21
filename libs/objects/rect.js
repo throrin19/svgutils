@@ -6,6 +6,7 @@ var SvgObject = require(__dirname + "/svgobject"),
     Polygon   = require(__dirname + '/polygon');
 
 var Rect = function(){
+    SvgObject.call(this);
     this.type     = 'rect';
     this.x        = 0;
     this.y        = 0;

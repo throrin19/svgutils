@@ -6,11 +6,13 @@ var SvgObject   = require(__dirname + '/svgobject'),
     async       = require('async');
 
 var Group = function(){
+    SvgObject.call(this);
     this.type = "g";
     this.childs = [];
 };
 
 Group.prototype             = new SvgObject();
+Group.prototype.constructor = Group;
 
 Group.prototype.toJSON = function(matrix){
     var parentJSON = SvgObject.prototype.toJSON.call(this, matrix);
@@ -19,7 +21,7 @@ Group.prototype.toJSON = function(matrix){
     parentJSON.childs   = [];
 
     _.each(this.childs, function(child){
-        parentJSON.push(child.toJSON(matrix));
+        parentJSON.childs.push(child.toJSON(matrix));
     });
 
     return parentJSON;

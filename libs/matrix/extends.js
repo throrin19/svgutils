@@ -8,11 +8,11 @@ module.exports = Matrix;
 /**
  * Create Matrix from element informations
  *
+ * @param {object}      bbox            Bounding box
  * @param {SvgObject}   element         Svg Element
  * @return {Matrix}                     Applied Matrix object
  */
 module.exports.fromElement = function(bbox, element){
-
     if(typeof element.transform != 'undefined'){
         var tstr = element.transform;
 

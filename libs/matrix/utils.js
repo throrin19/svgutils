@@ -69,7 +69,9 @@ module.exports = {
                     x2,
                     y2,
                     bb;
-                if (command == "t" && tlen == 3) {
+                if (command == "t" && tlen == 2){
+                    m.translate(t[1], 0);
+                } else if (command == "t" && tlen == 3) {
                     if (absolute) {
                         x1 = inver.x(0, 0);
                         y1 = inver.y(0, 0);

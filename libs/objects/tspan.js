@@ -3,6 +3,7 @@
 var SvgObject   = require(__dirname + '/svgobject');
 
 var Tspan = function(){
+    SvgObject.call(this);
     this.type     = 'tspan';
     this.value    = "";
     this.x        = 0;
