@@ -3,7 +3,9 @@
 var SvgObject   = require(__dirname + '/svgobject'),
     _           = require('underscore'),
     Tspan       = require(__dirname + '/tspan'),
-    utils       = require(__dirname + '/../utils');
+    utils       = require(__dirname + '/../utils'),
+    async       = require('async'),
+    Matrix      = require(__dirname + '/../matrix/extends');
 
 var Text = function(){
     SvgObject.call(this);
@@ -44,6 +46,33 @@ Text.prototype.toXml = function(matrix){
     });
 
     return xml;
+};
+
+Text.prototype.applyMatrix = function(matrix, callback){
+    var text = new Text();
+    text.style   = this.style;
+    text.classes = this.classes;
+    text.id      = this.id;
+    text.name    = this.name;
+    text.stroke  = this.stroke;
+    text.fill    = this.fill;
+    text.type    = this.type;
+    text.value   = this.value;
+    text.x       = matrix.x(this.x, this.y);
+    text.y       = matrix.y(this.x, this.y);
+
+    async.each(this.childs, function(child, c){
+        child.getBBox(function(bbox){
+            var childMatrix = Matrix.fromElement(bbox, child);
+            matrix.add(childMatrix);
+            child.applyMatrix(matrix, function(tspan){
+                text.childs.push(tspan);
+                c();
+            });
+        });
+    }, function(){
+        callback(text);
+    });
 };
 
 module.exports = Text;
