@@ -174,3 +174,36 @@ module.exports.fromNode = function(object, node){
         }
     }
 };
+
+/**
+ * Generate SVGElement from JSON element
+ *
+ * @param {SvgObject}   object      SvgObject element (polygon|group|...
+ * @param {object}      json        json element
+ */
+module.exports.fromJson = function(object, json){
+    if(typeof json != 'undefined'){
+        if(typeof json.classes != 'undefined'){
+            object.classes = json.classes;
+        }
+        if(typeof json.id != 'undefined'){
+            object.id   = json.id;
+            object.name = json.name;
+        }
+        if(typeof json.name != 'undefined'){
+            object.name = json.name;
+        }
+        if(typeof json.stroke != 'undefined'){
+            object.stroke = json.stroke;
+        }
+        if(typeof json.fill != 'undefined'){
+            object.fill = json.fill;
+        }
+        if(typeof json.style != 'undefined'){
+            object.style = json.style;
+        }
+        if(typeof json.transform != 'undefined'){
+            object.transform = json.transform;
+        }
+    }
+};

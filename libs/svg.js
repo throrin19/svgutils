@@ -102,6 +102,11 @@ Svg.prototype.findByType = function(type, all){
     return svg;
 };
 
+/**
+ * Generate new Svg element with all applied matrix to all elements.
+ * Convert rect into polygon
+ * @param {function}    callback            Callback Function
+ */
 Svg.prototype.applyMatrix = function(callback){
     var svg = new Svg();
 
@@ -131,7 +136,7 @@ module.exports.fromSvgDocument = function(path, callback){
             callback(error);
             return;
         }
-        Svg.fromString(data.toString(), callback);
+        Svg.fromXmlString(data.toString(), callback);
     });
 };
 
@@ -140,9 +145,8 @@ module.exports.fromSvgDocument = function(path, callback){
  * @param {string}      string              Svg string representation
  * @param {function}    callback            Callback Function
  */
-module.exports.fromString = function(string, callback){
-    var parser  = new xml2js.Parser(),
-        self    = this;
+module.exports.fromXmlString = function(string, callback){
+    var parser  = new xml2js.Parser();
 
     parser.addListener('end', function(result) {
         SvgParser.convertXml(result, function(err, elements){
@@ -160,3 +164,28 @@ module.exports.fromString = function(string, callback){
     parser.parseString(string);
 };
 
+
+module.exports.fromJsonFile = function(path, callback){
+    fs.readFile(path, function(error, data){
+        if(error){
+            callback(error);
+            return;
+        }
+        Svg.fromJsonString(data.toString(), callback);
+    });
+};
+
+module.exports.fromJsonString = function(string, callback){
+    var json = JSON.parse(string);
+
+    SvgParser.convertJson(json, function(err, elements){
+        if(err){
+            callback(err);
+            return;
+        }
+
+        var svg = new Svg();
+        svg.setElements(elements);
+        callback(null, svg);
+    });
+};

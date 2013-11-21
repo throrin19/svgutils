@@ -92,9 +92,9 @@ module.exports = Rect;
 module.exports.fromNode = function(node){
     var rect = new Rect();
 
-    SvgObject.fromNode(rect, node);
-
     if(typeof node != 'undefined' && typeof node.$ != 'undefined'){
+        SvgObject.fromNode(rect, node);
+
         if(typeof node.$.x != 'undefined'){
             rect.x = parseInt(node.$.x);
         }
@@ -112,6 +112,41 @@ module.exports.fromNode = function(node){
         }
         if(typeof node.$.height != 'undefined'){
             rect.height = parseInt(node.$.height);
+        }
+    }
+
+    return rect;
+};
+
+/**
+ * Create Rect from JSON element
+ *
+ * @param   {object}    json        json element
+ * @returns {Rect}                  the rect object
+ */
+module.exports.fromJson = function(json){
+    var rect = new Rect();
+
+    if(typeof json != 'undefined'){
+        SvgObject.fromJson(rect, json);
+
+        if(typeof json.x != 'undefined'){
+            rect.x = json.x;
+        }
+        if(typeof json.y != 'undefined'){
+            rect.y = json.y;
+        }
+        if(typeof json.rx != 'undefined'){
+            rect.rx = json.rx;
+        }
+        if(typeof json.ry != 'undefined'){
+            rect.ry = json.ry;
+        }
+        if(typeof json.width != 'undefined'){
+            rect.width = json.width;
+        }
+        if(typeof json.height != 'undefined'){
+            rect.height = json.height;
         }
     }
 
