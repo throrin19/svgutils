@@ -6,17 +6,17 @@ var SvgObject = require(__dirname + "/svgobject"),
     Polygon   = require(__dirname + '/polygon');
 
 var Rect = function(){
-    SvgObject.call(this);
+    this.type     = 'rect';
+    this.x        = 0;
+    this.y        = 0;
+    this.width    = 0;
+    this.height   = 0;
+    this.rx       = 0;
+    this.ry       = 0;
 };
 
-Rect.prototype          = new SvgObject();
-Rect.prototype.type     = 'rect';
-Rect.prototype.x        = 0;
-Rect.prototype.y        = 0;
-Rect.prototype.width    = 0;
-Rect.prototype.height   = 0;
-Rect.prototype.rx       = 0;
-Rect.prototype.ry       = 0;
+Rect.prototype              = new SvgObject();
+Rect.prototype.constructor  = Rect;
 
 Rect.prototype.toJSON = function(matrix){
     var parentJSON = SvgObject.prototype.toJSON.call(this, matrix);
@@ -91,7 +91,7 @@ module.exports = Rect;
 module.exports.fromNode = function(node){
     var rect = new Rect();
 
-    SvgObject.fromNode.call(this, rect, node);
+    SvgObject.fromNode(rect, node);
 
     if(typeof node != 'undefined' && typeof node.$ != 'undefined'){
         if(typeof node.$.x != 'undefined'){

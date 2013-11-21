@@ -3,8 +3,10 @@
 var fs          = require('fs'),
     xml2js      = require('xml2js'),
     _           = require('underscore'),
+    builder     = require('xmlbuilder'),
+    async       = require('async'),
     SvgParser   = require(__dirname + '/parser'),
-    builder     = require('xmlbuilder');
+    Matrix      = require(__dirname + '/matrix/extends');
 
 var Svg = function(){};
 
@@ -98,6 +100,22 @@ Svg.prototype.findByType = function(type, all){
     });
 
     return svg;
+};
+
+Svg.prototype.applyMatrix = function(callback){
+    var svg = new Svg();
+
+    async.each(this.elements, function(elem, c){
+        elem.getBBox(function(bbox){
+            var matrix = Matrix.fromElement(bbox, elem);
+            elem.applyMatrix(matrix, function(e){
+                svg.addElement(e);
+                c();
+            });
+        });
+    }, function(){
+        callback(svg);
+    });
 };
 
 module.exports = Svg;

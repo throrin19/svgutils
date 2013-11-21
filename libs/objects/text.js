@@ -2,21 +2,19 @@
 
 var SvgObject   = require(__dirname + '/svgobject'),
     _           = require('underscore'),
-    Tspan       = require(__dirname + '/tspan'),
-    utils       = require(__dirname + '/../utils'),
-    async       = require('async'),
-    Matrix      = require(__dirname + '/../matrix/extends');
+    Tspan       = require(__dirname + '/tspan');
 
 var Text = function(){
-    SvgObject.call(this);
+    this.type     = 'text';
+    this.value    = "";
+    this.x        = 0;
+    this.y        = 0;
+    this.childs   = [];
 };
 
-Text.prototype          = new SvgObject();
-Text.prototype.type     = 'text';
-Text.prototype.value    = "";
-Text.prototype.x        = 0;
-Text.prototype.y        = 0;
-Text.prototype.childs   = [];
+Text.prototype              = new SvgObject();
+Text.prototype.constructor  = Text;
+
 
 Text.prototype.toJSON = function(matrix){
     var parentJSON = SvgObject.prototype.toJSON.call(this, matrix);
@@ -60,19 +58,21 @@ Text.prototype.applyMatrix = function(matrix, callback){
     text.value   = this.value;
     text.x       = matrix.x(this.x, this.y);
     text.y       = matrix.y(this.x, this.y);
+    text.childs  = this.childs;
 
-    async.each(this.childs, function(child, c){
-        child.getBBox(function(bbox){
-            var childMatrix = Matrix.fromElement(bbox, child);
-            matrix.add(childMatrix);
-            child.applyMatrix(matrix, function(tspan){
-                text.childs.push(tspan);
-                c();
-            });
-        });
-    }, function(){
-        callback(text);
-    });
+    callback(text);
+//    async.each(this.childs, function(child, c){
+//        child.getBBox(function(bbox){
+//            var childMatrix = Matrix.fromElement(bbox, child);
+//            matrix.add(childMatrix);
+//            child.applyMatrix(matrix, function(tspan){
+//                text.childs.push(tspan);
+//                c();
+//            });
+//        });
+//    }, function(){
+//        callback(text);
+//    });
 };
 
 module.exports = Text;
@@ -80,7 +80,7 @@ module.exports = Text;
 module.exports.fromNode = function(node){
     var text = new Text();
 
-    SvgObject.fromNode.call(this, text, node);
+    SvgObject.fromNode(text, node);
 
     if(typeof node != 'undefined'){
         if(typeof node.$ != 'undefined'){

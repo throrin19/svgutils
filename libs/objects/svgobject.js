@@ -6,15 +6,15 @@ var _       = require('underscore'),
 /**
  * @constructor
  */
-var SvgObject = function(){};
-
-SvgObject.prototype.classes   = [];
-SvgObject.prototype.id        = "";
-SvgObject.prototype.name      = "";
-SvgObject.prototype.stroke    = "";
-SvgObject.prototype.fill      = "";
-SvgObject.prototype.style     = {};
-SvgObject.prototype.transform = undefined;
+var SvgObject = function(){
+    this.classes = [];
+    this.id = "";
+    this.name = "";
+    this.stroke = "";
+    this.fill = "";
+    this.style = {};
+    this.transform = undefined;
+};
 
 /**
  * Set classes

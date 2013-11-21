@@ -3,14 +3,15 @@
 var SvgObject   = require(__dirname + '/svgobject');
 
 var Tspan = function(){
-    SvgObject.call(this);
+    this.type     = 'tspan';
+    this.value    = "";
+    this.x        = 0;
+    this.y        = 0;
 };
 
-Tspan.prototype          = new SvgObject();
-Tspan.prototype.type     = 'tspan';
-Tspan.prototype.value    = "";
-Tspan.prototype.x        = 0;
-Tspan.prototype.y        = 0;
+Tspan.prototype             = new SvgObject();
+Tspan.prototype.constructor = Tspan;
+
 
 Tspan.prototype.toJSON = function(matrix){
     var parentJSON = SvgObject.prototype.toJSON.call(this, matrix);
@@ -53,7 +54,7 @@ module.exports = Tspan;
 module.exports.fromNode = function(node){
     var text = new Tspan();
 
-    SvgObject.fromNode.call(this, text, node);
+    SvgObject.fromNode(text, node);
 
     if(typeof node != 'undefined'){
         if(typeof node.$ != 'undefined'){

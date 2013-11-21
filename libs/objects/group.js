@@ -1,15 +1,16 @@
 "use strict";
 
-var SvgObject = require(__dirname + '/svgobject'),
-    _         = require('underscore');
+var SvgObject   = require(__dirname + '/svgobject'),
+    Matrix      = require(__dirname + '/../matrix/extends'),
+    _           = require('underscore'),
+    async       = require('async');
 
 var Group = function(){
-    SvgObject.call(this);
+    this.type = "g";
+    this.childs = [];
 };
 
-Group.prototype         = new SvgObject();
-Group.prototype.childs  = [];
-Group.prototype.type    = 'g';
+Group.prototype             = new SvgObject();
 
 Group.prototype.toJSON = function(matrix){
     var parentJSON = SvgObject.prototype.toJSON.call(this, matrix);
@@ -60,12 +61,37 @@ Group.prototype.findByType = function(type, all){
     return group;
 };
 
+Group.prototype.applyMatrix = function(matrix, callback){
+    var group = new Group();
+    group.style   = this.style;
+    group.classes = this.classes;
+    group.id      = this.id;
+    group.name    = this.name;
+    group.stroke  = this.stroke;
+    group.fill    = this.fill;
+    group.type    = this.type;
+
+    async.each(this.childs, function(child, c){
+        child.getBBox(function(bbox){
+            var matrix2 = matrix.clone();
+            var childMatrix = Matrix.fromElement(bbox, child);
+            matrix2.add(childMatrix);
+            child.applyMatrix(matrix2, function(elem){
+                group.childs.push(elem);
+                c();
+            });
+        });
+    }, function(){
+        callback(group);
+    });
+};
+
 module.exports = Group;
 
 module.exports.fromNode = function(node){
     var group = new Group();
 
-    SvgObject.fromNode.call(this, group, node);
+    SvgObject.fromNode(group, node);
 
     var Parser  = require(__dirname + '/../parser');
 

@@ -5,13 +5,12 @@ var Matrix      = require(__dirname + '/../matrix/extends'),
     _           = require('underscore');
 
 var Polygon = function(){
-    SvgObject.call(this);
+    this.type   = "polygon";
+    this.points = [];
 };
 
 Polygon.prototype = new SvgObject();
-
-Polygon.prototype.type      = 'polygon';
-Polygon.prototype.points    = [];
+Polygon.prototype.constructor = Polygon;
 
 /**
  * Get Polygon points in Array to simply manipulation
@@ -101,7 +100,7 @@ module.exports.fromNode = function(node, line){
         polygon.type = 'polyline';
 
     if(typeof node != 'undefined' && typeof node.$ != 'undefined'){
-        SvgObject.fromNode.call(this, polygon, node);
+        SvgObject.fromNode(polygon, node);
 
         if(typeof node.$.points != 'undefined'){
             polygon.setPointsFromString(node.$.points);
