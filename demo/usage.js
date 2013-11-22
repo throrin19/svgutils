@@ -6,3 +6,7 @@ var Svg = require('../index').Svg;
 //        console.log(JSON.stringify(newSvg.toJSON()));
 //    });
 //});
+
+Svg.fromJsonFile(__dirname + '/test.json', function(err, svg){
+    console.log(svg.toString());
+});

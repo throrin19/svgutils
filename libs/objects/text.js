@@ -70,20 +70,6 @@ Text.prototype.applyMatrix = function(matrix, callback){
     }, function(){
         callback(text);
     });
-
-
-//    async.each(this.childs, function(child, c){
-//        child.getBBox(function(bbox){
-//            var childMatrix = Matrix.fromElement(bbox, child);
-//            matrix.add(childMatrix);
-//            child.applyMatrix(matrix, function(tspan){
-//                text.childs.push(tspan);
-//                c();
-//            });
-//        });
-//    }, function(){
-//        callback(text);
-//    });
 };
 
 module.exports = Text;
@@ -111,6 +97,31 @@ module.exports.fromNode = function(node){
             // we are children
             _.each(node.tspan, function(tspan){
                 text.childs.push(Tspan.fromNode(tspan));
+            });
+        }
+    }
+
+    return text;
+};
+
+module.exports.fromJson = function(json){
+    var text = new Text();
+
+    if(typeof json != 'undefined'){
+        SvgObject.fromJson(text, json);
+
+        if(typeof json.value != 'undefined'){
+            text.value = json.value;
+        }
+        if(typeof json.x != 'undefined'){
+            text.x = json.x;
+        }
+        if(typeof json.y != 'undefined'){
+            text.y = json.y;
+        }
+        if(typeof json.childs != 'undefined'){
+            _.each(json.childs, function(tspan){
+                text.childs.push(Tspan.fromJson(tspan));
             });
         }
     }

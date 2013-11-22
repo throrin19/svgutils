@@ -111,14 +111,19 @@ module.exports.fromNode = function(node, line){
     return polygon;
 };
 
-module.exportsfromJson = function(json, line){
+module.exports.fromJson = function(json, line){
+
     var polygon = new Polygon();
 
     if(line == true)
         polygon.type = 'polyline';
 
     if(typeof json != 'undefined'){
+        SvgObject.fromJson(polygon, json);
 
+        if(typeof json.points != 'undefined'){
+            polygon.points = json.points;
+        }
     }
 
     return polygon;

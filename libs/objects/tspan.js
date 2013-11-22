@@ -55,9 +55,10 @@ module.exports = Tspan;
 module.exports.fromNode = function(node){
     var text = new Tspan();
 
-    SvgObject.fromNode(text, node);
-
     if(typeof node != 'undefined'){
+
+        SvgObject.fromNode(text, node);
+
         if(typeof node.$ != 'undefined'){
             if(typeof node.$.x != 'undefined'){
                 text.x = node.$.x;
@@ -69,6 +70,26 @@ module.exports.fromNode = function(node){
 
         if(typeof node._ != 'undefined'){
             text.value = node._;
+        }
+    }
+
+    return text;
+};
+
+module.exports.fromJson = function(json){
+    var text = new Tspan();
+
+    if(typeof json != 'undefined'){
+        SvgObject.fromJson(text, json);
+
+        if(typeof json.value != 'undefined'){
+            text.value = json.value;
+        }
+        if(typeof json.x != 'undefined'){
+            text.x = json.x;
+        }
+        if(typeof json.y != 'undefined'){
+            text.y = json.y;
         }
     }
 

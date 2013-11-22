@@ -93,11 +93,25 @@ module.exports = Group;
 module.exports.fromNode = function(node){
     var group = new Group();
 
-    SvgObject.fromNode(group, node);
+    if(typeof node != 'undefined'){
+        SvgObject.fromNode(group, node);
 
-    var Parser  = require(__dirname + '/../parser');
+        var Parser  = require(__dirname + '/../parser');
 
-    group.childs = Parser.parseXmlNode(node);
+        group.childs = Parser.parseXmlNode(node);
+    }
+    return group;
+};
 
+module.exports.fromJson = function(json){
+    var group = new Group();
+
+    if(typeof json != 'undefined'){
+        SvgObject.fromJson(group, json);
+
+        var Parser  = require(__dirname + '/../parser');
+
+        group.childs = Parser.parseJson(json.childs);
+    }
     return group;
 };
