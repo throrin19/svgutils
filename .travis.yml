@@ -3,4 +3,4 @@ node_js:
   - "0.10"
 install: phantomjs build-essential xvfb xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic
 before_install:
-  - "sudo npm install mocha -g"
+  - "npm install mocha -g"
