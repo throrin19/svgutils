@@ -13,7 +13,9 @@
   "keywords": [
     "svg",
     "matrix",
-    "parsing"
+    "parsing",
+    "json",
+    "xml"
   ],
   "author": "Benjamin Besse <benjamin.besse02@gmail.com>",
   "license": "Apache",
