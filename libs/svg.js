@@ -69,19 +69,29 @@ Svg.prototype.toXml = function(matrix){
 /**
  * Convert SVG to String :
  *     '<svg>...</svg>'
+ * @param {boolean}     content             true : return only svg content, false : return all svg in <svg> tag
  * @param {boolean}     matrix              String representation without transform attribute
  * @returns {string}                        Svg String representation
  */
-Svg.prototype.toString = function(matrix){
+Svg.prototype.toString = function(content, matrix){
     if(typeof matrix == 'undefined') matrix = false;
 
-    return this.toXml(matrix).toString();
+    if(content == true)
+        return this.toXml(matrix).toString();
+    else{
+        var string = '';
+        _.each(this.elements, function(element){
+            string += element.toXml(matrix).toString();
+        });
+        return string;
+    }
 };
 
 /**
  * Find elements in SVG and return new Svg object with all elements by selected type
  *
  * @param   {string}    type                Selected type (rect|polygon|g|...)
+ * @param   {boolean}   all                 true : find all type in groups and root, false : find only in root
  * @returns {Svg}                           new Svg object with selected types elements
  */
 Svg.prototype.findByType = function(type, all){

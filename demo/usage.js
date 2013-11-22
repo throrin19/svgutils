@@ -8,5 +8,5 @@ var Svg = require('../index').Svg;
 //});
 
 Svg.fromJsonFile(__dirname + '/test.json', function(err, svg){
-    console.log(svg.toString());
+    console.log(svg.toString(false));
 });
