@@ -1,7 +1,8 @@
 var _       = require('underscore'),
     util    = require('util'),
     builder = require('xmlbuilder'),
-    utils   = require(__dirname + '/../utils');
+    utils   = require(__dirname + '/../utils'),
+    Matrix  = require(__dirname + '/../matrix/extends');
 
 /**
  * @constructor
@@ -141,6 +142,13 @@ SvgObject.prototype.toString = function(){
 
 SvgObject.prototype.getBBox = function(callback){
     utils.loadSvg(this.toString(), this.type, callback);
+};
+
+SvgObject.prototype.getCurrentMatrix = function(callback){
+    var self = this;
+    this.getBBox(function(bbox){
+        callback(Matrix.fromElement(bbox, self));
+    });
 };
 
 module.exports = SvgObject;

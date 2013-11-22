@@ -53,4 +53,21 @@ describe("manipulate Rect class", function(){
             });
         });
     });
+    it("get current Matrix", function(done){
+        var rect = svgutils.Elements.Rect.fromJson(rectJSON);
+        rect.getCurrentMatrix(function(matrix){
+            if(
+                matrix.a != 1 ||
+                matrix.b != 0 ||
+                matrix.c != 0 ||
+                matrix.d != 1 ||
+                matrix.e != 0 ||
+                matrix.f != 0
+            ){
+                done(new Error("Incorrect Matrix"));
+                return;
+            }
+            done();
+        });
+    });
 });

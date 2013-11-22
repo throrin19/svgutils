@@ -1,8 +1,6 @@
 "use strict";
 
 var SvgObject = require(__dirname + "/svgobject"),
-    utils     = require(__dirname + "/../matrix/utils"),
-    Matrix    = require(__dirname + '/../matrix/extends'),
     Polygon   = require(__dirname + '/polygon');
 
 var Rect = function(){
@@ -43,13 +41,6 @@ Rect.prototype.toXml = function(matrix){
     xml.att('ry', this.ry);
 
     return xml;
-};
-
-Rect.prototype.getMatrix = function(callback){
-    var self = this;
-    this.getBBox(function(bbox){
-        callback(Matrix.fromElement(bbox, self));
-    });
 };
 
 Rect.prototype.applyMatrix = function(matrix, callback){
