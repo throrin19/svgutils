@@ -13,7 +13,7 @@ var svgutils    = require(__dirname + '/../index'),
         ]
     };
 
-describe("manipulate Rect class", function(){
+describe("manipulate Polygon class", function(){
     it("create from XML", function(done){
         var xml = '<polygon points="10,10 30,10 30,30 10,30"></polygon>';
 
@@ -44,7 +44,7 @@ describe("manipulate Rect class", function(){
 
         polygon.applyMatrix(matrix, function(polygon2){
             if((polygon2 instanceof svgutils.Elements.Polygon) == false){
-                done(new Error("Rect apply matrix failed"));
+                done(new Error("Matrix failed"));
                 return;
             }
             var success = true;
