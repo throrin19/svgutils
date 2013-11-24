@@ -31,7 +31,7 @@ Group.prototype.toXml = function(matrix){
     var xml = SvgObject.prototype.toXml.call(this, matrix);
 
     _.each(this.childs, function(child){
-        xml.children.push(child.toXml(matrix));
+        xml.importXMLBuilder(child.toXml(matrix));
     });
 
     return xml;

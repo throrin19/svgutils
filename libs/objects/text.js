@@ -42,7 +42,7 @@ Text.prototype.toXml = function(matrix){
     xml.txt(this.value);
 
     _.each(this.childs, function(child){
-        xml.children.push(child.toXml());
+        xml.importXMLBuilder(child.toXml());
     });
 
     return xml;

@@ -60,7 +60,7 @@ Svg.prototype.toXml = function(matrix){
     xml.att('xmlns', 'http://www.w3.org/2000/svg');
 
     _.each(this.elements, function(element){
-        xml.children.push(element.toXml(matrix));
+        xml.importXMLBuilder(element.toXml(matrix));
     });
 
     return xml;
