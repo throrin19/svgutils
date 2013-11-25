@@ -22,7 +22,7 @@ describe("manipulate Polygon class", function(){
             var polygon = svgutils.Elements.Polygon.fromNode(result);
 
             if((polygon instanceof svgutils.Elements.Polygon) == false){
-                done(new Error("Rect creation failed"));
+                done(new Error("Creation failed"));
                 return;
             }
             done();
@@ -32,7 +32,7 @@ describe("manipulate Polygon class", function(){
     it("create from JSON", function(done){
         var polygon = svgutils.Elements.Polygon.fromJson(polygonJSON);
         if((polygon instanceof svgutils.Elements.Polygon) == false){
-            done(new Error("Rect creation failed"));
+            done(new Error("Creation failed"));
             return;
         }
         done();
