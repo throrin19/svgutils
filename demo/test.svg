@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
-<g transform="translate(50)">
+<g transform="translate(50)" data-id="id" data-name="name" data-toto='{ "toto" : "test" }'>
     <rect transform="rotate(9)" x="30" y="30" width="300" height="100" fill="red" stroke="yellow"/>
     <polygon transform="matrix(3,0,0,3,500,100)" points="220,10 300,210 170,250 123,234" style="fill:lime;stroke:purple;stroke-width:1"/>
     <polyline transform="matrix(2,0,0,2,300,400)" points="0,0 30,0 15,30" style="stroke:#006600;"/>

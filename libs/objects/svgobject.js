@@ -15,6 +15,7 @@ var SvgObject = function(){
     this.fill = "";
     this.style = {};
     this.transform = undefined;
+    this.data = {};
 };
 
 /**
@@ -106,7 +107,8 @@ SvgObject.prototype.toJSON = function(matrix){
         stroke      : this.stroke,
         fill        : this.fill,
         style       : this.style,
-        transform   : matrix != true ? this.transform : ''
+        transform   : matrix != true ? this.transform : '',
+        data        : this.data
     }
 };
 
@@ -130,6 +132,10 @@ SvgObject.prototype.toXml = function(matrix){
         xml.att("stroke", this.stroke);
     if(this.fill.length > 0)
         xml.att("fill", this.fill);
+
+    _.each(this.data, function(value, key){
+        xml.att("data-" + key, typeof value == "string" ? value : JSON.stringify(value));
+    });
 
     xml.att("style", style);
 
@@ -167,6 +173,8 @@ module.exports.fromNode = function(object, node){
         if(typeof node.$.id != 'undefined'){
             object.setId(node.$.id);
             object.setName(node.$.id);
+            object.data.id      = node.$.id;
+            object.data.name    = node.$.name;
         }
         if(typeof node.$.stroke != 'undefined'){
             object.setStroke(node.$.stroke);
@@ -180,6 +188,16 @@ module.exports.fromNode = function(object, node){
         if(typeof node.$.transform != 'undefined'){
             object.setTransform(node.$.transform);
         }
+        _.each(node.$, function(value, index){
+            var match = index.match(/(?:^|\s)data-(.*?)(?:$|\s)\b/);
+            if(match){
+                try{
+                    object.data[match[1]] = JSON.parse(value);
+                }catch(e){
+                    object.data[match[1]] = value;
+                }
+            }
+        });
     }
 };
 
@@ -212,6 +230,9 @@ module.exports.fromJson = function(object, json){
         }
         if(typeof json.transform != 'undefined'){
             object.transform = json.transform;
+        }
+        if(typeof json.data != 'undefined'){
+            object.data = json.data;
         }
     }
 };
