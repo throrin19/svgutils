@@ -1,22 +1,28 @@
 "use strict";
 
-var svgutils = require(__dirname + '/../index'),
-    xml2js   = require('xml2js'),
+var svgutils    = require(__dirname + '/../index'),
+    xml2js      = require('xml2js'),
+    _           = require('underscore'),
     polygonJSON = {
-        type : 'polygon'
+        type : 'polygon',
+        points : [
+            { x : 10, y : 10 },
+            { x : 30, y : 10 },
+            { x : 30, y : 30 },
+            { x : 10, y : 30 }
+        ]
     };
 
-/*
-describe("manipulate Rect class", function(){
+describe("manipulate Polygon class", function(){
     it("create from XML", function(done){
-        var xml = '<rect x="10" y="10" width="100" height="100"></rect>';
+        var xml = '<polygon points="10,10 30,10 30,30 10,30"></polygon>';
 
         var parser  = new xml2js.Parser();
         parser.addListener('end', function(result) {
-            var rect = svgutils.Elements.Rect.fromNode(result);
+            var polygon = svgutils.Elements.Polygon.fromNode(result);
 
-            if((rect instanceof svgutils.Elements.Rect) == false){
-                done(new Error("Rect creation failed"));
+            if((polygon instanceof svgutils.Elements.Polygon) == false){
+                done(new Error("Creation failed"));
                 return;
             }
             done();
@@ -24,9 +30,9 @@ describe("manipulate Rect class", function(){
         parser.parseString(xml);
     });
     it("create from JSON", function(done){
-        var rect = svgutils.Elements.Rect.fromJson(rectJSON);
-        if((rect instanceof svgutils.Elements.Rect) == false){
-            done(new Error("Rect creation failed"));
+        var polygon = svgutils.Elements.Polygon.fromJson(polygonJSON);
+        if((polygon instanceof svgutils.Elements.Polygon) == false){
+            done(new Error("Creation failed"));
             return;
         }
         done();
@@ -34,25 +40,29 @@ describe("manipulate Rect class", function(){
     it("apply translate Matrix", function(done){
         // translate(10, 50)
         var matrix = new svgutils.Matrix(1, 0, 0, 1, 10, 50);
-        var rect = svgutils.Elements.Rect.fromJson(rectJSON);
+        var polygon = svgutils.Elements.Polygon.fromJson(polygonJSON);
 
-        rect.applyMatrix(matrix, function(polygon){
-            if((polygon instanceof svgutils.Elements.Polygon) == false){
-                done(new Error("Rect apply matrix failed"));
+        polygon.applyMatrix(matrix, function(polygon2){
+            if((polygon2 instanceof svgutils.Elements.Polygon) == false){
+                done(new Error("Matrix failed"));
                 return;
             }
-            polygon.getBBox(function(bbox){
-                if(bbox.x != 20 || bbox.y != 60){
-                    done(new Error("Rect apply matrix failed"));
-                    return;
+            var success = true;
+            _.each(polygon2.points, function(point, index){
+                if(point.x != polygon.points[index].x + 10 || point.y != polygon.points[index].y + 50){
+                    success = false;
                 }
-                done();
             });
+            if(!success){
+                done(new Error("Matrix failed"));
+                return;
+            }
+            done();
         });
     });
     it("get current Matrix", function(done){
-        var rect = svgutils.Elements.Rect.fromJson(rectJSON);
-        rect.getCurrentMatrix(function(matrix){
+        var polygon = svgutils.Elements.Rect.fromJson(polygonJSON);
+        polygon.getCurrentMatrix(function(matrix){
             if(
                 matrix.a != 1 ||
                     matrix.b != 0 ||
@@ -67,4 +77,4 @@ describe("manipulate Rect class", function(){
             done();
         });
     });
-});*/
+});

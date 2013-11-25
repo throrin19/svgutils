@@ -19,7 +19,7 @@ describe("manipulate Rect class", function(){
             var rect = svgutils.Elements.Rect.fromNode(result);
 
             if((rect instanceof svgutils.Elements.Rect) == false){
-                done(new Error("Rect creation failed"));
+                done(new Error("Creation failed"));
                 return;
             }
             done();
@@ -29,7 +29,7 @@ describe("manipulate Rect class", function(){
     it("create from JSON", function(done){
         var rect = svgutils.Elements.Rect.fromJson(rectJSON);
         if((rect instanceof svgutils.Elements.Rect) == false){
-            done(new Error("Rect creation failed"));
+            done(new Error("Creation failed"));
             return;
         }
         done();
@@ -41,12 +41,12 @@ describe("manipulate Rect class", function(){
 
         rect.applyMatrix(matrix, function(polygon){
             if((polygon instanceof svgutils.Elements.Polygon) == false){
-                done(new Error("Rect apply matrix failed"));
+                done(new Error("Apply matrix failed"));
                 return;
             }
             polygon.getBBox(function(bbox){
                 if(bbox.x != 20 || bbox.y != 60){
-                    done(new Error("Rect apply matrix failed"));
+                    done(new Error("Apply matrix failed"));
                     return;
                 }
                 done();

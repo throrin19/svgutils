@@ -4,7 +4,7 @@
   "description": "Svg Utils for pasing SVGFile and manipulate Matrix object like Snap.svg",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --reporter spec -t 5000"
+    "test": "mocha --reporter spec -t 8000"
   },
   "repository": {
     "type": "git",
