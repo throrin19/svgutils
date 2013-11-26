@@ -8,9 +8,9 @@ var fs          = require('fs'),
     SvgParser   = require(__dirname + '/parser'),
     Matrix      = require(__dirname + '/matrix/extends');
 
-var Svg = function(){};
-
-Svg.prototype.elements = [];
+var Svg = function(){
+    this.elements = [];
+};
 
 /**
  * Set Svg Elements
