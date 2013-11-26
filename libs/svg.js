@@ -122,7 +122,7 @@ Svg.prototype.applyMatrix = function(matrix, callback){
     var svg = new Svg();
 
     var applyMatrix = new Matrix();
-    if(typeof matrix != 'undefined'){
+    if(matrix != null){
         if(matrix instanceof Array){
             _.each(matrix, function(mat){
                 applyMatrix.add(mat);
