@@ -99,17 +99,29 @@ SvgObject.prototype.getBBox = function(){
  * @returns {object}
  */
 SvgObject.prototype.toJSON = function(matrix){
-    return {
-        type        : this.type,
-        classes     : this.classes,
-        id          : this.id,
-        name        : this.name,
-        stroke      : this.stroke,
-        fill        : this.fill,
-        style       : this.style,
-        transform   : matrix != true ? this.transform : '',
-        data        : this.data
-    }
+
+    var json = {
+        type : this.type
+    };
+
+    if(this.classes.length > 0)
+        json.classes = this.classes;
+    if(this.id != null && this.id != '')
+        json.id = this.id;
+    if(this.name != null && this.name != '')
+        json.name = this.name;
+    if(this.stroke != null && this.stroke != '')
+        json.stroke = this.stroke;
+    if(this.fill != null && this.fill != '')
+        json.fill = this.fill;
+    if(_.keys(this.style).lenght > 0)
+        json.style = this.style;
+    if(_.keys(this.data).lenght > 0)
+        json.data = this.data;
+    if(this.transform != null && this.transform != '')
+        json.transform = this.transform;
+
+    return json;
 };
 
 SvgObject.prototype.toXml = function(matrix){
