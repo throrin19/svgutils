@@ -14,6 +14,14 @@ function deg(rad) {
 
 
 function Matrix(a, b, c, d, e, f) {
+    if (a != null && typeof a == 'object'){
+        this.a = +a.a;
+        this.b = +a.b;
+        this.c = +a.c;
+        this.d = +a.d;
+        this.e = +a.e;
+        this.f = +a.f;
+    } else
     if (a != null) {
         this.a = +a;
         this.b = +b;

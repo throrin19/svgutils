@@ -115,14 +115,27 @@ Svg.prototype.findByType = function(type, all){
 /**
  * Generate new Svg element with all applied matrix to all elements.
  * Convert rect into polygon
- * @param {function}    callback            Callback Function
+ * @param {array|Matrix}        matrix              Matrix to be applied in addition to those elements.
+ * @param {function}            callback            Callback Function
  */
-Svg.prototype.applyMatrix = function(callback){
+Svg.prototype.applyMatrix = function(matrix, callback){
     var svg = new Svg();
+
+    var applyMatrix = new Matrix();
+    if(typeof matrix != 'undefined'){
+        if(matrix instanceof Array){
+            _.each(matrix, function(mat){
+                applyMatrix.add(mat);
+            });
+        }else{
+            applyMatrix = matrix;
+        }
+    }
 
     async.each(this.elements, function(elem, c){
         elem.getBBox(function(bbox){
-            var matrix = Matrix.fromElement(bbox, elem);
+            var applyCloneMatrix = applyMatrix.clone();
+            var matrix = applyCloneMatrix.add(Matrix.fromElement(bbox, elem));
             elem.applyMatrix(matrix, function(e){
                 svg.addElement(e);
                 c();
