@@ -114,9 +114,9 @@ SvgObject.prototype.toJSON = function(matrix){
         json.stroke = this.stroke;
     if(this.fill != null && this.fill != '')
         json.fill = this.fill;
-    if(_.keys(this.style).lenght > 0)
+    if(!_.isEmpty(this.style))
         json.style = this.style;
-    if(_.keys(this.data).lenght > 0)
+    if(!_.isEmpty(this.data))
         json.data = this.data;
     if(this.transform != null && this.transform != '')
         json.transform = this.transform;

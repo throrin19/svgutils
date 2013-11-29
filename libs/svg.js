@@ -8,9 +8,9 @@ var fs          = require('fs'),
     SvgParser   = require(__dirname + '/parser'),
     Matrix      = require(__dirname + '/matrix/extends');
 
-var Svg = function(){};
-
-Svg.prototype.elements = [];
+var Svg = function(){
+    this.elements = [];
+};
 
 /**
  * Set Svg Elements
@@ -122,7 +122,7 @@ Svg.prototype.applyMatrix = function(matrix, callback){
     var svg = new Svg();
 
     var applyMatrix = new Matrix();
-    if(typeof matrix != 'undefined'){
+    if(matrix != null){
         if(matrix instanceof Array){
             _.each(matrix, function(mat){
                 applyMatrix.add(mat);

@@ -82,10 +82,10 @@ module.exports.fromNode = function(node){
     if(typeof node != 'undefined'){
         if(typeof node.$ != 'undefined'){
             if(typeof node.$.x != 'undefined'){
-                text.x = node.$.x;
+                text.x = parseInt(node.$.x);
             }
             if(typeof node.$.y != 'undefined'){
-                text.y = node.$.y;
+                text.y = parseInt(node.$.y);
             }
         }
 
