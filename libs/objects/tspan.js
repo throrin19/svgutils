@@ -18,7 +18,7 @@ Tspan.prototype.constructor = Tspan;
  *
  * @param {number} x            X origin
  */
-Text.prototype.setX = function(x){
+Tspan.prototype.setX = function(x){
     this.x = x;
     this.bbox = undefined;
 };
@@ -28,7 +28,7 @@ Text.prototype.setX = function(x){
  *
  * @param {number} y            y origin
  */
-Text.prototype.setY = function(y){
+Tspan.prototype.setY = function(y){
     this.y = y;
     this.bbox = undefined;
 };
@@ -38,7 +38,7 @@ Text.prototype.setY = function(y){
  *
  * @param {string} string       Text value
  */
-Text.prototype.setValue = function(string){
+Tspan.prototype.setValue = function(string){
     this.value = string;
     this.bbox = undefined;
 };

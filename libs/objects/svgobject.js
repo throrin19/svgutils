@@ -1,7 +1,8 @@
+"use strict";
+
 var _       = require('underscore'),
-    util    = require('util'),
     builder = require('xmlbuilder'),
-    events  = require('events'),
+    async   = require('async'),
     utils   = require(__dirname + '/../utils'),
     Matrix  = require(__dirname + '/../matrix/extends');
 
@@ -220,6 +221,61 @@ SvgObject.prototype.getCurrentMatrix = function(callback){
     var self = this;
     this.getBBox(function(bbox){
         callback(Matrix.fromElement(bbox, self));
+    });
+};
+
+/**
+ * Indicates whether an other svgObject is contained in this svgObject
+ *
+ * @param {SvgObject}  svgObject            SvgObject
+ * @param {function}   callback             Callback function
+ */
+SvgObject.prototype.contains = function(svgObject, callback){
+    var self = this;
+    async.parallel({
+        ownBbox : function(c){
+            self.getBBox(function(bbox){
+               c(null, bbox);
+            });
+        },
+        objBBox : function(c){
+            svgObject.getBBox(function(bbox){
+                c(null, bbox);
+            });
+        }
+    }, function(err, result){
+        var ownPoints = [
+                { x : result.ownBbox.x, y : result.ownBbox.y  },
+                { x : result.ownBbox.x2, y : result.ownBbox.y  },
+                { x : result.ownBbox.x2, y : result.ownBbox.y2  },
+                { x : result.ownBbox.x, y : result.ownBbox.y2  }
+            ],
+            objPoints = [
+                { x : result.objBBox.x, y : result.objBBox.y  },
+                { x : result.objBBox.x2, y : result.objBBox.y  },
+                { x : result.objBBox.x2, y : result.objBBox.y2  },
+                { x : result.objBBox.x, y : result.objBBox.y2  }
+            ];
+
+        var c = [ false, false, false, false ];
+
+        for(var i = 0; i < objPoints.length; ++i){
+            for(var j = 0, k = ownPoints.length -1; j < ownPoints.length; k = j++){
+                if(
+                    ((ownPoints[j].y > objPoints[i].y) != (ownPoints[k].y > objPoints[i].y)) &&
+                    (objPoints[i].x < (ownPoints[k].x - ownPoints[j].x) * (objPoints[i].y - ownPoints[j].y) / (ownPoints[k].y - ownPoints[j].y) + ownPoints[j].x)
+                ){
+                    c[i] = !c[i];
+                }
+            }
+        }
+
+        if(c[0] == true || c[1] == true || c[2] == true || c[3] == true){
+            callback(true);
+            return;
+        }
+
+        callback(false);
     });
 };
 
