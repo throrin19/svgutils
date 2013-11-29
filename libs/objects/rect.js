@@ -17,6 +17,64 @@ var Rect = function(){
 Rect.prototype              = new SvgObject();
 Rect.prototype.constructor  = Rect;
 
+/**
+ * Set X origin
+ *
+ * @param {number} x            X origin
+ */
+Rect.prototype.setX = function(x){
+    this.x = x;
+    this.bbox = undefined;
+};
+
+/**
+ * Set Y origin
+ *
+ * @param {number} y            y origin
+ */
+Rect.prototype.setY = function(y){
+    this.y = y;
+    this.bbox = undefined;
+};
+
+/**
+ * Set Rect Width
+ *
+ * @param {number} width            Rect width
+ */
+Rect.prototype.setWidth = function(width){
+    this.width = width;
+    this.bbox = undefined;
+};
+
+/**
+ * Set Rect Height
+ *
+ * @param {number} height            Rect height
+ */
+Rect.prototype.setHeight = function(height){
+    this.height = height;
+    this.bbox = undefined;
+};
+
+/**
+ * Set rounded x corner
+ *
+ * @param {number} rx            rounded x corner
+ */
+Rect.prototype.setX = function(rx){
+    this.rx = rx;
+};
+
+/**
+ * Set rounded y corner
+ *
+ * @param {number} ry            rounded y corner
+ */
+Rect.prototype.setX = function(ry){
+    this.ry = ry;
+};
+
 Rect.prototype.toJSON = function(matrix){
     var parentJSON = SvgObject.prototype.toJSON.call(this, matrix);
 
@@ -51,6 +109,7 @@ Rect.prototype.applyMatrix = function(matrix, callback){
     polygon.name    = this.name;
     polygon.stroke  = this.stroke;
     polygon.fill    = this.fill;
+    polygon.data    = this.data;
 
     polygon.addPoint(
         matrix.x(this.x, this.y),

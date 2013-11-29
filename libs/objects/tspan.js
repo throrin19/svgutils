@@ -13,6 +13,35 @@ var Tspan = function(){
 Tspan.prototype             = new SvgObject();
 Tspan.prototype.constructor = Tspan;
 
+/**
+ * Set X origin
+ *
+ * @param {number} x            X origin
+ */
+Text.prototype.setX = function(x){
+    this.x = x;
+    this.bbox = undefined;
+};
+
+/**
+ * Set Y origin
+ *
+ * @param {number} y            y origin
+ */
+Text.prototype.setY = function(y){
+    this.y = y;
+    this.bbox = undefined;
+};
+
+/**
+ * Set Text Value
+ *
+ * @param {string} string       Text value
+ */
+Text.prototype.setValue = function(string){
+    this.value = string;
+    this.bbox = undefined;
+};
 
 Tspan.prototype.toJSON = function(matrix){
     var parentJSON = SvgObject.prototype.toJSON.call(this, matrix);
@@ -46,6 +75,7 @@ Tspan.prototype.applyMatrix = function(matrix, callback){
     tspan.value   = this.value;
     tspan.x       = matrix.x(this.x, this.y);
     tspan.y       = matrix.y(this.x, this.y);
+    tspan.data    = this.data;
 
     callback(tspan);
 };

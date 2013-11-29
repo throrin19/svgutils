@@ -36,10 +36,12 @@ Polygon.prototype.setPointsFromString = function(points){
     });
 
     this.points = coords;
+    this.bbox = undefined;
 };
 
 Polygon.prototype.addPoint = function(x, y){
     this.points.push({ x : x, y : y });
+    this.bbox = undefined;
 };
 
 Polygon.prototype.toJSON = function(matrix){
@@ -74,6 +76,7 @@ Polygon.prototype.applyMatrix = function(matrix, callback){
     polygon.stroke  = this.stroke;
     polygon.fill    = this.fill;
     polygon.type    = this.type;
+    polygon.data    = this.data;
 
     _.each(this.points, function(point){
         polygon.addPoint(
