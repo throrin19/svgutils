@@ -5,6 +5,12 @@ Svg Utils for pasing SVGFile and manipulate Matrix object like Snap.svg
 
 [![Build Status](https://travis-ci.org/throrin19/svgutils.png?branch=master)](https://travis-ci.org/throrin19/svgutils)
 
+## Install
+
+```
+npm install svgutils
+```
+
 ## Requirements
 
 ### NodeJS
@@ -97,6 +103,7 @@ Svg.fromSvgDocument(__dirname + '/test2.svg', function(err, svg){
         console.log(newSvg.toString());
     });
 });
+```
 
 ## Contrbute
 
