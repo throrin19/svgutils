@@ -97,6 +97,7 @@ Svg.fromSvgDocument(__dirname + '/test2.svg', function(err, svg){
         console.log(newSvg.toString());
     });
 });
+```
 
 ## Contrbute
 
