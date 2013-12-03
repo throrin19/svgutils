@@ -72,6 +72,7 @@ Group.prototype.applyMatrix = function(matrix, callback){
     group.stroke  = this.stroke;
     group.fill    = this.fill;
     group.type    = this.type;
+    group.data    = this.data;
 
     async.each(this.childs, function(child, c){
         child.getBBox(function(bbox){

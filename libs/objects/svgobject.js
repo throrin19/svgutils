@@ -1,22 +1,53 @@
+"use strict";
+
 var _       = require('underscore'),
-    util    = require('util'),
     builder = require('xmlbuilder'),
+    async   = require('async'),
     utils   = require(__dirname + '/../utils'),
     Matrix  = require(__dirname + '/../matrix/extends');
 
 /**
+ *
  * @constructor
  */
 var SvgObject = function(){
-    this.classes = [];
-    this.id = "";
-    this.name = "";
-    this.stroke = "";
-    this.fill = "";
-    this.style = {};
-    this.transform = undefined;
-    this.data = {};
+    this.classes    = [];
+    this.id         = "";
+    this.name       = "";
+    this.stroke     = "";
+    this.fill       = "";
+    this.style      = {};
+    this.transform  = undefined;
+    this.data       = {};
+    this.bbox       = undefined;
 };
+
+
+SvgObject.prototype.getClasses = function(){
+    return this.classes;
+};
+SvgObject.prototype.getId = function(){
+    return this.id;
+};
+SvgObject.prototype.getName = function(){
+    return this.getName;
+};
+SvgObject.prototype.getStroke = function(){
+    return this.stroke;
+};
+SvgObject.prototype.getFill = function(){
+    return this.fill;
+};
+SvgObject.prototype.getStyle = function(){
+    return this.style;
+};
+SvgObject.prototype.getTransform = function(){
+    return this.transform;
+};
+SvgObject.prototype.getData = function(){
+    return this.data;
+};
+
 
 /**
  * Set classes
@@ -70,6 +101,15 @@ SvgObject.prototype.setTransform = function(transform){
 };
 
 /**
+ * Set all data attrbutes for element
+ *
+ * @param {object} data         Data Object
+ */
+SvgObject.prototype.setData = function(data){
+    this.data = data;
+};
+
+/**
  * Set Style
  *
  * @param {string} styleStr     Element style like the style html attribute value. Each styles are separate by ';'
@@ -85,18 +125,10 @@ SvgObject.prototype.setStyleFromString = function(styleStr){
 };
 
 /**
- * Get the current Element BBox
- *
- * @returns {object}            Element bbox
- */
-SvgObject.prototype.getBBox = function(){
-    return {};
-};
-
-/**
  * Return JSON from object
  *
- * @returns {object}
+ * @param   {boolean}    matrix         return transform attribute if false.
+ * @returns {object}                    JSON Object
  */
 SvgObject.prototype.toJSON = function(matrix){
 
@@ -118,12 +150,17 @@ SvgObject.prototype.toJSON = function(matrix){
         json.style = this.style;
     if(!_.isEmpty(this.data))
         json.data = this.data;
-    if(this.transform != null && this.transform != '')
+    if(typeof this.transform != 'undefined' && matrix != true)
         json.transform = this.transform;
 
     return json;
 };
 
+/**
+ * Return XML from object
+ * @param   {boolean}    matrix         return transform attribute if false.
+ * @returns {xmlBuilder}                XML Object
+ */
 SvgObject.prototype.toXml = function(matrix){
     var xml = builder.create(this.type);
 
@@ -154,18 +191,91 @@ SvgObject.prototype.toXml = function(matrix){
     return xml;
 };
 
+/**
+ * Return element with XML String representation
+ *
+ * @returns {string}                        Element convert to String
+ */
 SvgObject.prototype.toString = function(){
     return this.toXml().toString();
 };
 
 SvgObject.prototype.getBBox = function(callback){
-    utils.loadSvg(this.toString(), this.type, callback);
+    var self = this;
+    if(typeof this.bbox == 'undefined' || this.type == 'g'){
+        utils.loadSvg(this.toString(), this.type, function(bbox){
+            self.bbox = bbox;
+            callback(bbox);
+        });
+    }else{
+        callback(this.bbox);
+    }
 };
 
+/**
+ * Return Matrix representation of current transform attribute.
+ *
+ * @param {function} callback               Callback function
+ */
 SvgObject.prototype.getCurrentMatrix = function(callback){
     var self = this;
     this.getBBox(function(bbox){
         callback(Matrix.fromElement(bbox, self));
+    });
+};
+
+/**
+ * Indicates whether an other svgObject is contained in this svgObject
+ *
+ * @param {SvgObject}  svgObject            SvgObject
+ * @param {function}   callback             Callback function
+ */
+SvgObject.prototype.contains = function(svgObject, callback){
+    var self = this;
+    async.parallel({
+        ownBbox : function(c){
+            self.getBBox(function(bbox){
+               c(null, bbox);
+            });
+        },
+        objBBox : function(c){
+            svgObject.getBBox(function(bbox){
+                c(null, bbox);
+            });
+        }
+    }, function(err, result){
+        var ownPoints = [
+                { x : result.ownBbox.x, y : result.ownBbox.y  },
+                { x : result.ownBbox.x2, y : result.ownBbox.y  },
+                { x : result.ownBbox.x2, y : result.ownBbox.y2  },
+                { x : result.ownBbox.x, y : result.ownBbox.y2  }
+            ],
+            objPoints = [
+                { x : result.objBBox.x, y : result.objBBox.y  },
+                { x : result.objBBox.x2, y : result.objBBox.y  },
+                { x : result.objBBox.x2, y : result.objBBox.y2  },
+                { x : result.objBBox.x, y : result.objBBox.y2  }
+            ];
+
+        var c = [ false, false, false, false ];
+
+        for(var i = 0; i < objPoints.length; ++i){
+            for(var j = 0, k = ownPoints.length -1; j < ownPoints.length; k = j++){
+                if(
+                    ((ownPoints[j].y > objPoints[i].y) != (ownPoints[k].y > objPoints[i].y)) &&
+                    (objPoints[i].x < (ownPoints[k].x - ownPoints[j].x) * (objPoints[i].y - ownPoints[j].y) / (ownPoints[k].y - ownPoints[j].y) + ownPoints[j].x)
+                ){
+                    c[i] = !c[i];
+                }
+            }
+        }
+
+        if(c[0] == true || c[1] == true || c[2] == true || c[3] == true){
+            callback(true);
+            return;
+        }
+
+        callback(false);
     });
 };
 

@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+    <polygon points="10,10 30,10 30,30 10,30"></polygon>
+    <text x="20" y="20" style="fill:red;">Several lines</text>
+</svg>

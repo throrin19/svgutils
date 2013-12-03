@@ -17,6 +17,55 @@ var Text = function(){
 Text.prototype              = new SvgObject();
 Text.prototype.constructor  = Text;
 
+/**
+ * Set X origin
+ *
+ * @param {number} x            X origin
+ */
+Text.prototype.setX = function(x){
+    this.x = x;
+    this.bbox = undefined;
+};
+
+/**
+ * Set Y origin
+ *
+ * @param {number} y            y origin
+ */
+Text.prototype.setY = function(y){
+    this.y = y;
+    this.bbox = undefined;
+};
+
+/**
+ * Set Text Value
+ *
+ * @param {string} string       Text value
+ */
+Text.prototype.setValue = function(string){
+    this.value = string;
+    this.bbox = undefined;
+};
+
+/**
+ * Set Text children
+ *
+ * @param {Array} childs        Tspan Array
+ */
+Text.prototype.setChildren = function(childs){
+    this.childs = childs;
+    this.bbox   = undefined;
+};
+
+/**
+ * Add Tspan child
+ *
+ * @param {Tspan} child         Tspan child
+ */
+Text.prototype.addChild = function(child){
+    this.childs.push(child);
+    this.bbox = undefined;
+};
 
 Text.prototype.toJSON = function(matrix){
     var parentJSON = SvgObject.prototype.toJSON.call(this, matrix);
@@ -60,7 +109,7 @@ Text.prototype.applyMatrix = function(matrix, callback){
     text.value   = this.value;
     text.x       = matrix.x(this.x, this.y);
     text.y       = matrix.y(this.x, this.y);
-    //text.childs  = this.childs;
+    text.data    = this.data;
 
     async.each(this.childs, function(child, c){
         child.applyMatrix(matrix, function(tspan){
