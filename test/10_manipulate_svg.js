@@ -4,7 +4,7 @@
 
 
 var svg         = null,
-    svgPath     = __dirname + '/../demo/test.svg',
+    svgPath     = __dirname + '/svg/test.svg',
     svgutils    = require(__dirname + '/../index');
 
 describe('Manipulating existing File', function(){

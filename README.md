@@ -63,6 +63,41 @@ Svg.fromSvgDocument(__dirname + '/test2.svg', function(err, svg){
 });
 ```
 
+### Apply Matrix and get transformed svg
+
+#### Currents Matrix only
+
+```
+var Svg = require('svgutils').Svg;
+
+Svg.fromSvgDocument(__dirname + '/test2.svg', function(err, svg){
+    if(err){
+        throw new Error('SVG file not found or invalid');
+    }
+
+    svg.applyMatrix(null, function(newSvg){
+        console.log(newSvg.toString());
+    });
+});
+```
+
+#### Externals and currents Matrix
+
+```
+var Svg     = require('svgutils').Svg,
+    Matrix  = require('svgutils';.Matrix;
+
+Svg.fromSvgDocument(__dirname + '/test2.svg', function(err, svg){
+    if(err){
+        throw new Error('SVG file not found or invalid');
+    }
+
+    // Ex : apply translate(10, 20) to all svg
+    svg.applyMatrix(new Matrix(1, 0, 0, 1, 10, 20), function(newSvg){
+        console.log(newSvg.toString());
+    });
+});
+
 ## Contrbute
 
 +    Fork the repo
