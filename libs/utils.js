@@ -1,7 +1,7 @@
 "use strict";
 
-var phantom = require('node-phantom'),
-    jsdom   = require("jsdom"),
+var //phantom = require('node-phantom'),
+    //jsdom   = require("jsdom"),
     utils   = require(__dirname + '/../libs/matrix/utils'),
     _       = require('underscore');
 
