@@ -3,6 +3,7 @@
 var SvgObject   = require(__dirname + '/svgobject'),
     _           = require('underscore'),
     Tspan       = require(__dirname + '/tspan'),
+    utils       = require(__dirname + '/../matrix/utils'),
     async       = require('async');
 
 var Text = function(){
@@ -119,6 +120,11 @@ Text.prototype.applyMatrix = function(matrix, callback){
     }, function(){
         callback(text);
     });
+};
+
+Text.prototype.getBBox = function(callback){
+    this.bbox = utils.bbox(this.x, this.y, 9, 30); // ok, it's not true but, it's ok for basic short text with basic police
+    callback(this.bbox);
 };
 
 module.exports = Text;

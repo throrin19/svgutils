@@ -3,6 +3,7 @@
 var SvgObject   = require(__dirname + '/svgobject'),
     Matrix      = require(__dirname + '/../matrix/extends'),
     _           = require('underscore'),
+    utils       = require(__dirname + '/../matrix/utils'),
     async       = require('async');
 
 var Group = function(){
@@ -87,6 +88,11 @@ Group.prototype.applyMatrix = function(matrix, callback){
     }, function(){
         callback(group);
     });
+};
+
+Group.prototype.getBBox = function(callback){
+    this.bbox = utils.bbox(0,0,0,0)
+    callback(this.bbox);
 };
 
 module.exports = Group;

@@ -1,10 +1,10 @@
 {
   "name": "svgutils",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "description": "Svg Utils for pasing SVGFile and manipulate Matrix object like Snap.svg",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --reporter spec -t 8000"
+    "test": "mocha --reporter spec"
   },
   "repository": {
     "type": "git",
@@ -25,7 +25,6 @@
     "underscore": "~1.5.2",
     "xml2js": "~0.2.8",
     "xmlbuilder": "~0.4.3",
-    "node-phantom": "~0.2.5",
     "async": "~0.2.9"
   },
   "devDependencies": {

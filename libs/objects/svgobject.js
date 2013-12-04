@@ -203,15 +203,16 @@ SvgObject.prototype.toString = function(){
 };
 
 SvgObject.prototype.getBBox = function(callback){
-    var self = this;
-    if(typeof this.bbox == 'undefined' || this.type == 'g'){
-        utils.loadSvg(this.toString(), this.type, function(bbox){
-            self.bbox = bbox;
-            callback(bbox);
-        });
-    }else{
-        callback(this.bbox);
-    }
+//    var self = this;
+//    if(typeof this.bbox == 'undefined' || this.type == 'g'){
+//        utils.loadSvg(this.toString(), this.type, function(bbox){
+//            self.bbox = bbox;
+//            callback(bbox);
+//        });
+//    }else{
+//        callback(this.bbox);
+//    }
+    callback(this.bbox);
 };
 
 /**
