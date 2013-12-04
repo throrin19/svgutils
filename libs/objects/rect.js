@@ -1,6 +1,7 @@
 "use strict";
 
 var SvgObject = require(__dirname + "/svgobject"),
+    utils     = require(__dirname + '/../matrix/utils'),
     Polygon   = require(__dirname + '/polygon');
 
 var Rect = function(){
@@ -129,6 +130,11 @@ Rect.prototype.applyMatrix = function(matrix, callback){
     );
 
     callback(polygon);
+};
+
+Rect.prototype.getBBox = function(callback){
+    this.bbox = utils.bbox(this.x, this.y, this.width, this.height);
+    callback(this.bbox);
 };
 
 module.exports = Rect;

@@ -2,6 +2,7 @@
 
 var Matrix      = require(__dirname + '/../matrix/extends'),
     SvgObject   = require(__dirname + '/svgobject'),
+    utils       = require(__dirname + '/../matrix/utils'),
     _           = require('underscore');
 
 var Polygon = function(){
@@ -86,6 +87,24 @@ Polygon.prototype.applyMatrix = function(matrix, callback){
     });
 
     callback(polygon);
+};
+
+Polygon.prototype.getBBox = function(callback){
+    var minX = +Infinity,
+        maxX = -Infinity,
+        minY = +Infinity,
+        maxY = -Infinity;
+
+    _.each(this.points, function(point){
+        minX = Math.min(point.x, minX);
+        maxX = Math.max(point.x, maxX);
+        minY = Math.min(point.y, minY);
+        maxY = Math.max(point.y, maxY);
+    });
+
+
+    this.bbox = utils.bbox(minX, minY, Math.abs(Math.abs(maxX) - Math.abs(minX)), Math.abs(Math.abs(maxY) - Math.abs(minY)));
+    callback(this.bbox);
 };
 
 module.exports = Polygon;
