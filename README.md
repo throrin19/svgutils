@@ -17,23 +17,6 @@ npm install svgutils
 
 Required version : 0.10.22
 
-### PhantomJS
-
-This library require phantomJS. You can get instruction to install in their weibsite.
-
-For Ubuntu, this is the installation instruction :
-
-```
-sudo apt-get install phantomjs
-sudo apt-get install xvfb xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic
-```
-
-For MacOSX :
-
-```
-brew update && brew install phantomjs
-```
-
 ## Usage
 
 With SVGUtils you can :
@@ -43,6 +26,10 @@ With SVGUtils you can :
 +   Manipulate Svg
 +   Use Matrix to SVG or elements
 +   ...
+
+#### Warning
+
+For Text and Group, the boundingbox result is not true but it's enough for basic manipulations
 
 ### Loading SVG file
 
