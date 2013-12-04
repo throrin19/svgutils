@@ -183,7 +183,9 @@ SvgObject.prototype.toXml = function(matrix){
         xml.att("fill", this.fill);
 
     _.each(this.data, function(value, key){
-        xml.att("data-" + key, typeof value == "string" ? value : JSON.stringify(value));
+        if(key && value){
+            xml.att("data-" + key, typeof value == "string" ? value : JSON.stringify(value));
+        }
     });
 
     xml.att("style", style);
