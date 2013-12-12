@@ -299,7 +299,7 @@ module.exports.fromNode = function(object, node){
             object.setId(node.$.id);
             object.setName(node.$.id);
             object.data.id      = node.$.id;
-            object.data.name    = node.$.name;
+            object.data.name    = node.$.id;
         }
         if(typeof node.$.stroke != 'undefined'){
             object.setStroke(node.$.stroke);

@@ -145,7 +145,11 @@ module.exports.fromNode = function(node){
         }
 
         if(typeof node._ != 'undefined'){
-            text.value = node._;
+            text.value  = node._;
+
+            if(_.isEmpty(text.id)){
+                text.id = 't_'+ node._;
+            }
         }
 
         if(typeof node.tspan != 'undefined'){
