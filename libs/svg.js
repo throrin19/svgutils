@@ -113,6 +113,26 @@ Svg.prototype.findByType = function(type, all){
 };
 
 /**
+ * Find elements in SVG and return new Svg object with all elements by id
+ *
+ * @param   {string}    id                  Item id
+ * @returns {SvgObject}                     SvgObject element
+ */
+Svg.prototype.findByType = function(id){
+    var returnElem = null;
+
+    _.each(this.elements, function(elem){
+        if(elem.id == id){
+            returnElem = elem;
+        }else if(elem.type == 'g'){
+            returnElem = elem.findById(id);
+        }
+    });
+
+    return returnElem;
+};
+
+/**
  * Generate new Svg element with all applied matrix to all elements.
  * Convert rect into polygon
  * @param {array|Matrix}        matrix              Matrix to be applied in addition to those elements.
