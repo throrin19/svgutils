@@ -118,7 +118,7 @@ Svg.prototype.findByType = function(type, all){
  * @param   {string}    id                  Item id
  * @returns {SvgObject}                     SvgObject element
  */
-Svg.prototype.findByType = function(id){
+Svg.prototype.findById = function(id){
     var returnElem = null;
 
     _.each(this.elements, function(elem){
