@@ -81,7 +81,7 @@ Group.prototype.findById = function(id){
         }
     });
 
-    return returnEleme;
+    return returnElem;
 };
 
 Group.prototype.applyMatrix = function(matrix, callback){
