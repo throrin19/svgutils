@@ -82,6 +82,7 @@ SvgObject.prototype.setFill = function(fill){
  */
 SvgObject.prototype.setId = function(id){
     this.id = id;
+    this.data.id = id;
 };
 
 /**
@@ -90,6 +91,7 @@ SvgObject.prototype.setId = function(id){
  */
 SvgObject.prototype.setName = function(name){
     this.name = name;
+    this.data.name = name;
 };
 
 /**
@@ -203,15 +205,6 @@ SvgObject.prototype.toString = function(){
 };
 
 SvgObject.prototype.getBBox = function(callback){
-//    var self = this;
-//    if(typeof this.bbox == 'undefined' || this.type == 'g'){
-//        utils.loadSvg(this.toString(), this.type, function(bbox){
-//            self.bbox = bbox;
-//            callback(bbox);
-//        });
-//    }else{
-//        callback(this.bbox);
-//    }
     callback(this.bbox);
 };
 
@@ -298,8 +291,6 @@ module.exports.fromNode = function(object, node){
         if(typeof node.$.id != 'undefined'){
             object.setId(node.$.id);
             object.setName(node.$.id);
-            object.data.id      = node.$.id;
-            object.data.name    = node.$.id;
         }
         if(typeof node.$.stroke != 'undefined'){
             object.setStroke(node.$.stroke);
@@ -338,11 +329,11 @@ module.exports.fromJson = function(object, json){
             object.classes = json.classes;
         }
         if(typeof json.id != 'undefined'){
-            object.id   = json.id;
-            object.name = json.name;
+            object.setId(json.id);
+            object.setName(json.id);
         }
         if(typeof json.name != 'undefined'){
-            object.name = json.name;
+            object.setName(json.id);
         }
         if(typeof json.stroke != 'undefined'){
             object.stroke = json.stroke;
