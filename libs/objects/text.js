@@ -148,7 +148,7 @@ module.exports.fromNode = function(node){
             text.value  = node._;
 
             if(_.isEmpty(text.id)){
-                text.id = 't_'+ node._;
+                text.setId('t_'+ node._.replace(/ /g,''));
             }
         }
 
@@ -171,6 +171,10 @@ module.exports.fromJson = function(json){
 
         if(typeof json.value != 'undefined'){
             text.value = json.value;
+
+            if(_.isEmpty(text.id)){
+                text.setId('t_'+ json.value.replace(/ /g,''));
+            }
         }
         if(typeof json.x != 'undefined'){
             text.x = json.x;
