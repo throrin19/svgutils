@@ -92,6 +92,46 @@ Svg.fromSvgDocument(__dirname + '/test2.svg', function(err, svg){
 });
 ```
 
+### Save generated SVG or Convert to PNG
+
+#### Save SVG
+
+```
+var Svg     = require('svgutils').Svg,
+    Matrix  = require('svgutils';.Matrix;
+
+Svg.fromSvgDocument(__dirname + '/test2.svg', function(err, svg){
+    if(err){
+        throw new Error('SVG file not found or invalid');
+    }
+
+    svg.save({ output : '/home/user/svg.svg' }, function(err, filename){
+        if(err){
+            throw err;
+        }
+    });
+});
+```
+
+#### Save PNG
+
+```
+var Svg     = require('svgutils').Svg,
+    Matrix  = require('svgutils';.Matrix;
+
+Svg.fromSvgDocument(__dirname + '/test2.svg', function(err, svg){
+    if(err){
+        throw new Error('SVG file not found or invalid');
+    }
+
+    svg.savePng({ output : '/home/user/svg.png' }, function(err, filename){
+        if(err){
+            throw err;
+        }
+    });
+});
+```
+
 ## Contrbute
 
 +    Fork the repo
