@@ -56,4 +56,32 @@ describe('Manipulating existing File', function(){
         }
         done();
     });
+    it("Save Svg", function(done){
+        if(svg == null){
+            done(new Error("Svg is null"));
+            return;
+        }
+        svg.save({}, function(err, file){
+            if(err){
+                done(err);
+                return;
+            }
+
+            done();
+        });
+    });
+    it("Save as Png", function(done){
+        if(svg == null){
+            done(new Error("Svg is null"));
+            return;
+        }
+        svg.savePng({}, function(err, file){
+            if(err){
+                done(err);
+                return;
+            }
+
+            done();
+        });
+    })
 });
