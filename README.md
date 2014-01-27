@@ -3,7 +3,7 @@ svgutils
 
 Svg Utils for pasing SVGFile and manipulate Matrix object like Snap.svg
 
-[![Build Status](https://travis-ci.org/throrin19/svgutils.png?branch=master)](https://travis-ci.org/throrin19/svgutils)
+[![Build Status](https://travis-ci.org/throrin19/svgutils.png?branch=master)](https://travis-ci.org/throrin19/svgutils) [![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=throrin19&url=https://github.com/throrin19/svgutils/&title=SvgUtils&language=Javascript&tags=github&category=software)
 
 ## Install
 
@@ -88,6 +88,46 @@ Svg.fromSvgDocument(__dirname + '/test2.svg', function(err, svg){
     // Ex : apply translate(10, 20) to all svg
     svg.applyMatrix(new Matrix(1, 0, 0, 1, 10, 20), function(newSvg){
         console.log(newSvg.toString());
+    });
+});
+```
+
+### Save generated SVG or Convert to PNG
+
+#### Save SVG
+
+```
+var Svg     = require('svgutils').Svg,
+    Matrix  = require('svgutils';.Matrix;
+
+Svg.fromSvgDocument(__dirname + '/test2.svg', function(err, svg){
+    if(err){
+        throw new Error('SVG file not found or invalid');
+    }
+
+    svg.save({ output : '/home/user/svg.svg' }, function(err, filename){
+        if(err){
+            throw err;
+        }
+    });
+});
+```
+
+#### Save PNG
+
+```
+var Svg     = require('svgutils').Svg,
+    Matrix  = require('svgutils';.Matrix;
+
+Svg.fromSvgDocument(__dirname + '/test2.svg', function(err, svg){
+    if(err){
+        throw new Error('SVG file not found or invalid');
+    }
+
+    svg.savePng({ output : '/home/user/svg.png' }, function(err, filename){
+        if(err){
+            throw err;
+        }
     });
 });
 ```
