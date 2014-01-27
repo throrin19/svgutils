@@ -140,7 +140,7 @@ Rect.prototype.getBBox = function(callback){
 module.exports = Rect;
 
 /**
- * Create Rect from SVG polygon|polyline node
+ * Create Rect from SVG rect node
  *
  * @param   {object}    node        xml2js node from SVG file
  * @returns {Rect}                  the rect object

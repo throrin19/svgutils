@@ -6,7 +6,8 @@ var fs          = require('fs'),
     builder     = require('xmlbuilder'),
     async       = require('async'),
     SvgParser   = require(__dirname + '/parser'),
-    Matrix      = require(__dirname + '/matrix/extends');
+    Matrix      = require(__dirname + '/matrix/extends'),
+    gm          = require('gm').subClass({ imageMagick: true });
 
 var Svg = function(){
     this.elements = [];
@@ -69,8 +70,8 @@ Svg.prototype.toXml = function(matrix){
 /**
  * Convert SVG to String :
  *     '<svg>...</svg>'
- * @param {boolean}     content             true : return only svg content, false : return all svg in <svg> tag
- * @param {boolean}     matrix              String representation without transform attribute
+ * @param {boolean}     content             false : return only svg content, true : return all svg in <svg> tag
+ * @param {boolean}     [matrix]            String representation without transform attribute
  * @returns {string}                        Svg String representation
  */
 Svg.prototype.toString = function(content, matrix){
@@ -163,6 +164,58 @@ Svg.prototype.applyMatrix = function(matrix, callback){
         });
     }, function(){
         callback(svg);
+    });
+};
+
+/**
+ * Save Svg file
+ * @param {object}      params              Functon Params
+ * @param {string}      params.output       Output file
+ * @param {function}    callback            Callback Function
+ */
+Svg.prototype.save = function(params, callback){
+    var defOpts = {
+        output : '/tmp/export_' + new Date().getTime() + '.svg'
+    };
+
+    params = _.extend({}, defOpts, params);
+
+    fs.writeFile(params.output, this.toString(true), function(err){
+        if(err){
+            callback(err);
+            return;
+        }
+        callback(null, params.output);
+    });
+};
+
+/**
+ * Save Svg file in Png Format
+ * @param {object}      params              Functon Params
+ * @param {string}      params.output       Output file
+ * @param {function}    callback            Callback Function
+ */
+Svg.prototype.savePng = function(params, callback){
+    var defOpts = {
+        output : '/tmp/export_' + new Date().getTime() + '.png'
+    };
+
+    params = _.extend({}, defOpts, params);
+
+    this.save({}, function(err, file){
+        if(err){
+            callback(err);
+            return;
+        }
+
+        gm(file).write(params.output, function(err){
+            if(err){
+                callback(err);
+                return;
+            }
+
+            callback(null, params.output);
+        });
     });
 };
 
