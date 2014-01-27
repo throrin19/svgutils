@@ -3,7 +3,7 @@ svgutils
 
 Svg Utils for pasing SVGFile and manipulate Matrix object like Snap.svg
 
-[![Build Status](https://travis-ci.org/throrin19/svgutils.png?branch=master)](https://travis-ci.org/throrin19/svgutils)
+[![Build Status](https://travis-ci.org/throrin19/svgutils.png?branch=master)](https://travis-ci.org/throrin19/svgutils) [![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=throrin19&url=https://github.com/throrin19/svgutils/&title=SvgUtils&language=Javascript&tags=github&category=software)
 
 ## Install
 
