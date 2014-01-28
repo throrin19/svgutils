@@ -6,5 +6,6 @@ module.exports = {
     Rect        : require(__dirname + '/rect'),
     SvgObject   : require(__dirname + '/svgobject'),
     Text        : require(__dirname + '/text'),
-    Tspan       : require(__dirname + '/tspan')
+    Tspan       : require(__dirname + '/tspan'),
+    Image       : require(__dirname + '/image')
 };
