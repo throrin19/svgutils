@@ -18,6 +18,26 @@ var Image = function(){
 Image.prototype              = new SvgObject();
 Image.prototype.constructor  = Image;
 
+Image.prototype.setX = function(x){
+    this.x = x;
+};
+Image.prototype.setY = function(y){
+    this.y = y;
+};
+Image.prototype.setWidth = function(w){
+    this.width = w;
+};
+Image.prototype.setHeight = function(h){
+    this.height = h;
+};
+Image.prototype.setHref = function(href){
+    this.href = href;
+};
+Image.prototype.setPreserveAspectRatio = function(p){
+    this.preserveAspectRatio = p;
+};
+
+
 Image.prototype.toJSON = function(matrix){
     var parentJSON = SvgObject.prototype.toJSON.call(this, matrix);
 
