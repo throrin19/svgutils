@@ -1,3 +1,6 @@
+[0.5.3]
+- Add Image Setters
+- fix bug on href attribute (replaced by xlink:href)
 [0.5.2]
 - Add Image to Elements
 [0.5.1]

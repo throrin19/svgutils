@@ -56,7 +56,7 @@ Image.prototype.toXml = function(matrix){
 
     xml.att('x', this.x);
     xml.att('y', this.y);
-    xml.att('href', this.href);
+    xml.att('xlink:href', this.href);
     xml.att('preserveAspectRatio', this.preserveAspectRatio);
     xml.att('width', this.width);
     xml.att('height', this.height);
