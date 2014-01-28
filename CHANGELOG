@@ -1,0 +1,38 @@
+[0.5.1]
+- Add fromJSON function
+[0.5.0]
+- Add <image> element
+- save svg into .svg file
+- save svg into .png file
+[0.4.4]
+- fix bug on setId for text with his value
+[0.4.3]
+- set data.id and data.name automatically with setId and setName. It's update to communicate with snapsvg and protect setted id
+[0.4.1]
+- add findById in Svg and Group classes
+[0.4.0]
+- optimize boundingbox calcul.
+- Manual calculation of BoundingBox
+- Remove PhantomJS constraint
+[0.3.2]
+- optimize boundingbox calcul but, with phantomJS, no support large size. Wait svg implementation in jsdom
+[0.3.0]
+- add contains function
+[0.2.4]
+- fix major bug if use many svg as same time
+[0.2.2]
+- fix bug on applyMatrix
+[0.2.1]
+- add matrix apply for all svg
+[0.2.0]
+- use data-* attributes
+- use Phantom.JS to calculate boundingBox
+[0.1.0]
+- Create Project
+- Add <rect> element
+- Add <polygon>
+- Add <text> Element
+- Add <polyline> Element
+- Add <tspan> Element
+- Add <g> Element
+- Use Snap.Svg Matrix class

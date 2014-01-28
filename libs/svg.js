@@ -274,6 +274,10 @@ module.exports.fromJsonFile = function(path, callback){
 module.exports.fromJsonString = function(string, callback){
     var json = JSON.parse(string);
 
+    Svg.fromJson(json, callback);
+};
+
+module.exports.fromJson = function(json, callback){
     SvgParser.convertJson(json, function(err, elements){
         if(err){
             callback(err);
