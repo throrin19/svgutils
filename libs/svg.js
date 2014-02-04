@@ -7,10 +7,12 @@ var fs          = require('fs'),
     async       = require('async'),
     SvgParser   = require(__dirname + '/parser'),
     Matrix      = require(__dirname + '/matrix/extends'),
-    gm          = require('gm').subClass({ imageMagick: true });
+    gm          = require('gm').subClass({ imageMagick: true }),
+    utils       = require(__dirname + '/matrix/utils');
 
 var Svg = function(){
     this.elements = [];
+    this.size     = { width: 100, height : 100 };
 };
 
 /**
@@ -59,6 +61,8 @@ Svg.prototype.toXml = function(matrix){
     var xml = builder.create('svg');
     xml.att('version', '1.1');
     xml.att('xmlns', 'http://www.w3.org/2000/svg');
+    xml.att('width', this.size.width);
+    xml.att('height', this.size.height)
 
     _.each(this.elements, function(element){
         xml.importXMLBuilder(element.toXml(matrix));
@@ -219,6 +223,29 @@ Svg.prototype.savePng = function(params, callback){
     });
 };
 
+Svg.prototype.getSize = function(callback){
+    var minX = +Infinity,
+        maxX = -Infinity,
+        minY = +Infinity,
+        maxY = -Infinity,
+        self = this;
+
+    async.each(this.elements, function(child, done){
+        child.getBBox(function(bbox){
+            minX = Math.min(minX, bbox.x);
+            minY = Math.min(minY, bbox.y);
+            maxX = Math.max(maxX, bbox.x2);
+            maxY = Math.max(maxY, bbox.y2);
+            done();
+        });
+    }, function(){
+        var bbox  = utils.bbox(0,0,maxX-minX,maxY-minY);
+        self.size = { width : bbox.w, height : bbox.h  };
+
+        callback(self.size);
+    });
+};
+
 module.exports = Svg;
 
 /**
@@ -253,7 +280,9 @@ module.exports.fromXmlString = function(string, callback){
 
             var svg = new Svg();
             svg.setElements(elements);
-            callback(null, svg);
+            svg.getSize(function(){
+                callback(null, svg);
+            });
         });
     });
 
@@ -286,6 +315,9 @@ module.exports.fromJson = function(json, callback){
 
         var svg = new Svg();
         svg.setElements(elements);
-        callback(null, svg);
+
+        svg.getSize(function(){
+            callback(null, svg);
+        });
     });
 };

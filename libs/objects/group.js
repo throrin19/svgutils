@@ -111,8 +111,24 @@ Group.prototype.applyMatrix = function(matrix, callback){
 };
 
 Group.prototype.getBBox = function(callback){
-    this.bbox = utils.bbox(0,0,0,0)
-    callback(this.bbox);
+    var minX = +Infinity,
+        maxX = -Infinity,
+        minY = +Infinity,
+        maxY = -Infinity,
+        self = this;
+
+    async.each(this.childs, function(child, done){
+        child.getBBox(function(bbox){
+            minX = Math.min(minX, bbox.x);
+            minY = Math.min(minY, bbox.y);
+            maxX = Math.max(maxX, bbox.x2);
+            maxY = Math.max(maxY, bbox.y2);
+            done();
+        });
+    }, function(){
+        self.bbox = utils.bbox(minX,minY,maxX-minX,maxY-minY);
+        callback(self.bbox);
+    });
 };
 
 module.exports = Group;
