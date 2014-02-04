@@ -1,3 +1,9 @@
+[0.5.4]
+- remove the 't_' prefix on text ID
+- set svg width and height
+- get svg width and height
+- get group bbox
+- fix png conversion size error on OSX
 [0.5.3]
 - Add Image Setters
 - fix bug on href attribute (replaced by xlink:href)

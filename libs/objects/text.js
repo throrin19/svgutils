@@ -148,7 +148,7 @@ module.exports.fromNode = function(node){
             text.value  = node._;
 
             if(_.isEmpty(text.id)){
-                text.setId('t_'+ node._.replace(/ /g,''));
+                text.setId(node._.replace(/[`~!@#$%^&*()|+\=?;:'",.<>\{\}\[\]\\\/ ]/img,''));
             }
         }
 
@@ -173,7 +173,7 @@ module.exports.fromJson = function(json){
             text.value = json.value;
 
             if(_.isEmpty(text.id)){
-                text.setId('t_'+ json.value.replace(/ /g,''));
+                text.setId(json.value.replace(/[`~!@#$%^&*()|+\=?;:'",.<>\{\}\[\]\\\/ ]/img,''));
             }
         }
         if(typeof json.x != 'undefined'){
