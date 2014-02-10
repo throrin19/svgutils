@@ -33,7 +33,7 @@ For Text and Group, the boundingbox result is not true but it's enough for basic
 
 ### Loading SVG file
 
-```
+```javascript
 var Svg = require('svgutils').Svg;
 
 
@@ -44,7 +44,7 @@ Svg.fromSvgDocument(__dirname + '/test2.svg', function(err, svg){
 
 ### Convert SVG file to JSON
 
-```
+```javascript
 var Svg = require('svgutils').Svg;
 
 Svg.fromSvgDocument(__dirname + '/test2.svg', function(err, svg){
@@ -60,7 +60,7 @@ Svg.fromSvgDocument(__dirname + '/test2.svg', function(err, svg){
 
 #### Currents Matrix only
 
-```
+```javascript
 var Svg = require('svgutils').Svg;
 
 Svg.fromSvgDocument(__dirname + '/test2.svg', function(err, svg){
@@ -76,7 +76,7 @@ Svg.fromSvgDocument(__dirname + '/test2.svg', function(err, svg){
 
 #### Externals and currents Matrix
 
-```
+```javascript
 var Svg     = require('svgutils').Svg,
     Matrix  = require('svgutils';.Matrix;
 
@@ -96,7 +96,7 @@ Svg.fromSvgDocument(__dirname + '/test2.svg', function(err, svg){
 
 #### Save SVG
 
-```
+```javascript
 var Svg     = require('svgutils').Svg,
     Matrix  = require('svgutils';.Matrix;
 
@@ -115,7 +115,7 @@ Svg.fromSvgDocument(__dirname + '/test2.svg', function(err, svg){
 
 #### Save PNG
 
-```
+```javascript
 var Svg     = require('svgutils').Svg,
     Matrix  = require('svgutils';.Matrix;
 
