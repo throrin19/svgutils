@@ -23,7 +23,7 @@
   "gitHead": "5c71469ee5f51b6e08bc8f5e3cd2b0fadf0ed89a",
   "dependencies": {
     "underscore": "~1.5.2",
-    "async": "~0.2.9",
+    "async": "~0.2.10",
     "gm": "~1.14.2",
     "xml2js": "~0.4.1",
     "xmlbuilder": "~2.1.0"
