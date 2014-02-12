@@ -3,7 +3,7 @@ svgutils
 
 Svg Utils for pasing SVGFile and manipulate Matrix object like Snap.svg
 
-[![Build Status](https://travis-ci.org/throrin19/svgutils.png?branch=master)](https://travis-ci.org/throrin19/svgutils) [![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=throrin19&url=https://github.com/throrin19/svgutils/&title=SvgUtils&language=Javascript&tags=github&category=software)
+[![Build Status](https://travis-ci.org/throrin19/svgutils.png?branch=master)](https://travis-ci.org/throrin19/svgutils) [![David Dependencies](https://david-dm.org/throrin19/svgutils.png)](https://david-dm.org/throrin19/svgutils) [![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=throrin19&url=https://github.com/throrin19/svgutils/&title=SvgUtils&language=Javascript&tags=github&category=software)
 
 ## Install
 
@@ -33,7 +33,7 @@ For Text and Group, the boundingbox result is not true but it's enough for basic
 
 ### Loading SVG file
 
-```
+```javascript
 var Svg = require('svgutils').Svg;
 
 
@@ -44,7 +44,7 @@ Svg.fromSvgDocument(__dirname + '/test2.svg', function(err, svg){
 
 ### Convert SVG file to JSON
 
-```
+```javascript
 var Svg = require('svgutils').Svg;
 
 Svg.fromSvgDocument(__dirname + '/test2.svg', function(err, svg){
@@ -60,7 +60,7 @@ Svg.fromSvgDocument(__dirname + '/test2.svg', function(err, svg){
 
 #### Currents Matrix only
 
-```
+```javascript
 var Svg = require('svgutils').Svg;
 
 Svg.fromSvgDocument(__dirname + '/test2.svg', function(err, svg){
@@ -76,7 +76,7 @@ Svg.fromSvgDocument(__dirname + '/test2.svg', function(err, svg){
 
 #### Externals and currents Matrix
 
-```
+```javascript
 var Svg     = require('svgutils').Svg,
     Matrix  = require('svgutils';.Matrix;
 
@@ -96,7 +96,7 @@ Svg.fromSvgDocument(__dirname + '/test2.svg', function(err, svg){
 
 #### Save SVG
 
-```
+```javascript
 var Svg     = require('svgutils').Svg,
     Matrix  = require('svgutils';.Matrix;
 
@@ -115,7 +115,7 @@ Svg.fromSvgDocument(__dirname + '/test2.svg', function(err, svg){
 
 #### Save PNG
 
-```
+```javascript
 var Svg     = require('svgutils').Svg,
     Matrix  = require('svgutils';.Matrix;
 
