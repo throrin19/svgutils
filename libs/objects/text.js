@@ -4,7 +4,8 @@ var SvgObject   = require(__dirname + '/svgobject'),
     _           = require('underscore'),
     Tspan       = require(__dirname + '/tspan'),
     utils       = require(__dirname + '/../matrix/utils'),
-    async       = require('async');
+    async       = require('async'),
+    nUtil       = require('util');
 
 var Text = function(){
     if (!(this instanceof Text))
@@ -18,8 +19,7 @@ var Text = function(){
     this.childs   = [];
 };
 
-Text.prototype              = new SvgObject();
-Text.prototype.constructor  = Text;
+nUtil.inherits(Text, SvgObject);
 
 /**
  * Set X origin
@@ -28,7 +28,6 @@ Text.prototype.constructor  = Text;
  */
 Text.prototype.setX = function(x){
     this.x = x;
-    this.bbox = undefined;
 };
 
 /**
@@ -38,7 +37,6 @@ Text.prototype.setX = function(x){
  */
 Text.prototype.setY = function(y){
     this.y = y;
-    this.bbox = undefined;
 };
 
 /**
@@ -48,7 +46,6 @@ Text.prototype.setY = function(y){
  */
 Text.prototype.setValue = function(string){
     this.value = string;
-    this.bbox = undefined;
 };
 
 /**
@@ -58,7 +55,6 @@ Text.prototype.setValue = function(string){
  */
 Text.prototype.setChildren = function(childs){
     this.childs = childs;
-    this.bbox   = undefined;
 };
 
 /**
@@ -68,7 +64,6 @@ Text.prototype.setChildren = function(childs){
  */
 Text.prototype.addChild = function(child){
     this.childs.push(child);
-    this.bbox = undefined;
 };
 
 Text.prototype.toJSON = function(matrix){

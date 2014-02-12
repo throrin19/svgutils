@@ -2,7 +2,8 @@ var SvgObject   = require(__dirname + '/svgobject'),
     Matrix      = require(__dirname + '/../matrix/extends'),
     _           = require('underscore'),
     utils       = require(__dirname + '/../matrix/utils'),
-    async       = require('async');
+    async       = require('async'),
+    nUtil       = require('util');
 
 var Image = function(){
     if (!(this instanceof Image))
@@ -18,8 +19,7 @@ var Image = function(){
     this.height = 0;
 };
 
-Image.prototype              = new SvgObject();
-Image.prototype.constructor  = Image;
+nUtil.inherits(Image, SvgObject);
 
 Image.prototype.setX = function(x){
     this.x = x;

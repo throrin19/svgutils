@@ -4,7 +4,8 @@ var SvgObject   = require(__dirname + '/svgobject'),
     Matrix      = require(__dirname + '/../matrix/extends'),
     _           = require('underscore'),
     utils       = require(__dirname + '/../matrix/utils'),
-    async       = require('async');
+    async       = require('async'),
+    nUtil       = require('util');
 
 var Group = function(){
     if (!(this instanceof Group))
@@ -15,8 +16,7 @@ var Group = function(){
     this.childs = [];
 };
 
-Group.prototype             = new SvgObject();
-Group.prototype.constructor = Group;
+nUtil.inherits(Group, SvgObject);
 
 Group.prototype.toJSON = function(matrix){
     var parentJSON = SvgObject.prototype.toJSON.call(this, matrix);

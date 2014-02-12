@@ -25,32 +25,6 @@ var SvgObject = function(){
 };
 
 
-SvgObject.prototype.getClasses = function(){
-    return this.classes;
-};
-SvgObject.prototype.getId = function(){
-    return this.id;
-};
-SvgObject.prototype.getName = function(){
-    return this.getName;
-};
-SvgObject.prototype.getStroke = function(){
-    return this.stroke;
-};
-SvgObject.prototype.getFill = function(){
-    return this.fill;
-};
-SvgObject.prototype.getStyle = function(){
-    return this.style;
-};
-SvgObject.prototype.getTransform = function(){
-    return this.transform;
-};
-SvgObject.prototype.getData = function(){
-    return this.data;
-};
-
-
 /**
  * Set classes
  *
@@ -162,7 +136,7 @@ SvgObject.prototype.toJSON = function(matrix){
 
 /**
  * Return XML from object
- * @param   {boolean}    matrix         return transform attribute if false.
+ * @param   {boolean}    [matrix]       return transform attribute if false.
  * @returns {xmlBuilder}                XML Object
  */
 SvgObject.prototype.toXml = function(matrix){

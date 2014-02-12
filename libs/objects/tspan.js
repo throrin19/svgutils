@@ -1,6 +1,7 @@
 "use strict";
 
-var SvgObject   = require(__dirname + '/svgobject');
+var SvgObject   = require(__dirname + '/svgobject'),
+    nUtil       = require('util');
 
 var Tspan = function(){
     if (!(this instanceof Tspan))
@@ -13,8 +14,7 @@ var Tspan = function(){
     this.y        = 0;
 };
 
-Tspan.prototype             = new SvgObject();
-Tspan.prototype.constructor = Tspan;
+nUtil.inherits(Tspan, SvgObject);
 
 /**
  * Set X origin
@@ -23,7 +23,6 @@ Tspan.prototype.constructor = Tspan;
  */
 Tspan.prototype.setX = function(x){
     this.x = x;
-    this.bbox = undefined;
 };
 
 /**
@@ -33,7 +32,6 @@ Tspan.prototype.setX = function(x){
  */
 Tspan.prototype.setY = function(y){
     this.y = y;
-    this.bbox = undefined;
 };
 
 /**
@@ -43,7 +41,6 @@ Tspan.prototype.setY = function(y){
  */
 Tspan.prototype.setValue = function(string){
     this.value = string;
-    this.bbox = undefined;
 };
 
 Tspan.prototype.toJSON = function(matrix){

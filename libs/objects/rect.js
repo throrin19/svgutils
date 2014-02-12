@@ -2,7 +2,8 @@
 
 var SvgObject = require(__dirname + "/svgobject"),
     utils     = require(__dirname + '/../matrix/utils'),
-    Polygon   = require(__dirname + '/polygon');
+    Polygon   = require(__dirname + '/polygon'),
+    nUtil     = require('util');
 
 var Rect = function(){
     if (!(this instanceof Rect))
@@ -18,8 +19,7 @@ var Rect = function(){
     this.ry       = 0;
 };
 
-Rect.prototype              = new SvgObject();
-Rect.prototype.constructor  = Rect;
+nUtil.inherits(Rect, SvgObject);
 
 /**
  * Set X origin
@@ -28,7 +28,6 @@ Rect.prototype.constructor  = Rect;
  */
 Rect.prototype.setX = function(x){
     this.x = x;
-    this.bbox = undefined;
 };
 
 /**
@@ -38,7 +37,6 @@ Rect.prototype.setX = function(x){
  */
 Rect.prototype.setY = function(y){
     this.y = y;
-    this.bbox = undefined;
 };
 
 /**
@@ -48,7 +46,6 @@ Rect.prototype.setY = function(y){
  */
 Rect.prototype.setWidth = function(width){
     this.width = width;
-    this.bbox = undefined;
 };
 
 /**
@@ -58,7 +55,6 @@ Rect.prototype.setWidth = function(width){
  */
 Rect.prototype.setHeight = function(height){
     this.height = height;
-    this.bbox = undefined;
 };
 
 /**

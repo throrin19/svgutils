@@ -3,7 +3,8 @@
 var Matrix      = require(__dirname + '/../matrix/extends'),
     SvgObject   = require(__dirname + '/svgobject'),
     utils       = require(__dirname + '/../matrix/utils'),
-    _           = require('underscore');
+    _           = require('underscore'),
+    nUtil       = require('util');
 
 var Polygon = function(){
     if (!(this instanceof Polygon))
@@ -14,8 +15,7 @@ var Polygon = function(){
     this.points = [];
 };
 
-Polygon.prototype = new SvgObject();
-Polygon.prototype.constructor = Polygon;
+nUtil.inherits(Polygon, SvgObject);
 
 /**
  * Get Polygon points in Array to simply manipulation
