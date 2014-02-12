@@ -7,6 +7,9 @@ var SvgObject   = require(__dirname + '/svgobject'),
     async       = require('async');
 
 var Text = function(){
+    if (!(this instanceof Text))
+        throw 'this function in a constructor. Use new to call it';
+
     SvgObject.call(this);
     this.type     = 'text';
     this.value    = "";

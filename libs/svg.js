@@ -11,6 +11,9 @@ var fs          = require('fs'),
     utils       = require(__dirname + '/matrix/utils');
 
 var Svg = function(){
+    if (!(this instanceof Svg))
+        throw 'this function in a constructor. Use new to call it';
+
     this.elements = [];
     this.size     = { width: 100, height : 100 };
 };

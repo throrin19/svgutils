@@ -5,6 +5,9 @@ var SvgObject = require(__dirname + "/svgobject"),
     Polygon   = require(__dirname + '/polygon');
 
 var Rect = function(){
+    if (!(this instanceof Rect))
+        throw 'this function in a constructor. Use new to call it';
+
     SvgObject.call(this);
     this.type     = 'rect';
     this.x        = 0;

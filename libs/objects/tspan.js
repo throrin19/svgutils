@@ -3,6 +3,9 @@
 var SvgObject   = require(__dirname + '/svgobject');
 
 var Tspan = function(){
+    if (!(this instanceof Tspan))
+        throw 'this function in a constructor. Use new to call it';
+
     SvgObject.call(this);
     this.type     = 'tspan';
     this.value    = "";

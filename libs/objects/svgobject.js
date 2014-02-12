@@ -3,7 +3,6 @@
 var _       = require('underscore'),
     builder = require('xmlbuilder'),
     async   = require('async'),
-    utils   = require(__dirname + '/../utils'),
     Matrix  = require(__dirname + '/../matrix/extends');
 
 /**
@@ -11,6 +10,9 @@ var _       = require('underscore'),
  * @constructor
  */
 var SvgObject = function(){
+    if (!(this instanceof SvgObject))
+        throw 'this function in a constructor. Use new to call it';
+
     this.classes    = [];
     this.id         = "";
     this.name       = "";

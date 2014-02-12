@@ -6,6 +6,9 @@ var Matrix      = require(__dirname + '/../matrix/extends'),
     _           = require('underscore');
 
 var Polygon = function(){
+    if (!(this instanceof Polygon))
+        throw 'this function in a constructor. Use new to call it';
+
     SvgObject.call(this);
     this.type   = "polygon";
     this.points = [];

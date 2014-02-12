@@ -5,6 +5,9 @@ var SvgObject   = require(__dirname + '/svgobject'),
     async       = require('async');
 
 var Image = function(){
+    if (!(this instanceof Image))
+        throw 'this function in a constructor. Use new to call it';
+
     SvgObject.call(this);
     this.type = 'image';
     this.href = '';

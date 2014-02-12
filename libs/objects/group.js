@@ -7,6 +7,9 @@ var SvgObject   = require(__dirname + '/svgobject'),
     async       = require('async');
 
 var Group = function(){
+    if (!(this instanceof Group))
+        throw 'this function in a constructor. Use new to call it';
+
     SvgObject.call(this);
     this.type = "g";
     this.childs = [];
