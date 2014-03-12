@@ -3,7 +3,6 @@
 var _       = require('underscore'),
     builder = require('xmlbuilder'),
     async   = require('async'),
-    utils   = require(__dirname + '/../utils'),
     Matrix  = require(__dirname + '/../matrix/extends');
 
 /**
@@ -11,6 +10,9 @@ var _       = require('underscore'),
  * @constructor
  */
 var SvgObject = function(){
+    if (!(this instanceof SvgObject))
+        throw 'this function in a constructor. Use new to call it';
+
     this.classes    = [];
     this.id         = "";
     this.name       = "";
@@ -23,38 +25,12 @@ var SvgObject = function(){
 };
 
 
-SvgObject.prototype.getClasses = function(){
-    return this.classes;
-};
-SvgObject.prototype.getId = function(){
-    return this.id;
-};
-SvgObject.prototype.getName = function(){
-    return this.getName;
-};
-SvgObject.prototype.getStroke = function(){
-    return this.stroke;
-};
-SvgObject.prototype.getFill = function(){
-    return this.fill;
-};
-SvgObject.prototype.getStyle = function(){
-    return this.style;
-};
-SvgObject.prototype.getTransform = function(){
-    return this.transform;
-};
-SvgObject.prototype.getData = function(){
-    return this.data;
-};
-
-
 /**
  * Set classes
  *
  * @param {string}  classes     Classes separate by space
  */
-SvgObject.prototype.setClassesFromString = function(classes){
+SvgObject.prototype.setClassesFromString = function setClassesFromString(classes){
     this.classes = classes.split(" ");
 };
 
@@ -63,7 +39,7 @@ SvgObject.prototype.setClassesFromString = function(classes){
  *
  * @param {string} stroke       Stroke Color (default : black)
  */
-SvgObject.prototype.setStroke = function(stroke){
+SvgObject.prototype.setStroke = function setStroke(stroke){
     this.stroke = stroke;
 };
 
@@ -72,7 +48,7 @@ SvgObject.prototype.setStroke = function(stroke){
  *
  * @param {string} fill         Fill Color (default : black)
  */
-SvgObject.prototype.setFill = function(fill){
+SvgObject.prototype.setFill = function setFill(fill){
     this.fill = fill;
 };
 
@@ -80,7 +56,7 @@ SvgObject.prototype.setFill = function(fill){
  * Set ID
  * @param {string} id           ID for element
  */
-SvgObject.prototype.setId = function(id){
+SvgObject.prototype.setId = function setId(id){
     this.id = id;
     this.data.id = id;
 };
@@ -89,7 +65,7 @@ SvgObject.prototype.setId = function(id){
  * Set Name
  * @param {string} name         Name
  */
-SvgObject.prototype.setName = function(name){
+SvgObject.prototype.setName = function setName(name){
     this.name = name;
     this.data.name = name;
 };
@@ -98,41 +74,109 @@ SvgObject.prototype.setName = function(name){
  * Set Transformation String
  * @param {string} transform    Transformation in SVG format
  */
-SvgObject.prototype.setTransform = function(transform){
+SvgObject.prototype.setTransform = function setTransform(transform){
     this.transform = transform;
 };
 
 /**
  * Set all data attrbutes for element
- *
  * @param {object} data         Data Object
  */
-SvgObject.prototype.setData = function(data){
+SvgObject.prototype.setData = function setData(data){
     this.data = data;
 };
 
 /**
- * Set Style
- *
- * @param {string} styleStr     Element style like the style html attribute value. Each styles are separate by ';'
+ * Set Style from css string (color:#aaaaaa; background-color:#ffffff;)
+ * @param {string}        styleStr        Element style like the style html attribute value. Each styles are separate by ';'
  */
-SvgObject.prototype.setStyleFromString = function(styleStr){
-    var self = this;
+SvgObject.prototype.setStyleFromString = function setStyleFromString(styleStr){
     styleStr.split(';').forEach(function(line){
         if(line.length > 0){
             var style = line.split(':');
-            self.style[style[0].replace(/^\s+|\s+$/g, '')] = style[1].replace(/^\s+|\s+$/g, '');
+            this.style[style[0].replace(/^\s+|\s+$/g, '')] = style[1].replace(/^\s+|\s+$/g, '');
         }
-    });
+    }, this);
+};
+
+/**
+ * Set Style
+ * @param {object}        style         Element style object
+ */
+SvgObject.prototype.setStyle = function setStyle(style){
+    this.style = style;
+};
+
+/**
+ * get Element classes
+ * @returns {Array}
+ */
+SvgObject.prototype.getClasses = function getClasses(){
+    return this.classes;
+};
+
+/**
+ * get Element id
+ * @returns {string}
+ */
+SvgObject.prototype.getId = function getId(){
+    return this.id;
+};
+
+/**
+ * get Element Name
+ * @returns {string}
+ */
+SvgObject.prototype.getName = function getName(){
+    return this.name;
+};
+
+/**
+ * get Element Stroke
+ * @returns {string}
+ */
+SvgObject.prototype.getStroke = function getStroke(){
+    return this.stroke;
+};
+
+/**
+ * Get Element fill
+ * @returns {string}
+ */
+SvgObject.prototype.getFill = function getFill(){
+    return this.fill;
+};
+
+/**
+ * get Element Style
+ * @returns {object}
+ */
+SvgObject.prototype.getStyle = function getStyle(){
+    return this.style;
+};
+
+/**
+ * get transformation matrix
+ * @returns {undefined|object}
+ */
+SvgObject.prototype.getTransform = function getTransform(){
+    return this.transform;
+};
+
+/**
+ * get Element data
+ * @returns {object}
+ */
+SvgObject.prototype.getData = function getData(){
+    return this.data;
 };
 
 /**
  * Return JSON from object
- *
- * @param   {boolean}    matrix         return transform attribute if false.
+ * @param   {boolean}    [matrix]       return transform attribute if false.
  * @returns {object}                    JSON Object
  */
-SvgObject.prototype.toJSON = function(matrix){
+SvgObject.prototype.toJSON = function toJSON(matrix){
 
     var json = {
         type : this.type
@@ -160,10 +204,10 @@ SvgObject.prototype.toJSON = function(matrix){
 
 /**
  * Return XML from object
- * @param   {boolean}    matrix         return transform attribute if false.
+ * @param   {boolean}    [matrix]       return transform attribute if false.
  * @returns {xmlBuilder}                XML Object
  */
-SvgObject.prototype.toXml = function(matrix){
+SvgObject.prototype.toXml = function toXml(matrix){
     var xml = builder.create(this.type);
 
     var style = "";
@@ -197,23 +241,25 @@ SvgObject.prototype.toXml = function(matrix){
 
 /**
  * Return element with XML String representation
- *
  * @returns {string}                        Element convert to String
  */
-SvgObject.prototype.toString = function(){
+SvgObject.prototype.toString = function toString(){
     return this.toXml().toString();
 };
 
-SvgObject.prototype.getBBox = function(callback){
+/**
+ * Get the element Bounding Box
+ * @param {function} callback               Callback Function
+ */
+SvgObject.prototype.getBBox = function getBBox(callback){
     callback(this.bbox);
 };
 
 /**
  * Return Matrix representation of current transform attribute.
- *
  * @param {function} callback               Callback function
  */
-SvgObject.prototype.getCurrentMatrix = function(callback){
+SvgObject.prototype.getCurrentMatrix = function getCurrentMatrix(callback){
     var self = this;
     this.getBBox(function(bbox){
         callback(Matrix.fromElement(bbox, self));
@@ -222,11 +268,10 @@ SvgObject.prototype.getCurrentMatrix = function(callback){
 
 /**
  * Indicates whether an other svgObject is contained in this svgObject
- *
  * @param {SvgObject}  svgObject            SvgObject
  * @param {function}   callback             Callback function
  */
-SvgObject.prototype.contains = function(svgObject, callback){
+SvgObject.prototype.contains = function contains(svgObject, callback){
     var self = this;
     async.parallel({
         ownBbox : function(c){
@@ -283,7 +328,7 @@ module.exports = SvgObject;
  * @param {SvgObject}   object      SvgObject element (polygon|group|...
  * @param {object}      node        xml2js element
  */
-module.exports.fromNode = function(object, node){
+module.exports.fromNode = function fromNode(object, node){
     if(typeof node != 'undefined' && typeof node.$ != 'undefined'){
         if(typeof node.$['class'] != 'undefined'){
             object.setClassesFromString(node.$['class']);
@@ -323,7 +368,7 @@ module.exports.fromNode = function(object, node){
  * @param {SvgObject}   object      SvgObject element (polygon|group|...
  * @param {object}      json        json element
  */
-module.exports.fromJson = function(object, json){
+module.exports.fromJson = function fromJson(object, json){
     if(typeof json != 'undefined'){
         if(typeof json.classes != 'undefined'){
             object.classes = json.classes;

@@ -4,14 +4,14 @@ var fs          = require('fs'),
     _           = require('underscore'),
     elements    = require(__dirname + '/objects/index');
 
-var Parser = function(){};
+var Parser = function Parser() {};
 
 /**
  * Convert Svg file into Svg object
  * @param {object}      svg                 xml2js object
  * @param {function}    callback            Callback function
  */
-Parser.convertXml = function(svg, callback){
+Parser.convertXml = function convertXml(svg, callback) {
     if(svg == null || typeof svg.svg == 'undefined' || svg.svg == null){
         callback(new Error("Your SVG is empty or invalid"));
         return;
@@ -26,7 +26,7 @@ Parser.convertXml = function(svg, callback){
  * @param {object}      json                json object
  * @param {function}    callback            Callback function
  */
-Parser.convertJson = function(json, callback){
+Parser.convertJson = function convertJson(json, callback) {
     if(typeof json.elements == 'undefined' || json.elements.length == 0){
         callback(new Error("Your SVG is empty or invalid"));
         return;
@@ -41,11 +41,11 @@ Parser.convertJson = function(json, callback){
  * @param {object}      node                xml2js node
  * @returns {Array}                         node elements convert to SvgObject type
  */
-Parser.parseXmlNode = function(node){
+Parser.parseXmlNode = function parseXmlNode(node) {
     var nodes = [];
 
-    _.each(node, function(content, index){
-        switch(index){
+    _.each(node, function (content, index) {
+        switch (index) {
             case 'g' :
                 nodes = _.union(nodes, Parser.parseXmlGroup(content));
                 break;
@@ -61,6 +61,8 @@ Parser.parseXmlNode = function(node){
             case 'text' :
                 nodes = _.union(nodes, Parser.parseXmlText(content));
                 break;
+            case 'image' :
+                nodes = _.union(nodes, Parser.parseXmlImage(content));
         }
     });
 
@@ -72,11 +74,11 @@ Parser.parseXmlNode = function(node){
  * @param {Array}      elements               xml2js node
  * @returns {Array}                           node elements convert to SvgObject type
  */
-Parser.parseJson = function(elements){
+Parser.parseJson = function parseJson(elements) {
     var nodes = [];
 
-    _.each(elements, function(element){
-        switch(element.type){
+    _.each(elements, function (element) {
+        switch (element.type) {
             case 'g' :
                 nodes.push(Parser.parseJsonGroup(element));
                 break;
@@ -103,10 +105,10 @@ Parser.parseJson = function(elements){
  * @param {Array}   array                   xml2js elements array
  * @returns {Array}                         Groups array
  */
-Parser.parseXmlGroup = function(array){
+Parser.parseXmlGroup = function parseXmlGroup(array) {
     var groups = [];
 
-    _.each(array, function(item){
+    _.each(array, function (item) {
         groups.push(elements.Group.fromNode(item));
     });
 
@@ -118,7 +120,7 @@ Parser.parseXmlGroup = function(array){
  * @param {object}  elem                    Group element in JSON format
  * @returns {object}                        Group object
  */
-Parser.parseJsonGroup = function(elem){
+Parser.parseJsonGroup = function parseJsonGroup(elem) {
     return elements.Group.fromJson(elem);
 };
 
@@ -128,10 +130,10 @@ Parser.parseJsonGroup = function(elem){
  * @param {boolean}     [isPolyline]        true : polyline. false : polygon. (default : false)
  * @returns {Array}                         Polygons array
  */
-Parser.parseXmlPolygon = function(array, isPolyline){
+Parser.parseXmlPolygon = function parseXmlPolygon(array, isPolyline) {
     var polygons = [];
 
-    _.each(array, function(item){
+    _.each(array, function (item) {
         polygons.push(elements.Polygon.fromNode(item, isPolyline));
     });
 
@@ -143,7 +145,7 @@ Parser.parseXmlPolygon = function(array, isPolyline){
  * @param {object}  elem                    Polygon element in JSON format
  * @returns {object}                        Polygon object
  */
-Parser.parseJsonPolygon = function(elem){
+Parser.parseJsonPolygon = function parseJsonPolygon(elem) {
     return elements.Polygon.fromJson(elem);
 };
 
@@ -152,10 +154,10 @@ Parser.parseJsonPolygon = function(elem){
  * @param {Array}       array               xml2js elements array
  * @returns {Array}                         Rects array
  */
-Parser.parseXmlRect = function(array){
+Parser.parseXmlRect = function parseXmlRect(array) {
     var rects = [];
 
-    _.each(array, function(item){
+    _.each(array, function (item) {
         rects.push(elements.Rect.fromNode(item));
     });
 
@@ -167,7 +169,7 @@ Parser.parseXmlRect = function(array){
  * @param {object}  elem                    Rect element in JSON format
  * @returns {object}                        Rect object
  */
-Parser.parseJsonRect = function(elem){
+Parser.parseJsonRect = function parseJsonRect(elem) {
     return elements.Rect.fromJson(elem);
 };
 
@@ -176,10 +178,10 @@ Parser.parseJsonRect = function(elem){
  * @param {Array}       array               xml2js elements array
  * @returns {Array}                         Texts array
  */
-Parser.parseXmlText = function(array){
+Parser.parseXmlText = function parseXmlText(array) {
     var texts = [];
 
-    _.each(array, function(item){
+    _.each(array, function (item) {
         texts.push(elements.Text.fromNode(item));
     });
 
@@ -191,8 +193,32 @@ Parser.parseXmlText = function(array){
  * @param {object}  elem                    Text element in JSON format
  * @returns {object}                        Text object
  */
-Parser.parseJsonText = function(elem){
+Parser.parseJsonText = function (elem) {
     return elements.Text.fromJson(elem);
+};
+
+/**
+ * Parse Image Elements Array
+ * @param {Array}       array               xml2js elements array
+ * @returns {Array}                         Image array
+ */
+Parser.parseXmlImage = function parseXmlImage(array) {
+    var images = [];
+
+    _.each(array, function (item) {
+        images.push(elements.Image.fromNode(item));
+    });
+
+    return images;
+};
+
+/**
+ * Parse Image json element
+ * @param {object}  elem                    Image element in JSON format
+ * @returns {object}                        Image object
+ */
+Parser.parseJsonImage = function parseJsonImage(elem) {
+    return elements.Image.fromJson(elem);
 };
 
 module.exports = Parser;

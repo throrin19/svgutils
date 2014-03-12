@@ -24,7 +24,6 @@ describe('Manipulating existing File', function(){
                 done(new Error("no correct object returned"));
                 return;
             }
-
             svg = svgObject;
             done();
         });
@@ -34,11 +33,11 @@ describe('Manipulating existing File', function(){
             done(new Error("Svg is null"));
             return;
         }
-        if(svg.elements.length != 1){
+        if(svg.elements.length != 2){
             done(new Error("No correct number of element are count"));
             return;
         }
-        if(svg.elements[0].type != 'g'){
+        if(svg.elements[0].type != 'image'){
             done(new Error("Element is not a group"));
             return;
         }

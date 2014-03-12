@@ -1,8 +1,12 @@
 "use strict";
 
-var SvgObject   = require(__dirname + '/svgobject');
+var SvgObject   = require(__dirname + '/svgobject'),
+    nUtil       = require('util');
 
 var Tspan = function(){
+    if (!(this instanceof Tspan))
+        throw 'this function in a constructor. Use new to call it';
+
     SvgObject.call(this);
     this.type     = 'tspan';
     this.value    = "";
@@ -10,40 +14,62 @@ var Tspan = function(){
     this.y        = 0;
 };
 
-Tspan.prototype             = new SvgObject();
-Tspan.prototype.constructor = Tspan;
+nUtil.inherits(Tspan, SvgObject);
 
 /**
  * Set X origin
- *
  * @param {number} x            X origin
  */
-Tspan.prototype.setX = function(x){
+Tspan.prototype.setX = function setX(x){
     this.x = x;
-    this.bbox = undefined;
 };
 
 /**
  * Set Y origin
- *
  * @param {number} y            y origin
  */
-Tspan.prototype.setY = function(y){
+Tspan.prototype.setY = function setY(y){
     this.y = y;
-    this.bbox = undefined;
 };
 
 /**
  * Set Text Value
- *
  * @param {string} string       Text value
  */
-Tspan.prototype.setValue = function(string){
+Tspan.prototype.setValue = function setValue(string){
     this.value = string;
-    this.bbox = undefined;
 };
 
-Tspan.prototype.toJSON = function(matrix){
+/**
+ * Get X origin
+ * @returns {number}
+ */
+Tspan.prototype.getX = function getX(){
+    return this.x;
+};
+
+/**
+ * Get Y origin
+ * @returns {number}
+ */
+Tspan.prototype.getY = function getY(){
+    return this.y;
+};
+
+/**
+ * Get Tspan Value
+ * @returns {string}
+ */
+Tspan.prototype.getValue = function getValue(){
+    return this.value;
+};
+
+/**
+ * Return JSON from object
+ * @param   {boolean}    [matrix]       return transform attribute if false.
+ * @returns {object}                    JSON Object
+ */
+Tspan.prototype.toJSON = function toJSON(matrix){
     var parentJSON = SvgObject.prototype.toJSON.call(this, matrix);
 
     parentJSON.value    = this.value;
@@ -53,7 +79,12 @@ Tspan.prototype.toJSON = function(matrix){
     return parentJSON;
 };
 
-Tspan.prototype.toXml = function(matrix){
+/**
+ * Return XML from object
+ * @param   {boolean}    [matrix]       return transform attribute if false.
+ * @returns {xmlBuilder}                XML Object
+ */
+Tspan.prototype.toXml = function toXml(matrix){
     var xml = SvgObject.prototype.toXml.call(this, matrix);
 
     xml.att('x', this.x);
@@ -63,7 +94,12 @@ Tspan.prototype.toXml = function(matrix){
     return xml;
 };
 
-Tspan.prototype.applyMatrix = function(matrix, callback){
+/**
+ * Apply param Matrix and callback new SvgObject with this matrix
+ * @param {object}      matrix          Matrix to apply
+ * @param {function}    callback        Callback Function
+ */
+Tspan.prototype.applyMatrix = function applyMatrix(matrix, callback){
     var tspan = new Tspan();
     tspan.style   = this.style;
     tspan.classes = this.classes;
@@ -82,7 +118,11 @@ Tspan.prototype.applyMatrix = function(matrix, callback){
 
 module.exports = Tspan;
 
-module.exports.fromNode = function(node){
+/**
+ * Generate SVGElement from SVG node
+ * @param {object}      node        xml2js element
+ */
+module.exports.fromNode = function fromNode(node){
     var text = new Tspan();
 
     if(typeof node != 'undefined'){
@@ -106,7 +146,11 @@ module.exports.fromNode = function(node){
     return text;
 };
 
-module.exports.fromJson = function(json){
+/**
+ * Generate SVGElement from JSON element
+ * @param {object}      json        json element
+ */
+module.exports.fromJson = function fromJSON(json){
     var text = new Tspan();
 
     if(typeof json != 'undefined'){

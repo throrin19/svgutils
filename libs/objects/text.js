@@ -4,9 +4,13 @@ var SvgObject   = require(__dirname + '/svgobject'),
     _           = require('underscore'),
     Tspan       = require(__dirname + '/tspan'),
     utils       = require(__dirname + '/../matrix/utils'),
-    async       = require('async');
+    async       = require('async'),
+    nUtil       = require('util');
 
 var Text = function(){
+    if (!(this instanceof Text))
+        throw 'this function in a constructor. Use new to call it';
+
     SvgObject.call(this);
     this.type     = 'text';
     this.value    = "";
@@ -15,60 +19,86 @@ var Text = function(){
     this.childs   = [];
 };
 
-Text.prototype              = new SvgObject();
-Text.prototype.constructor  = Text;
+nUtil.inherits(Text, SvgObject);
 
 /**
  * Set X origin
- *
  * @param {number} x            X origin
  */
-Text.prototype.setX = function(x){
+Text.prototype.setX = function setX(x){
     this.x = x;
-    this.bbox = undefined;
 };
 
 /**
  * Set Y origin
- *
  * @param {number} y            y origin
  */
-Text.prototype.setY = function(y){
+Text.prototype.setY = function setY(y){
     this.y = y;
-    this.bbox = undefined;
 };
 
 /**
  * Set Text Value
- *
  * @param {string} string       Text value
  */
-Text.prototype.setValue = function(string){
+Text.prototype.setValue = function setValue(string){
     this.value = string;
-    this.bbox = undefined;
 };
 
 /**
  * Set Text children
- *
  * @param {Array} childs        Tspan Array
  */
-Text.prototype.setChildren = function(childs){
+Text.prototype.setChildren = function setChildren(childs){
     this.childs = childs;
-    this.bbox   = undefined;
 };
 
 /**
- * Add Tspan child
- *
- * @param {Tspan} child         Tspan child
+ * Get X origin
+ * @returns {number}
  */
-Text.prototype.addChild = function(child){
-    this.childs.push(child);
-    this.bbox = undefined;
+Text.prototype.getX = function getX(){
+    return this.x;
 };
 
-Text.prototype.toJSON = function(matrix){
+/**
+ * Get Y origin
+ * @returns {number}
+ */
+Text.prototype.getY = function getY(){
+    return this.y;
+};
+
+/**
+ * Get Tspan Value
+ * @returns {string}
+ */
+Text.prototype.getValue = function getValue(){
+    return this.value;
+};
+
+/**
+ * Get Text children
+ * @returns {Array}
+ */
+Text.prototype.getChildren = function getChildren(){
+    return this.childs;
+}
+
+/**
+ * Add Tspan child
+ * @param {Tspan} child         Tspan child
+ */
+Text.prototype.addChild = function addChild(child){
+    this.childs.push(child);
+};
+
+/**
+ * Return JSON from object
+ * @param   {boolean}    [matrix]       return transform attribute if false.
+ * @returns {object}                    JSON Object
+ */
+Text.prototype.toJSON = function toJSON(matrix){
     var parentJSON = SvgObject.prototype.toJSON.call(this, matrix);
 
     parentJSON.value    = this.value;
@@ -84,7 +114,12 @@ Text.prototype.toJSON = function(matrix){
     return parentJSON;
 };
 
-Text.prototype.toXml = function(matrix){
+/**
+ * Return XML from object
+ * @param   {boolean}    [matrix]       return transform attribute if false.
+ * @returns {xmlBuilder}                XML Object
+ */
+Text.prototype.toXml = function toXml(matrix){
     var xml = SvgObject.prototype.toXml.call(this, matrix);
 
     xml.att('x', this.x + 'px');
@@ -98,7 +133,12 @@ Text.prototype.toXml = function(matrix){
     return xml;
 };
 
-Text.prototype.applyMatrix = function(matrix, callback){
+/**
+ * Apply param Matrix and callback new SvgObject with this matrix
+ * @param {object}      matrix          Matrix to apply
+ * @param {function}    callback        Callback Function
+ */
+Text.prototype.applyMatrix = function applyMatrix(matrix, callback){
     var text = new Text();
     text.style   = this.style;
     text.classes = this.classes;
@@ -122,14 +162,22 @@ Text.prototype.applyMatrix = function(matrix, callback){
     });
 };
 
-Text.prototype.getBBox = function(callback){
+/**
+ * Get the element Bounding Box
+ * @param {function} callback               Callback Function
+ */
+Text.prototype.getBBox = function getBBox(callback){
     this.bbox = utils.bbox(this.x, this.y, 9, 30); // ok, it's not true but, it's ok for basic short text with basic police
     callback(this.bbox);
 };
 
 module.exports = Text;
 
-module.exports.fromNode = function(node){
+/**
+ * Generate SVGElement from SVG node
+ * @param {object}      node        xml2js element
+ */
+module.exports.fromNode = function fromNode(node){
     var text = new Text();
 
     SvgObject.fromNode(text, node);
@@ -163,7 +211,11 @@ module.exports.fromNode = function(node){
     return text;
 };
 
-module.exports.fromJson = function(json){
+/**
+ * Generate SVGElement from JSON element
+ * @param {object}      json        json element
+ */
+module.exports.fromJson = function fromJson(json){
     var text = new Text();
 
     if(typeof json != 'undefined'){

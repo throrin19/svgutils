@@ -2,9 +2,13 @@
 
 var SvgObject = require(__dirname + "/svgobject"),
     utils     = require(__dirname + '/../matrix/utils'),
-    Polygon   = require(__dirname + '/polygon');
+    Polygon   = require(__dirname + '/polygon'),
+    nUtil     = require('util');
 
 var Rect = function(){
+    if (!(this instanceof Rect))
+        throw 'this function in a constructor. Use new to call it';
+
     SvgObject.call(this);
     this.type     = 'rect';
     this.x        = 0;
@@ -15,68 +19,57 @@ var Rect = function(){
     this.ry       = 0;
 };
 
-Rect.prototype              = new SvgObject();
-Rect.prototype.constructor  = Rect;
+nUtil.inherits(Rect, SvgObject);
 
 /**
  * Set X origin
- *
  * @param {number} x            X origin
  */
-Rect.prototype.setX = function(x){
+Rect.prototype.setX = function setX(x){
     this.x = x;
-    this.bbox = undefined;
 };
 
 /**
  * Set Y origin
- *
  * @param {number} y            y origin
  */
-Rect.prototype.setY = function(y){
+Rect.prototype.setY = function setY(y){
     this.y = y;
-    this.bbox = undefined;
 };
 
 /**
- * Set Rect Width
- *
+ * Set Width
  * @param {number} width            Rect width
  */
-Rect.prototype.setWidth = function(width){
+Rect.prototype.setWidth = function setWidth(width){
     this.width = width;
-    this.bbox = undefined;
 };
 
 /**
- * Set Rect Height
- *
+ * Set Height
  * @param {number} height            Rect height
  */
-Rect.prototype.setHeight = function(height){
+Rect.prototype.setHeight = function setHeight(height){
     this.height = height;
-    this.bbox = undefined;
 };
 
 /**
  * Set rounded x corner
- *
  * @param {number} rx            rounded x corner
  */
-Rect.prototype.setX = function(rx){
+Rect.prototype.setRx = function setRx(rx){
     this.rx = rx;
 };
 
 /**
  * Set rounded y corner
- *
  * @param {number} ry            rounded y corner
  */
-Rect.prototype.setX = function(ry){
+Rect.prototype.setRy = function setRy(ry){
     this.ry = ry;
 };
 
-Rect.prototype.toJSON = function(matrix){
+Rect.prototype.toJSON = function toJSON(matrix){
     var parentJSON = SvgObject.prototype.toJSON.call(this, matrix);
 
     parentJSON.x        = this.x;
@@ -89,7 +82,7 @@ Rect.prototype.toJSON = function(matrix){
     return parentJSON;
 };
 
-Rect.prototype.toXml = function(matrix){
+Rect.prototype.toXml = function toXml(matrix){
     var xml = SvgObject.prototype.toXml.call(this, matrix);
 
     xml.att('x', this.x);
@@ -102,7 +95,7 @@ Rect.prototype.toXml = function(matrix){
     return xml;
 };
 
-Rect.prototype.applyMatrix = function(matrix, callback){
+Rect.prototype.applyMatrix = function applyMatrix(matrix, callback){
     var polygon = new Polygon();
     polygon.style   = this.style;
     polygon.classes = this.classes;
@@ -132,7 +125,7 @@ Rect.prototype.applyMatrix = function(matrix, callback){
     callback(polygon);
 };
 
-Rect.prototype.getBBox = function(callback){
+Rect.prototype.getBBox = function getBBox(callback){
     this.bbox = utils.bbox(this.x, this.y, this.width, this.height);
     callback(this.bbox);
 };
@@ -141,11 +134,10 @@ module.exports = Rect;
 
 /**
  * Create Rect from SVG rect node
- *
  * @param   {object}    node        xml2js node from SVG file
  * @returns {Rect}                  the rect object
  */
-module.exports.fromNode = function(node){
+module.exports.fromNode = function fromNode(node){
     var rect = new Rect();
 
     if(typeof node != 'undefined' && typeof node.$ != 'undefined'){
@@ -176,11 +168,10 @@ module.exports.fromNode = function(node){
 
 /**
  * Create Rect from JSON element
- *
  * @param   {object}    json        json element
  * @returns {Rect}                  the rect object
  */
-module.exports.fromJson = function(json){
+module.exports.fromJson = function fromJson(json){
     var rect = new Rect();
 
     if(typeof json != 'undefined'){
