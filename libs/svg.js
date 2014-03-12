@@ -10,7 +10,7 @@ var fs          = require('fs'),
     gm          = require('gm').subClass({ imageMagick: true }),
     utils       = require(__dirname + '/matrix/utils');
 
-var Svg = function(){
+var Svg = function Svg() {
     if (!(this instanceof Svg))
         throw 'this function in a constructor. Use new to call it';
 
@@ -22,7 +22,7 @@ var Svg = function(){
  * Set Svg Elements
  * @param {Array}       elements            SvgObject Array (rect|polygon|polyline|...)
  */
-Svg.prototype.setElements = function(elements){
+Svg.prototype.setElements = function setElements(elements) {
     this.elements = elements;
 };
 
@@ -30,7 +30,7 @@ Svg.prototype.setElements = function(elements){
  * Add SvgObject element to current SVG
  * @param {SvgObject}   element             SvgObject Element
  */
-Svg.prototype.addElement = function(element){
+Svg.prototype.addElement = function toJSON(element) {
     this.elements.push(element);
 };
 
@@ -39,14 +39,14 @@ Svg.prototype.addElement = function(element){
  * @param {boolean}     matrix              String representation without transform attribute
  * @returns {object}                        Svg Json Object representation
  */
-Svg.prototype.toJSON = function(matrix){
+Svg.prototype.toJSON = function toXml(matrix) {
     if(typeof matrix == 'undefined') matrix = false;
 
     var json = {
         elements : []
     };
 
-    _.each(this.elements, function(element){
+    _.each(this.elements, function (element) {
         json.elements.push(element.toJSON(matrix));
     });
 
@@ -58,16 +58,16 @@ Svg.prototype.toJSON = function(matrix){
  * @param {boolean}     matrix              String representation without transform attribute
  * @returns {object}                        XMLBuilder Svg representation
  */
-Svg.prototype.toXml = function(matrix){
+Svg.prototype.toXml = function toXml(matrix) {
     if(typeof matrix == 'undefined') matrix = false;
 
     var xml = builder.create('svg');
     xml.att('version', '1.1');
     xml.att('xmlns', 'http://www.w3.org/2000/svg');
-    xml.att('width', this.size.width);
-    xml.att('height', this.size.height)
+    xml.att('width', this.size.width+'px');
+    xml.att('height', this.size.height+'px');
 
-    _.each(this.elements, function(element){
+    _.each(this.elements, function (element) {
         xml.importXMLBuilder(element.toXml(matrix));
     });
 
@@ -81,12 +81,12 @@ Svg.prototype.toXml = function(matrix){
  * @param {boolean}     [matrix]            String representation without transform attribute
  * @returns {string}                        Svg String representation
  */
-Svg.prototype.toString = function(content, matrix){
+Svg.prototype.toString = function toString(content, matrix) {
     if(typeof matrix == 'undefined') matrix = false;
 
-    if(content == true)
+    if (content == true) {
         return this.toXml(matrix).toString();
-    else{
+    } else {
         var string = '';
         _.each(this.elements, function(element){
             string += element.toXml(matrix).toString();
@@ -102,16 +102,17 @@ Svg.prototype.toString = function(content, matrix){
  * @param   {boolean}   all                 true : find all type in groups and root, false : find only in root
  * @returns {Svg}                           new Svg object with selected types elements
  */
-Svg.prototype.findByType = function(type, all){
+Svg.prototype.findByType = function findByType(type, all) {
     var svg = new Svg();
 
-    _.each(this.elements, function(elem){
-        if(elem.type == type)
+    _.each(this.elements, function (elem) {
+        if (elem.type == type) {
             svg.addElement(elem);
+        }
 
-        if(all && elem.type == 'g'){
+        if (all && elem.type == 'g') {
             var group = elem.findByType(type, all);
-            _.each(group.childs, function(child){
+            _.each(group.childs, function (child) {
                 svg.addElement(child);
             });
         }
@@ -126,13 +127,13 @@ Svg.prototype.findByType = function(type, all){
  * @param   {string}    id                  Item id
  * @returns {SvgObject}                     SvgObject element
  */
-Svg.prototype.findById = function(id){
+Svg.prototype.findById = function (id) {
     var returnElem = null;
 
-    _.each(this.elements, function(elem){
-        if(elem.id == id){
+    _.each(this.elements, function (elem) {
+        if (elem.id == id) {
             returnElem = elem;
-        }else if(elem.type == 'g'){
+        }else if (elem.type == 'g') {
             returnElem = elem.findById(id);
         }
     });
@@ -146,11 +147,11 @@ Svg.prototype.findById = function(id){
  * @param {array|Matrix}        matrix              Matrix to be applied in addition to those elements.
  * @param {function}            callback            Callback Function
  */
-Svg.prototype.applyMatrix = function(matrix, callback){
+Svg.prototype.applyMatrix = function applyMatrix(matrix, callback) {
     var svg = new Svg();
 
     var applyMatrix = new Matrix();
-    if(matrix != null){
+    if (matrix != null) {
         if(matrix instanceof Array){
             _.each(matrix, function(mat){
                 applyMatrix.add(mat);
@@ -160,8 +161,8 @@ Svg.prototype.applyMatrix = function(matrix, callback){
         }
     }
 
-    async.each(this.elements, function(elem, c){
-        elem.getBBox(function(bbox){
+    async.each(this.elements, function (elem, c) {
+        elem.getBBox( function (bbox) {
             var applyCloneMatrix = applyMatrix.clone();
             var matrix = applyCloneMatrix.add(Matrix.fromElement(bbox, elem));
             elem.applyMatrix(matrix, function(e){
@@ -169,7 +170,7 @@ Svg.prototype.applyMatrix = function(matrix, callback){
                 c();
             });
         });
-    }, function(){
+    }, function () {
         callback(svg);
     });
 };
@@ -177,18 +178,18 @@ Svg.prototype.applyMatrix = function(matrix, callback){
 /**
  * Save Svg file
  * @param {object}      params              Functon Params
- * @param {string}      params.output       Output file
+ * @param {string}      [params.output]     Output file
  * @param {function}    callback            Callback Function
  */
-Svg.prototype.save = function(params, callback){
+Svg.prototype.save = function save(params, callback) {
     var defOpts = {
         output : '/tmp/export_' + new Date().getTime() + '.svg'
     };
 
     params = _.extend({}, defOpts, params);
 
-    fs.writeFile(params.output, this.toString(true), function(err){
-        if(err){
+    fs.writeFile(params.output, this.toString(true), function (err) {
+        if (err) {
             callback(err);
             return;
         }
@@ -199,24 +200,24 @@ Svg.prototype.save = function(params, callback){
 /**
  * Save Svg file in Png Format
  * @param {object}      params              Functon Params
- * @param {string}      params.output       Output file
+ * @param {string}      [params.output]     Output file
  * @param {function}    callback            Callback Function
  */
-Svg.prototype.savePng = function(params, callback){
+Svg.prototype.savePng = function savePng(params, callback) {
     var defOpts = {
         output : '/tmp/export_' + new Date().getTime() + '.png'
     };
 
     params = _.extend({}, defOpts, params);
 
-    this.save({}, function(err, file){
-        if(err){
+    this.save({}, function (err, file) {
+        if (err) {
             callback(err);
             return;
         }
 
-        gm(file).write(params.output, function(err){
-            if(err){
+        gm(file).write(params.output, function (err) {
+            if (err) {
                 callback(err);
                 return;
             }
@@ -226,22 +227,22 @@ Svg.prototype.savePng = function(params, callback){
     });
 };
 
-Svg.prototype.getSize = function(callback){
+Svg.prototype.getSize = function getSize(callback) {
     var minX = +Infinity,
         maxX = -Infinity,
         minY = +Infinity,
         maxY = -Infinity,
         self = this;
 
-    async.each(this.elements, function(child, done){
-        child.getBBox(function(bbox){
+    async.each(this.elements, function (child, done) {
+        child.getBBox(function (bbox) {
             minX = Math.min(minX, bbox.x);
             minY = Math.min(minY, bbox.y);
             maxX = Math.max(maxX, bbox.x2);
             maxY = Math.max(maxY, bbox.y2);
             done();
         });
-    }, function(){
+    }, function () {
         var bbox  = utils.bbox(0,0,maxX-minX,maxY-minY);
         self.size = { width : bbox.w, height : bbox.h  };
 
@@ -256,9 +257,9 @@ module.exports = Svg;
  * @param {string}      path                Uri of source file
  * @param {function}    callback            Callback Function
  */
-module.exports.fromSvgDocument = function(path, callback){
-    fs.readFile(path, function(error, data){
-        if(error){
+module.exports.fromSvgDocument = function fromSvgDocument(path, callback) {
+    fs.readFile(path, function (error, data) {
+        if (error) {
             callback(error);
             return;
         }
@@ -271,19 +272,19 @@ module.exports.fromSvgDocument = function(path, callback){
  * @param {string}      string              Svg string representation
  * @param {function}    callback            Callback Function
  */
-module.exports.fromXmlString = function(string, callback){
+module.exports.fromXmlString = function fromXmlString(string, callback) {
     var parser  = new xml2js.Parser();
 
-    parser.addListener('end', function(result) {
-        SvgParser.convertXml(result, function(err, elements){
-            if(err){
+    parser.addListener('end', function (result) {
+        SvgParser.convertXml(result, function (err, elements) {
+            if (err) {
                 callback(err);
                 return;
             }
 
             var svg = new Svg();
             svg.setElements(elements);
-            svg.getSize(function(){
+            svg.getSize(function () {
                 callback(null, svg);
             });
         });
@@ -293,9 +294,9 @@ module.exports.fromXmlString = function(string, callback){
 };
 
 
-module.exports.fromJsonFile = function(path, callback){
-    fs.readFile(path, function(error, data){
-        if(error){
+module.exports.fromJsonFile = function fromJsonFile(path, callback) {
+    fs.readFile(path, function (error, data) {
+        if (error) {
             callback(error);
             return;
         }
@@ -303,15 +304,15 @@ module.exports.fromJsonFile = function(path, callback){
     });
 };
 
-module.exports.fromJsonString = function(string, callback){
+module.exports.fromJsonString = function fromJsonString(string, callback) {
     var json = JSON.parse(string);
 
     Svg.fromJson(json, callback);
 };
 
-module.exports.fromJson = function(json, callback){
-    SvgParser.convertJson(json, function(err, elements){
-        if(err){
+module.exports.fromJson = function fromJson(json, callback) {
+    SvgParser.convertJson(json, function (err, elements) {
+        if (err) {
             callback(err);
             return;
         }
@@ -319,7 +320,7 @@ module.exports.fromJson = function(json, callback){
         var svg = new Svg();
         svg.setElements(elements);
 
-        svg.getSize(function(){
+        svg.getSize(function () {
             callback(null, svg);
         });
     });
