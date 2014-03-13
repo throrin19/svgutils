@@ -1,3 +1,9 @@
+[0.6.1]
+- add image xlink:href support
+[0.6.0]
+- use correct practice to inherit svgobject
+- start rewrite all code with odnb code style
+- add image arsing for xml and json
 [0.5.4]
 - remove the 't_' prefix on text ID
 - set svg width and height

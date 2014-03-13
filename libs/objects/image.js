@@ -101,7 +101,10 @@ module.exports.fromNode = function(node){
         if(typeof node.$.href != 'undefined'){
             image.href = node.$.href;
         }
-        if(typeof node.$.preserveAspectRatio != 'undefined'){
+        if (typeof node.$['xlink:href'] != 'undefined'){
+            image.href = node.$['xlink:href'];
+        }
+        if (typeof node.$.preserveAspectRatio != 'undefined') {
             image.preserveAspectRatio = node.$.preserveAspectRatio;
         }
     }

@@ -243,7 +243,7 @@ Svg.prototype.getSize = function getSize(callback) {
             done();
         });
     }, function () {
-        var bbox  = utils.bbox(0,0,maxX-minX,maxY-minY);
+        var bbox  = utils.bbox(minX,minY,maxX,maxY);
         self.size = { width : bbox.w, height : bbox.h  };
 
         callback(self.size);
