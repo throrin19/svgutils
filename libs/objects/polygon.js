@@ -6,9 +6,10 @@ var Matrix      = require(__dirname + '/../matrix/extends'),
     _           = require('underscore'),
     nUtil       = require('util');
 
-var Polygon = function(){
-    if (!(this instanceof Polygon))
+var Polygon = function() {
+    if (!(this instanceof Polygon)) {
         throw 'this function in a constructor. Use new to call it';
+    }
 
     SvgObject.call(this);
     this.type   = "polygon";
@@ -22,18 +23,18 @@ nUtil.inherits(Polygon, SvgObject);
  *
  * @param {string}    points                    Polygon|Polyline points attribute value
  */
-Polygon.prototype.setPointsFromString = function(points){
+Polygon.prototype.setPointsFromString = function setPointsFromString(points) {
     var coords  = [],
         point   = {};
 
-    _.each(points.split(/[, ]/), function(xy, index){
-        if(index%2 == 0){
+    _.each(points.split(/[, ]/), function(xy, index) {
+        if (index%2 == 0) {
             point.x = xy;
-        }else{
+        } else {
             point.y = xy;
         }
 
-        if(index%2 == 1 && index > 0){
+        if (index%2 == 1 && index > 0) {
             coords.push(point);
             point = {};
         }
@@ -43,12 +44,12 @@ Polygon.prototype.setPointsFromString = function(points){
     this.bbox = undefined;
 };
 
-Polygon.prototype.addPoint = function(x, y){
+Polygon.prototype.addPoint = function addPoint(x, y) {
     this.points.push({ x : x, y : y });
     this.bbox = undefined;
 };
 
-Polygon.prototype.toJSON = function(matrix){
+Polygon.prototype.toJSON = function toJSON(matrix) {
     var parentJSON = SvgObject.prototype.toJSON.call(this, matrix);
 
     parentJSON.type     = this.type;
@@ -57,7 +58,7 @@ Polygon.prototype.toJSON = function(matrix){
     return parentJSON;
 };
 
-Polygon.prototype.toXml = function(matrix){
+Polygon.prototype.toXml = function toXml(matrix) {
 
     var xml = SvgObject.prototype.toXml.call(this, matrix);
 
@@ -71,8 +72,8 @@ Polygon.prototype.toXml = function(matrix){
     return xml;
 };
 
-Polygon.prototype.applyMatrix = function(matrix, callback){
-    var polygon = new Polygon();
+Polygon.prototype.applyMatrix = function applyMatrix(matrix, callback) {
+    var polygon     = new Polygon();
     polygon.style   = this.style;
     polygon.classes = this.classes;
     polygon.id      = this.id;
@@ -82,7 +83,7 @@ Polygon.prototype.applyMatrix = function(matrix, callback){
     polygon.type    = this.type;
     polygon.data    = this.data;
 
-    _.each(this.points, function(point){
+    _.each(this.points, function (point) {
         polygon.addPoint(
             matrix.x(point.x, point.y),
             matrix.y(point.x, point.y)
@@ -92,13 +93,13 @@ Polygon.prototype.applyMatrix = function(matrix, callback){
     callback(polygon);
 };
 
-Polygon.prototype.getBBox = function(callback){
+Polygon.prototype.getBBox = function getBBox(callback) {
     var minX = +Infinity,
         maxX = -Infinity,
         minY = +Infinity,
         maxY = -Infinity;
 
-    _.each(this.points, function(point){
+    _.each(this.points, function (point) {
         minX = Math.min(point.x, minX);
         maxX = Math.max(point.x, maxX);
         minY = Math.min(point.y, minY);
