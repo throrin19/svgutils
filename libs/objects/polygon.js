@@ -27,6 +27,7 @@ Polygon.prototype.setPointsFromString = function setPointsFromString(points) {
     var coords  = [],
         point   = {};
 
+    points = points.replace(/ +(?= )/g, '');
     _.each(points.split(/[, ]/), function(xy, index) {
         if (index%2 == 0) {
             point.x = xy;
@@ -120,16 +121,16 @@ module.exports = Polygon;
  * @param   {boolean}   [line]      true : polyline, false : polygon. False as default
  * @returns {Polygon}               the polygon object
  */
-module.exports.fromNode = function(node, line){
+module.exports.fromNode = function fromNode(node, line) {
     var polygon = new Polygon();
 
-    if(line == true)
+    if (line == true) {
         polygon.type = 'polyline';
-
-    if(typeof node != 'undefined' && typeof node.$ != 'undefined'){
+    }
+    if (typeof node != 'undefined' && typeof node.$ != 'undefined') {
         SvgObject.fromNode(polygon, node);
 
-        if(typeof node.$.points != 'undefined'){
+        if (typeof node.$.points != 'undefined') {
             polygon.setPointsFromString(node.$.points);
         }
     }
@@ -137,17 +138,17 @@ module.exports.fromNode = function(node, line){
     return polygon;
 };
 
-module.exports.fromJson = function(json, line){
+module.exports.fromJson = function fromJson(json, line) {
 
     var polygon = new Polygon();
 
-    if(line == true)
+    if (line == true) {
         polygon.type = 'polyline';
-
-    if(typeof json != 'undefined'){
+    }
+    if (typeof json != 'undefined') {
         SvgObject.fromJson(polygon, json);
 
-        if(typeof json.points != 'undefined'){
+        if (typeof json.points != 'undefined') {
             polygon.points = json.points;
         }
     }
