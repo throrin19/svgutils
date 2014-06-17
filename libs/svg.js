@@ -122,7 +122,7 @@ Svg.prototype.findByType = function findByType(type, all) {
 };
 
 /**
- * Find elements in SVG and return new Svg object with all elements by id
+ * Find one element by id in SVG
  *
  * @param   {string}    id                  Item id
  * @returns {SvgObject}                     SvgObject element
@@ -135,6 +135,27 @@ Svg.prototype.findById = function (id) {
             returnElem = elem;
         }else if (elem.type == 'g') {
             returnElem = elem.findById(id);
+        }
+    });
+
+    return returnElem;
+};
+
+/**
+ * Find one element by id and type in SVG
+ *
+ * @param   {string}    id                  Item id
+ * @param   {string}    type                Item type (rect, path, ...)
+ * @returns {SvgObject}                     SvgObject element
+ */
+Svg.prototype.findByIdAndType = function findByIdAndType(id, type) {
+    var returnElem = null;
+
+    _.each(this.elements, function (elem) {
+        if (elem.id == id && elem.type == type) {
+            returnElem = elem;
+        }else if (elem.type == 'g') {
+            returnElem = elem.findByIdAndType(id, type);
         }
     });
 

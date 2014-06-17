@@ -1,3 +1,10 @@
+[0.6.4]
+- update dependancies
+- add function findByIdAndType in SVG and Group
+[0.6.3]
+- get SVG BBox
+[0.6.2]
+- fix bugs
 [0.6.1]
 - add image xlink:href support
 [0.6.0]
