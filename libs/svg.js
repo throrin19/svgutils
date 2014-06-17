@@ -227,6 +227,10 @@ Svg.prototype.savePng = function savePng(params, callback) {
     });
 };
 
+/**
+ * Refresh SVG size
+ * @param {function}    callback        Callback Function
+ */
 Svg.prototype.getSize = function getSize(callback) {
     var minX = +Infinity,
         maxX = -Infinity,
@@ -247,6 +251,29 @@ Svg.prototype.getSize = function getSize(callback) {
         self.size = { width : bbox.w, height : bbox.h  };
 
         callback(self.size);
+    });
+};
+
+/**
+ * Get SVG bbox
+ * @param {function}    callback        Callback Function
+ */
+Svg.prototype.getBBox = function getBBox(callback) {
+    var minX = +Infinity,
+        maxX = -Infinity,
+        minY = +Infinity,
+        maxY = -Infinity;
+
+    async.each(this.elements, function (child, done) {
+        child.getBBox(function (bbox) {
+            minX = Math.min(minX, bbox.x);
+            minY = Math.min(minY, bbox.y);
+            maxX = Math.max(maxX, bbox.x2);
+            maxY = Math.max(maxY, bbox.y2);
+            done();
+        });
+    }, function () {
+        callback(utils.bbox(minX,minY,maxX,maxY));
     });
 };
 
