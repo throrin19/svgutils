@@ -73,14 +73,35 @@ Group.prototype.findByType = function(type, all){
  * @param   {string}    id                  Item id
  * @returns {SvgObject}                     SvgObject element
  */
-Group.prototype.findById = function(id){
+Group.prototype.findById = function findById(id) {
     var returnElem = null;
 
-    _.each(this.childs, function(elem){
-        if(elem.id == id){
+    _.each(this.childs, function (elem) {
+        if (elem.id == id) {
             returnElem = elem;
-        }else if(elem.type == 'g'){
+        }else if (elem.type == 'g') {
             returnElem = elem.findById(id);
+        }
+    });
+
+    return returnElem;
+};
+
+/**
+ * Find elements in Group and return selected SvgObject
+ *
+ * @param   {string}    id                  Item id
+ * @param   {string}    type                Item type (rect, path, ...)
+ * @returns {SvgObject}                     SvgObject element
+ */
+Group.prototype.findByIdAndType = function findByIdAndType(id, type) {
+    var returnElem = null;
+
+    _.each(this.childs, function (elem) {
+        if (elem.id == id && elem.type == type) {
+            returnElem = elem;
+        } else if (elem.type == 'g') {
+            returnElem = elem.findByIdAndType(id, type);
         }
     });
 

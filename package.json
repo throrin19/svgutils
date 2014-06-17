@@ -1,6 +1,6 @@
 {
   "name": "svgutils",
-  "version": "0.6.3",
+  "version": "0.6.4",
   "description": "Svg Utils for pasing SVGFile and manipulate Matrix object like Snap.svg",
   "main": "index.js",
   "scripts": {
@@ -22,11 +22,11 @@
   "readmeFilename": "README.md",
   "gitHead": "5c71469ee5f51b6e08bc8f5e3cd2b0fadf0ed89a",
   "dependencies": {
-    "underscore": "~1.6.0",
-    "async": "~0.2.10",
-    "gm": "~1.14.2",
-    "xml2js": "~0.4.1",
-    "xmlbuilder": "~2.1.0"
+      "underscore": "~1.6.0",
+      "async": "~0.9.0",
+      "gm": "~1.16.0",
+      "xml2js": "~0.4.4",
+      "xmlbuilder": "~2.2.1"
   },
   "devDependencies": {
     "mocha": ""
