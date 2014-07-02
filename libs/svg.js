@@ -373,3 +373,58 @@ module.exports.fromJson = function fromJson(json, callback) {
         });
     });
 };
+
+/**
+ * Create SVG from dxf file
+ * @param {object}      params              Function params
+ * @param {string}      params.path         DXF File path
+ * @param {Array}       params.layers       Import element for passed layers names
+ * @param {function}    callback            Callback Function
+ */
+module.exports.fromDxfFile = function fromDxfFile(params, callback) {
+    SvgParser.convertDxf(params, function (err, result) {
+        if (err) {
+            callback (err);
+            return;
+        }
+
+        var svg = new Svg();
+        _.each(result.polygons, function (polygon) {
+            // test if params.layers is set and if polygon is in specified layers
+            if (!params.layers || params.layers.length == 0 || _.contains(params.layers, polygon.layer)) {
+                svg.addElement(SvgParser.parseJsonPolygon({
+                    points : polygon.points,
+                    fill : 'white',
+                    stroke : 'black'
+                }));
+            }
+        }, this);
+        _.each(result.circles, function (circle) {
+            if (!params.layers || params.layers.length == 0 || _.contains(params.layers, circle.layer)) {
+                svg.addElement(SvgParser.parseJsonPolygon({
+                    points : circle.points,
+                    fill : 'white',
+                    stroke : 'black'
+                }));
+            }
+        });
+        _.each(result.texts, function (text) {
+            if (!params.layers || params.layers.length == 0 || _.contains(params.layers, text.layer)) {
+                svg.addElement(SvgParser.parseJsonText({
+                    fill : 'black',
+                    value : text.contents,
+                    x : text.point.x,
+                    y : text.point.y
+                }));
+            }
+        });
+        svg.getBBox(function (bbox) {
+            var matrix = new Matrix(1, 0, 0, -1, Math.abs(Math.min(bbox.x, bbox.x2))+10, Math.abs(Math.min(bbox.y, bbox.y2))+10);
+            svg.applyMatrix(matrix, function (svg) {
+                svg.getSize(function () {
+                    callback(null, svg);
+                });
+            });
+        });
+    });
+};

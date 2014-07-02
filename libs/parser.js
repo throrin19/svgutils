@@ -2,7 +2,8 @@
 
 var fs          = require('fs'),
     _           = require('underscore'),
-    elements    = require(__dirname + '/objects/index');
+    elements    = require(__dirname + '/objects/index'),
+    dxfParser   = require('dxf-parsing').Parser;
 
 var Parser = function Parser() {};
 
@@ -143,7 +144,7 @@ Parser.parseXmlPolygon = function parseXmlPolygon(array, isPolyline) {
 /**
  * Parse Polygon json element
  * @param {object}  elem                    Polygon element in JSON format
- * @returns {object}                        Polygon object
+ * @returns {Polygon}                       Polygon object
  */
 Parser.parseJsonPolygon = function parseJsonPolygon(elem) {
     return elements.Polygon.fromJson(elem);
@@ -191,7 +192,7 @@ Parser.parseXmlText = function parseXmlText(array) {
 /**
  * Parse Text json element
  * @param {object}  elem                    Text element in JSON format
- * @returns {object}                        Text object
+ * @returns {Text}                        Text object
  */
 Parser.parseJsonText = function (elem) {
     return elements.Text.fromJson(elem);
@@ -219,6 +220,34 @@ Parser.parseXmlImage = function parseXmlImage(array) {
  */
 Parser.parseJsonImage = function parseJsonImage(elem) {
     return elements.Image.fromJson(elem);
+};
+
+/**
+ * Convert DXF File to SVG
+ * @param {object}      params              Function params
+ * @param {string}      params.path         DXF File path
+ * @param {function}    callback            Callback Function
+ */
+Parser.convertDxf = function convertDxf(params, callback) {
+    dxfParser.toArray(params.path, function (err, tab) {
+        if (err) {
+            callback(err);
+            return;
+        }
+
+        var polygons    = dxfParser.getPolygons(tab),
+            texts       = dxfParser.getTexts(tab, true);
+
+        callback(null, {
+            polygons    : polygons,
+            texts       : texts,
+            circles     : dxfParser.getCircles(tab, true),
+            mapping     : dxfParser.makeMappings(polygons, texts),
+            layers      : dxfParser.getLayersByEntities(tab, ['text', 'polygon', 'circle']),
+            parameters  : dxfParser.getParameters(tab),
+            dimensions  : dxfParser.getDimensions(polygons)
+        });
+    }.bind(this));
 };
 
 module.exports = Parser;
