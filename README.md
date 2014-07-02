@@ -134,11 +134,11 @@ Svg.fromSvgDocument(__dirname + '/test2.svg', function(err, svg){
 
 ### Convert others formats to SVG
 
-### DXF to SVG (thanks to Thomas Desmoulin and his [DXF-parsing module](https://github.com/thomasdesmoulin/dxf-parsing))
+#### DXF to SVG (thanks to Thomas Desmoulin and his [DXF-parsing module](https://github.com/thomasdesmoulin/dxf-parsing))
 
 You can create SVG from DXF file. You can, as you want, get specifics DXF layers.
 
-``javascript
+```javascript
 Svg.fromDxfFile({
     path : __dirname + '/test.dxf'
 }, function (err, svg) {
