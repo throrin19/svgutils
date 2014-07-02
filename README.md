@@ -132,6 +132,25 @@ Svg.fromSvgDocument(__dirname + '/test2.svg', function(err, svg){
 });
 ```
 
+### Convert others formats to SVG
+
+### DXF to SVG (thanks to Thomas Desmoulin and his [DXF-parsing module](https://github.com/thomasdesmoulin/dxf-parsing))
+
+You can create SVG from DXF file. You can, as you want, get specifics DXF layers.
+
+``javascript
+Svg.fromDxfFile({
+    path : __dirname + '/test.dxf'
+}, function (err, svg) {
+    if(err){
+        throw new Error('SVG file not found or invalid');
+    }
+    
+    // your converted svg
+});
+```
+
+
 ## Contrbute
 
 +    Fork the repo
@@ -140,7 +159,4 @@ Svg.fromSvgDocument(__dirname + '/test2.svg', function(err, svg){
 +    Commit your changes: git commit -am "Added some awesome stuff"
 +    Push your branch: git push origin my_branch
 +    Make a pull request to development branch
-
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/throrin19/svgutils/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
