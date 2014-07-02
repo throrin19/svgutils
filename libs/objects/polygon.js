@@ -138,6 +138,12 @@ module.exports.fromNode = function fromNode(node, line) {
     return polygon;
 };
 
+/**
+ * Create Polygon From JSON object
+ * @param   {object}    json            JSON polygon Object
+ * @param   {boolean}   line            True : polyline, false : polygon
+ * @returns {Polygon}
+ */
 module.exports.fromJson = function fromJson(json, line) {
 
     var polygon = new Polygon();
