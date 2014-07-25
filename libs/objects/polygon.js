@@ -24,29 +24,38 @@ nUtil.inherits(Polygon, SvgObject);
  * @param {string}    points                    Polygon|Polyline points attribute value
  */
 Polygon.prototype.setPointsFromString = function setPointsFromString(points) {
-    var coords  = [],
-        point   = {};
+    var coords          = [],
+        point           = {},
+        previousPoint   = {};
 
     points = points.replace(/ +(?= )/g, '');
-    _.each(points.split(/[, ]/), function(xy, index) {
+    _.each(points.split(/[, ]/), function (xy, index) {
         if (index%2 == 0) {
             point.x = xy;
         } else {
             point.y = xy;
         }
 
-        if (index%2 == 1 && index > 0) {
+        if (index%2 == 1 && index > 0 && (point.x !== previousPoint.x || point.y !== previousPoint.y)) {
             coords.push(point);
+            previousPoint = point;
             point = {};
         }
     });
 
     this.points = coords;
-    this.bbox = undefined;
+    this.bbox   = undefined;
 };
 
 Polygon.prototype.addPoint = function addPoint(x, y) {
-    this.points.push({ x : x, y : y });
+    var different = true;
+    if (this.points.length > 0) {
+        var lastPoint = this.points[this.points.length-1];
+        different = lastPoint.x !== x || lastPoint.y !== y;
+    }
+    if (different) {
+        this.points.push({ x : x, y : y });
+    }
     this.bbox = undefined;
 };
 
@@ -64,7 +73,7 @@ Polygon.prototype.toXml = function toXml(matrix) {
     var xml = SvgObject.prototype.toXml.call(this, matrix);
 
     var points = "";
-    _.each(this.points, function(point){
+    _.each(this.points, function (point) {
        points += point.x + "," + point.y + " ";
     });
 

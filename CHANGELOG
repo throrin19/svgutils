@@ -1,3 +1,5 @@
+[0.7.1]
+- Clean Polygon identical points in sequence.
 [0.7.0]
 - Convert DXF File to SVG
 [0.6.4]
