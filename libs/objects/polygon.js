@@ -170,13 +170,13 @@ Polygon.prototype.getInnerBox = function getInnerBox(callback) {
             return;
         }
         if (i > 0) {
-            segment = widestSegmentAtY(y-0.1);
+            segment = this._widestSegmentAtY(y-0.1);
             if (segment.width > 0) {
                 segments.push(segment);
             }
         }
         if (i < pointsCount-1) {
-            segment = widestSegmentAtY(y+0.1);
+            segment = this._widestSegmentAtY(y+0.1);
             if (segment.width > 0) {
                 segments.push(segment);
             }
@@ -192,9 +192,9 @@ Polygon.prototype.getInnerBox = function getInnerBox(callback) {
 
         for (iSeg0 = 0, iSeg1 = 1; iSeg1 < segments.length; iSeg0 += 2, iSeg1 += 2) {
             var segment0 = segments[iSeg0],
-                segment1 = srgments[iSeg1];
+                segment1 = segments[iSeg1];
 
-            if (Math.abs(segment0.width - segment2.width) < EPSILON) {
+            if (Math.abs(segment0.width - segment1.width) < EPSILON) {
                 var x0      = Math.max(segment0.x, segment1.x),
                     x1      = Math.min(segment0.x + segment0.width, segment1.x + segment1.width),
                     width   = x1 - x0;
