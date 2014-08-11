@@ -284,7 +284,7 @@ Polygon.prototype._widestSegmentAtY = function _widestSegmentAtY(y) {
         }
     }
 
-    xArray = _.sort(xArray, function (x) {
+    xArray = _.sortBy(xArray, function (x) {
         return x;
     });
 
