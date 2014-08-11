@@ -1,3 +1,7 @@
+[0.8.0]
+- Get Rect and Polygon InnerBox
+[0.7.2]
+- Clean dependencies
 [0.7.1]
 - Clean Polygon identical points in sequence.
 [0.7.0]
