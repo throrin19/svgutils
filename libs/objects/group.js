@@ -155,6 +155,46 @@ Group.prototype.getBBox = function(callback){
     });
 };
 
+/**
+ * Calculate all innerboxes in Group. Return copy of current group with elements with data attribute innerbox.
+ * @param {function}    callback                    Callback Function
+ */
+Group.prototype.calculateAllInnerBoxes = function calculateAllInnerBoxes(callback) {
+    var group = new Group();
+    group.style   = this.style;
+    group.classes = this.classes;
+    group.id      = this.id;
+    group.name    = this.name;
+    group.stroke  = this.stroke;
+    group.fill    = this.fill;
+    group.type    = this.type;
+    group.data    = this.data;
+    async.each(this.childs, function (child, done) {
+        switch (child.type) {
+            case 'rect' :
+            case 'polygon' :
+            case 'polyline' :
+                child.getInnerBox(function (innerBox) {
+                    child.data.innerbox = innerBox;
+                    group.childs.push(child);
+                    done();
+                });
+                break;
+            case 'group' :
+                child.calculateAllInnerBoxes( function (group) {
+                    group.childs.push(child);
+                    done();
+                });
+                break;
+            default :
+                group.childs.push(child);
+                done();
+        }
+    }, function () {
+        callback(group);
+    });
+};
+
 module.exports = Group;
 
 module.exports.fromNode = function(node){

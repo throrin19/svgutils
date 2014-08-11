@@ -298,6 +298,40 @@ Svg.prototype.getBBox = function getBBox(callback) {
     });
 };
 
+/**
+ * Calculate all innerboxes in SVG. Return copy of current svg with elements with data attribute innerbox.
+ * @param {function}    callback                    Callback Function
+ */
+Svg.prototype.calculateAllInnerBoxes = function calculateAllInnerBoxes(callback) {
+    var svg = new Svg();
+    async.each(this.elements, function (child, done) {
+        switch (child.type) {
+            case 'rect' :
+            case 'polygon' :
+            case 'polyline' :
+                child.getInnerBox(function (innerBox) {
+                    child.data.innerbox = innerBox;
+                    svg.addElement(child);
+                    done();
+                });
+                break;
+            case 'group' :
+                child.calculateAllInnerBoxes( function (group) {
+                    svg.addElement(child);
+                    done();
+                });
+                break;
+            default :
+                svg.addElement(child);
+                done();
+        }
+    }, function () {
+        svg.getSize(function () {
+            callback(svg);
+        });
+    });
+};
+
 module.exports = Svg;
 
 /**
