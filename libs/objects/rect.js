@@ -125,9 +125,21 @@ Rect.prototype.applyMatrix = function applyMatrix(matrix, callback){
     callback(polygon);
 };
 
+/**
+ * Get the element Bounding Box
+ * @param {function} callback               Callback Function
+ */
 Rect.prototype.getBBox = function getBBox(callback){
     this.bbox = utils.bbox(this.x, this.y, this.width, this.height);
     callback(this.bbox);
+};
+
+/**
+ * Get the element innerBox
+ * @param {function} callback               Callback function
+ */
+Rect.prototype.getInnerBox = function getInnerBox(callback) {
+    this.getBBox(callback);
 };
 
 module.exports = Rect;

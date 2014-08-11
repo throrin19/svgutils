@@ -267,6 +267,19 @@ SvgObject.prototype.getCurrentMatrix = function getCurrentMatrix(callback){
 };
 
 /**
+ * Get the element innerBox
+ * @param {function} callback
+ */
+SvgObject.prototype.getInnerBox = function getInnerBox(callback) {
+    callback({
+        x : 0,
+        y : 0,
+        width : 0,
+        height : 0
+    });
+};
+
+/**
  * Indicates whether an other svgObject is contained in this svgObject
  * @param {SvgObject}  svgObject            SvgObject
  * @param {function}   callback             Callback function

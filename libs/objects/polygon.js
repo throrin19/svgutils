@@ -6,6 +6,8 @@ var Matrix      = require(__dirname + '/../matrix/extends'),
     _           = require('underscore'),
     nUtil       = require('util');
 
+const EPSILON = 0.00001;
+
 var Polygon = function() {
     if (!(this instanceof Polygon)) {
         throw 'this function in a constructor. Use new to call it';
@@ -59,6 +61,11 @@ Polygon.prototype.addPoint = function addPoint(x, y) {
     this.bbox = undefined;
 };
 
+/**
+ * Return JSON from object
+ * @param   {boolean}    [matrix]       return transform attribute if false.
+ * @returns {object}                    JSON Object
+ */
 Polygon.prototype.toJSON = function toJSON(matrix) {
     var parentJSON = SvgObject.prototype.toJSON.call(this, matrix);
 
@@ -68,6 +75,11 @@ Polygon.prototype.toJSON = function toJSON(matrix) {
     return parentJSON;
 };
 
+/**
+ * Return XML from object
+ * @param   {boolean}    [matrix]       return transform attribute if false.
+ * @returns {xmlBuilder}                XML Object
+ */
 Polygon.prototype.toXml = function toXml(matrix) {
 
     var xml = SvgObject.prototype.toXml.call(this, matrix);
@@ -103,6 +115,10 @@ Polygon.prototype.applyMatrix = function applyMatrix(matrix, callback) {
     callback(polygon);
 };
 
+/**
+ * Get the element Bounding Box
+ * @param {function} callback               Callback Function
+ */
 Polygon.prototype.getBBox = function getBBox(callback) {
     var minX = +Infinity,
         maxX = -Infinity,
@@ -120,6 +136,168 @@ Polygon.prototype.getBBox = function getBBox(callback) {
     this.bbox = utils.bbox(minX, minY, Math.abs(Math.abs(maxX) - Math.abs(minX)), Math.abs(Math.abs(maxY) - Math.abs(minY)));
     callback(this.bbox);
 };
+
+/**
+ * Get the element innerBox
+ * @param {function} callback               Callback function
+ */
+Polygon.prototype.getInnerBox = function getInnerBox(callback) {
+    var verticesY       = [],
+        pointsCount     = this.points.length,
+        segments        = [],
+        prevY           = Infinity,
+        innerRect       = {
+            x       : 0,
+            y       : 0,
+            width   : 0,
+            height  : 0
+        },
+        segment;
+
+    if (pointsCount === 0) {
+        callback(innerRect);
+        return;
+    }
+
+    _.each(this.points, function (point) {
+        verticesY.push(point.y);
+    }, this);
+    verticesY = _.sortBy(verticesY, function (y) {
+        return y;
+    });
+    _.each(verticesY, function (y, i) {
+        if (Math.abs(y - prevY) < EPSILON) {
+            return;
+        }
+        if (i > 0) {
+            segment = widestSegmentAtY(y-0.1);
+            if (segment.width > 0) {
+                segments.push(segment);
+            }
+        }
+        if (i < pointsCount-1) {
+            segment = widestSegmentAtY(y+0.1);
+            if (segment.width > 0) {
+                segments.push(segment);
+            }
+        }
+
+        prevY = y;
+    }, this);
+
+    if (segments.length > 1) {
+        var iSeg0   = 0,
+            iSeg1   = 0,
+            curRect = innerRect;
+
+        for (iSeg0 = 0, iSeg1 = 1; iSeg1 < segments.length; iSeg0 += 2, iSeg1 += 2) {
+            var segment0 = segments[iSeg0],
+                segment1 = srgments[iSeg1];
+
+            if (Math.abs(segment0.width - segment2.width) < EPSILON) {
+                var x0      = Math.max(segment0.x, segment1.x),
+                    x1      = Math.min(segment0.x + segment0.width, segment1.x + segment1.width),
+                    width   = x1 - x0;
+                curRect = {
+                    x : x0,
+                    y : segment0.y,
+                    width : width,
+                    height : segment1.y - segment1.y
+                };
+            } else {
+                var point0, point1;
+
+                if (segment1.width > segment0.width) {
+                    point0 = {
+                        x : 0.5 * (segment0.x + segment1.x),
+                        y : 0.5 * (segment0.y + segment1.y)
+                    };
+                    point1 = {
+                        x : 0.5 * (segment0.x + segment0.width + segment1.x + segment1.width),
+                        y : 0.5 * (segment0.y + segment0.width + segment1.y + segment1.height)
+                    };
+                    curRect = {
+                        x : point0.x,
+                        y : point0.y,
+                        width : point1.x - point0.x,
+                        height : segment1.y - point0.y
+                    }
+                } else {
+                    point0 = {
+                        x : 0.5 * (segment0.x + segment1.x),
+                        y : 0.5 * (segment0.y + segment1.y)
+                    };
+                    point1 = {
+                        x : 0.5 * (segment0.x + segment0.width + segment1.x + segment1.width),
+                        y : 0.5 * (segment0.y + segment0.width + segment1.y + segment1.height)
+                    };
+                    curRect = {
+                        x : point0.x,
+                        y : segment0.y,
+                        width : point1.x - point0.x,
+                        height : point0.y - segment0.y
+                    }
+                }
+            }
+        }
+    }
+
+    callback(innerRect);
+};
+
+/**
+ * Get segment at specific Y coordinate
+ * @param {number} y            Y coordinate
+ * @returns {{x: number, y: number, width: number}}
+ * @private
+ */
+function widestSegmentAtY(y) {
+    var segment = {
+            x : 0,
+            y : y,
+            width : 0
+        },
+        pointsCount = this.points.length,
+        xArray      = [],
+        i, j;
+
+    if (pointsCount < 3) {
+        return segment;
+    }
+
+    // compute all the intersections (x coordinates)
+    for (i = 0,  j = pointsCount-1; i < pointsCount; j = ++i) {
+        var point1 = this.points[i],
+            point2 = this.points[j];
+        if ((point1.y > y) != (point2.y > y)) {
+            if (Math.abs(point2.x - point1.x) < EPSILON) {
+                xArray.push(point1.x);
+            } else {
+                // y = a x + b
+                var a = (point2.y - point1.y)/(point2.x - point1.x),
+                    b = point2.y - a * point2.x,
+                    x = (y - b)/a;
+                if (x >= Math.min(point2.x, point1.x) && x <= Math.max(point2.x, point1.x)) {
+                    xArray.push(x);
+                }
+            }
+        }
+    }
+
+    xArray = _.sort(xArray, function (x) {
+        return x;
+    });
+
+    for (i = 0, j = 1; j < xArray.length; i+=2, j+=2) {
+        var width = xArray[j] - xArray[i];
+        if (width > segment.width) {
+            segment.x = xArray[i];
+            segment.width = width;
+        }
+    }
+
+    return segment;
+}
 
 module.exports = Polygon;
 
