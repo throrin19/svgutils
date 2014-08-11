@@ -251,7 +251,7 @@ Polygon.prototype.getInnerBox = function getInnerBox(callback) {
  * @returns {{x: number, y: number, width: number}}
  * @private
  */
-function widestSegmentAtY(y) {
+Polygon.prototype._widestSegmentAtY = function _widestSegmentAtY(y) {
     var segment = {
             x : 0,
             y : y,

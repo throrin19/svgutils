@@ -1,3 +1,5 @@
+[0.8.3]
+- Fix bugs
 [0.8.2]
 - Add function to calculate all innerBoxes and set innerbox in data object
 [0.8.1]
