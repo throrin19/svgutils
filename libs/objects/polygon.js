@@ -239,6 +239,13 @@ Polygon.prototype.getInnerBox = function getInnerBox(callback) {
                     }
                 }
             }
+
+            if (
+                curRect.width > innerRect.width ||
+                (curRect.width === innerRect.width && curRect.height > innerRect.height)
+            ) {
+                innerRect = curRect;
+            }
         }
     }
 
