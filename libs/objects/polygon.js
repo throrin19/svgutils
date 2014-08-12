@@ -202,7 +202,7 @@ Polygon.prototype.getInnerBox = function getInnerBox(callback) {
                     x : x0,
                     y : segment0.y,
                     width : width,
-                    height : segment1.y - segment1.y
+                    height : segment1.y - segment0.y
                 };
             } else {
                 var point0, point1;
@@ -273,7 +273,7 @@ Polygon.prototype._widestSegmentAtY = function _widestSegmentAtY(y) {
     }
 
     // compute all the intersections (x coordinates)
-    for (i = 0,  j = pointsCount-1; i < pointsCount; j = ++i) {
+    for (i = 0,  j = pointsCount-1; i < pointsCount; j = i++) {
         var point1 = this.points[i],
             point2 = this.points[j];
         if ((point1.y > y) != (point2.y > y)) {
@@ -304,7 +304,7 @@ Polygon.prototype._widestSegmentAtY = function _widestSegmentAtY(y) {
     }
 
     return segment;
-}
+};
 
 module.exports = Polygon;
 
