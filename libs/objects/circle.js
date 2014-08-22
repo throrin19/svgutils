@@ -105,6 +105,22 @@ Circle.prototype.getBBox = function getBBox(callback) {
     callback(this.bbox);
 };
 
+/**
+ * Get the element innerBox
+ * @param {function} callback               Callback function
+ */
+Circle.prototype.getInnerBox = function getInnerBox(callback) {
+    // @todo verify calcul
+    var diff = this.r*2 - Math.sqrt(2)*this.r;
+
+    callback({
+        x       : this.cx - diff,
+        y       : this.cy - diff,
+        width   : this.r-diff,
+        height  : this.r - diff
+    });
+};
+
 module.exports = Circle;
 
 /**
