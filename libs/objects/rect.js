@@ -156,22 +156,22 @@ module.exports.fromNode = function fromNode(node){
         SvgObject.fromNode(rect, node);
 
         if(typeof node.$.x != 'undefined'){
-            rect.x = parseInt(node.$.x);
+            rect.x = parseFloat(node.$.x);
         }
         if(typeof node.$.y != 'undefined'){
-            rect.y = parseInt(node.$.y);
+            rect.y = parseFloat(node.$.y);
         }
         if(typeof node.$.rx != 'undefined'){
-            rect.rx = parseInt(node.$.rx);
+            rect.rx = parseFloat(node.$.rx);
         }
         if(typeof node.$.ry != 'undefined'){
-            rect.ry = parseInt(node.$.ry);
+            rect.ry = parseFloat(node.$.ry);
         }
         if(typeof node.$.width != 'undefined'){
-            rect.width = parseInt(node.$.width);
+            rect.width = parseFloat(node.$.width);
         }
         if(typeof node.$.height != 'undefined'){
-            rect.height = parseInt(node.$.height);
+            rect.height = parseFloat(node.$.height);
         }
     }
 

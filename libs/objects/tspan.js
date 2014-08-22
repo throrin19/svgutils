@@ -131,10 +131,10 @@ module.exports.fromNode = function fromNode(node){
 
         if(typeof node.$ != 'undefined'){
             if(typeof node.$.x != 'undefined'){
-                text.x = parseInt(node.$.x);
+                text.x = parseFloat(node.$.x);
             }
             if(typeof node.$.y != 'undefined'){
-                text.y = parseInt(node.$.y);
+                text.y = parseFloat(node.$.y);
             }
         }
 
