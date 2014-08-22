@@ -309,6 +309,7 @@ Svg.prototype.calculateAllInnerBoxes = function calculateAllInnerBoxes(callback)
             case 'rect' :
             case 'polygon' :
             case 'polyline' :
+            case 'circle' :
                 child.getInnerBox(function (innerBox) {
                     child.data.innerbox = innerBox;
                     svg.addElement(child);

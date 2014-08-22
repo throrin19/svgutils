@@ -7,5 +7,6 @@ module.exports = {
     SvgObject   : require(__dirname + '/svgobject'),
     Text        : require(__dirname + '/text'),
     Tspan       : require(__dirname + '/tspan'),
-    Image       : require(__dirname + '/image')
+    Image       : require(__dirname + '/image'),
+    Circle      : require(__dirname + '/circle')
 };

@@ -9,5 +9,6 @@
         <tspan x="100" y="450" transform="translate(5)">First line</tspan>
         <tspan x="100" y="470">Second line</tspan>
     </text>
+    <circle cx="10" cy="10" r="5" fill="red" />
 </g>
 </svg>
