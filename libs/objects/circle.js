@@ -116,7 +116,7 @@ Circle.prototype.getInnerBox = function getInnerBox(callback) {
     callback({
         x       : this.cx - diff,
         y       : this.cy - diff,
-        width   : this.r-diff,
+        width   : this.r - diff,
         height  : this.r - diff
     });
 };

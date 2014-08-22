@@ -64,6 +64,10 @@ Parser.parseXmlNode = function parseXmlNode(node) {
                 break;
             case 'image' :
                 nodes = _.union(nodes, Parser.parseXmlImage(content));
+                break;
+            case 'circle' :
+                nodes = _.union(nodes, Parser.parseXmlCircle(content));
+                break;
         }
     });
 
@@ -94,6 +98,12 @@ Parser.parseJson = function parseJson(elements) {
                 break;
             case 'text' :
                 nodes.push(Parser.parseJsonText(element));
+                break;
+            case 'image' :
+                nodes.push(Parser.parseJsonImage(element));
+                break;
+            case 'circle' :
+                nodes.push(Parser.parseJsonCircle(element));
                 break;
         }
     });
@@ -220,6 +230,30 @@ Parser.parseXmlImage = function parseXmlImage(array) {
  */
 Parser.parseJsonImage = function parseJsonImage(elem) {
     return elements.Image.fromJson(elem);
+};
+
+/**
+ * Parse Circle Elements Array
+ * @param {Array}       array               xml2js elements array
+ * @returns {Array}                         Circle array
+ */
+Parser.parseXmlCircle = function parseXmlCircle(array) {
+    var circles = [];
+
+    _.each(array, function (item) {
+        circles.push(elements.Circle.fromNode(item));
+    });
+
+    return circles;
+};
+
+/**
+ * Parse Circle json element
+ * @param {object}  elem                    Circle element in JSON format
+ * @returns {object}                        Circle object
+ */
+Parser.parseJsonCircle = function parseJsonCircle(elem) {
+    return elements.Circle.fromJson(elem);
 };
 
 /**

@@ -174,6 +174,7 @@ Group.prototype.calculateAllInnerBoxes = function calculateAllInnerBoxes(callbac
             case 'rect' :
             case 'polygon' :
             case 'polyline' :
+            case 'circle' :
                 child.getInnerBox(function (innerBox) {
                     child.data.innerbox = innerBox;
                     group.childs.push(child);
