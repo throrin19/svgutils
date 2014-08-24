@@ -3,8 +3,10 @@ svgutils
 
 Svg Utils for pasing SVGFile and manipulate Matrix object like Snap.svg
 
-[![Build Status](https://travis-ci.org/throrin19/svgutils.png?branch=master)](https://travis-ci.org/throrin19/svgutils) 
-[![David Dependencies](https://david-dm.org/throrin19/svgutils.png)](https://david-dm.org/throrin19/svgutils) 
+[![npm status](http://img.shields.io/npm/v/svgutils.svg?style=flat)](https://www.npmjs.org/package/svgutils)
+[![build status](https://secure.travis-ci.org/throrin19/svgutils.svg?style=flat)](http://travis-ci.org/throrin19/svgutils)
+[![dependency status](https://david-dm.org/throrin19/svgutils.svg?style=flat)](https://david-dm.org/throrin19/svgutils)
+[![experimental](http://img.shields.io/badge/stability-experimental-DD5F0A.svg?style=flat)](http://nodejs.org/api/documentation.html#documentation_stability_index)
 [![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=throrin19&url=https://github.com/throrin19/svgutils/&title=SvgUtils&language=Javascript&tags=github&category=software)
 
 ## Install
