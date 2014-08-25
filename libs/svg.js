@@ -173,14 +173,35 @@ Svg.prototype.findByIdWithoutType = function findByIdWithoutType(id, type) {
     var returnElem = null;
 
     _.each(this.elements, function (elem) {
-        if (elem.id == id && elem.type != type) {
+        if (elem.id === id && elem.type !== type) {
             returnElem = elem;
-        }else if (elem.type == 'g') {
+        }else if (elem.type === 'g') {
             returnElem = elem.findByIdWithoutType(id, type);
         }
     });
 
     return returnElem;
+};
+
+/**
+ * Remove All elements by type. If type is 'g', all childs elements are moved on svg root node.
+ * @param {string}      type                Type to remove
+ */
+Svg.prototype.removeAllByType = function removeAllByType(type) {
+    var elements = [];
+    _.each(this.elements, function (elem) {
+        if (elem.type === 'g') {
+            var elms = elem.removeAllByType(type);
+            if (type === 'g') {
+                elements = _.union(elements, elms);
+            }
+        }
+        if (elem.type !== type) {
+            elements.push(elem);
+        }
+    });
+
+    this.elements = elements;
 };
 
 /**

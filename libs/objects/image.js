@@ -5,8 +5,8 @@ var SvgObject   = require(__dirname + '/svgobject'),
     async       = require('async'),
     nUtil       = require('util');
 
-var Image = function(){
-    if (!(this instanceof Image))
+var Img = function(){
+    if (!(this instanceof Img))
         throw 'this function in a constructor. Use new to call it';
 
     SvgObject.call(this);
@@ -19,24 +19,24 @@ var Image = function(){
     this.height = 0;
 };
 
-nUtil.inherits(Image, SvgObject);
+nUtil.inherits(Img, SvgObject);
 
-Image.prototype.setX = function setX(x) {
+Img.prototype.setX = function setX(x) {
     this.x = x;
 };
-Image.prototype.setY = function setY(y) {
+Img.prototype.setY = function setY(y) {
     this.y = y;
 };
-Image.prototype.setWidth = function setWidth(w) {
+Img.prototype.setWidth = function setWidth(w) {
     this.width = w;
 };
-Image.prototype.setHeight = function setHeight(h) {
+Img.prototype.setHeight = function setHeight(h) {
     this.height = h;
 };
-Image.prototype.setHref = function setHref(href) {
+Img.prototype.setHref = function setHref(href) {
     this.href = href;
 };
-Image.prototype.setPreserveAspectRatio = function setPreserveAspectRatio(p) {
+Img.prototype.setPreserveAspectRatio = function setPreserveAspectRatio(p) {
     this.preserveAspectRatio = p;
 };
 
@@ -45,7 +45,7 @@ Image.prototype.setPreserveAspectRatio = function setPreserveAspectRatio(p) {
  * @param   {boolean}    [matrix]       return transform attribute if false.
  * @returns {object}                    JSON Object
  */
-Image.prototype.toJSON = function toJSON(matrix) {
+Img.prototype.toJSON = function toJSON(matrix) {
     var parentJSON = SvgObject.prototype.toJSON.call(this, matrix);
 
     parentJSON.x                    = this.x;
@@ -63,7 +63,7 @@ Image.prototype.toJSON = function toJSON(matrix) {
  * @param   {boolean}    [matrix]       return transform attribute if false.
  * @returns {xmlBuilder}                XML Object
  */
-Image.prototype.toXml = function toXml(matrix) {
+Img.prototype.toXml = function toXml(matrix) {
     var xml = SvgObject.prototype.toXml.call(this, matrix);
 
     xml.att('x', this.x);
@@ -80,44 +80,44 @@ Image.prototype.toXml = function toXml(matrix) {
  * Get the element Bounding Box
  * @param {function} callback               Callback Function
  */
-Image.prototype.getBBox = function getBBox(callback) {
+Img.prototype.getBBox = function getBBox(callback) {
     this.bbox = utils.bbox(this.x, this.y, this.width, this.height);
     callback(this.bbox);
 };
 
-module.exports = Image;
+module.exports = Img;
 
 /**
- * Create Image from SVG image node
+ * Create Img from SVG image node
  *
  * @param   {object}    node        xml2js node from SVG file
- * @returns {Image}                 the Image object
+ * @returns {Img}                 the Img object
  */
 module.exports.fromNode = function fromNode(node) {
-    var image = new Image();
+    var image = new Img();
 
-    if (typeof node != 'undefined' && typeof node.$ != 'undefined') {
+    if (typeof node !== 'undefined' && typeof node.$ !== 'undefined') {
         SvgObject.fromNode(image, node);
 
-        if (typeof node.$.x != 'undefined') {
+        if (typeof node.$.x !== 'undefined') {
             image.x = parseFloat(node.$.x);
         }
-        if (typeof node.$.y != 'undefined') {
+        if (typeof node.$.y !== 'undefined') {
             image.y = parseFloat(node.$.y);
         }
-        if (typeof node.$.width != 'undefined') {
+        if (typeof node.$.width !== 'undefined') {
             image.width = parseFloat(node.$.width);
         }
-        if (typeof node.$.height != 'undefined') {
+        if (typeof node.$.height !== 'undefined') {
             image.height = parseFloat(node.$.height);
         }
-        if (typeof node.$.href != 'undefined') {
+        if (typeof node.$.href !== 'undefined') {
             image.href = node.$.href;
         }
-        if (typeof node.$['xlink:href'] != 'undefined') {
+        if (typeof node.$['xlink:href'] !== 'undefined') {
             image.href = node.$['xlink:href'];
         }
-        if (typeof node.$.preserveAspectRatio != 'undefined') {
+        if (typeof node.$.preserveAspectRatio !== 'undefined') {
             image.preserveAspectRatio = node.$.preserveAspectRatio;
         }
     }
@@ -125,33 +125,33 @@ module.exports.fromNode = function fromNode(node) {
 };
 
 /**
- * Create Image from JSON element
+ * Create Img from JSON element
  *
  * @param   {object}    json        json element
- * @returns {Image}                 the image object
+ * @returns {Img}                 the image object
  */
 module.exports.fromJson = function fromJson(json){
-    var image = new Image();
+    var image = new Img();
 
     if (typeof json != 'undefined') {
         SvgObject.fromJson(image, json);
 
-        if (typeof json.x != 'undefined') {
+        if (typeof json.x !== 'undefined') {
             image.x = json.x;
         }
-        if (typeof json.y != 'undefined') {
+        if (typeof json.y !== 'undefined') {
             image.y = json.y;
         }
-        if (typeof json.width != 'undefined') {
+        if (typeof json.width !== 'undefined') {
             image.width = json.width;
         }
-        if (typeof json.height != 'undefined') {
+        if (typeof json.height !== 'undefined') {
             image.height = json.height;
         }
-        if (typeof json.href != 'undefined') {
+        if (typeof json.href !== 'undefined') {
             image.href = json.href;
         }
-        if (typeof json.preserveAspectRatio != 'undefined') {
+        if (typeof json.preserveAspectRatio !== 'undefined') {
             image.preserveAspectRatio = json.preserveAspectRatio;
         }
     }

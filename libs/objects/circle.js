@@ -132,16 +132,16 @@ module.exports = Circle;
 module.exports.fromNode = function fromNode(node) {
     var circle = new Circle();
 
-    if (typeof node != 'undefined' && typeof node.$ != 'undefined') {
+    if (typeof node !== 'undefined' && typeof node.$ !== 'undefined') {
         SvgObject.fromNode(circle, node);
 
-        if (typeof node.$.cx != 'undefined') {
+        if (typeof node.$.cx !== 'undefined') {
             circle.cx = parseFloat(node.$.cx);
         }
-        if (typeof node.$.cy != 'undefined') {
+        if (typeof node.$.cy !== 'undefined') {
             circle.cy = parseFloat(node.$.cy);
         }
-        if (typeof node.$.r != 'undefined') {
+        if (typeof node.$.r !== 'undefined') {
             circle.r = parseFloat(node.$.r);
         }
     }
@@ -157,16 +157,16 @@ module.exports.fromNode = function fromNode(node) {
 module.exports.fromJson = function fromJson(json){
     var circle = new Circle();
 
-    if (typeof json != 'undefined') {
+    if (typeof json !== 'undefined') {
         SvgObject.fromJson(circle, json);
 
-        if (typeof json.cx != 'undefined') {
+        if (typeof json.cx !== 'undefined') {
             circle.cx = json.cx;
         }
-        if (typeof json.cy != 'undefined') {
+        if (typeof json.cy !== 'undefined') {
             circle.cy = json.cy;
         }
-        if (typeof json.r != 'undefined') {
+        if (typeof json.r !== 'undefined') {
             circle.r = json.r;
         }
     }
