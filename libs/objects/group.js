@@ -108,6 +108,27 @@ Group.prototype.findByIdAndType = function findByIdAndType(id, type) {
     return returnElem;
 };
 
+/**
+ * Find elements in Group and return selected SvgObject
+ *
+ * @param   {string}    id                  Item id
+ * @param   {string}    type                Item type (rect, path, ...)
+ * @returns {SvgObject}                     SvgObject element
+ */
+Group.prototype.findByIdWithoutType = function findByIdWithoutType(id, type) {
+    var returnElem = null;
+
+    _.each(this.childs, function (elem) {
+        if (elem.id == id && elem.type != type) {
+            returnElem = elem;
+        } else if (elem.type == 'g') {
+            returnElem = elem.findByIdWithoutType(id, type);
+        }
+    });
+
+    return returnElem;
+};
+
 Group.prototype.applyMatrix = function(matrix, callback){
     var group = new Group();
     group.style   = this.style;

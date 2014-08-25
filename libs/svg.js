@@ -163,6 +163,27 @@ Svg.prototype.findByIdAndType = function findByIdAndType(id, type) {
 };
 
 /**
+ * Find one element by id without param type in SVG
+ *
+ * @param   {string}    id                  Item id
+ * @param   {string}    type                Item type (rect, path, ...)
+ * @returns {SvgObject}                     SvgObject element
+ */
+Svg.prototype.findByIdWithoutType = function findByIdWithoutType(id, type) {
+    var returnElem = null;
+
+    _.each(this.elements, function (elem) {
+        if (elem.id == id && elem.type != type) {
+            returnElem = elem;
+        }else if (elem.type == 'g') {
+            returnElem = elem.findByIdWithoutType(id, type);
+        }
+    });
+
+    return returnElem;
+};
+
+/**
  * Generate new Svg element with all applied matrix to all elements.
  * Convert rect into polygon
  * @param {array|Matrix}        matrix              Matrix to be applied in addition to those elements.
