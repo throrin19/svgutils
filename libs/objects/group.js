@@ -129,6 +129,29 @@ Group.prototype.findByIdWithoutType = function findByIdWithoutType(id, type) {
     return returnElem;
 };
 
+/**
+ * Remove All elements by type. If type is 'g', all childs elements are moved on svg root node.
+ * @param {string}      type                Type to remove
+ * @return {Array}                          List of elements of we moved outside the group
+ */
+Group.prototype.removeAllByType = function removeAllByType(type) {
+    var elements = [];
+    _.each(this.childs, function (elem) {
+        if (elem.type === 'g') {
+            var elms = elem.removeAllByType(type);
+            if (type === 'g') {
+                elements = _.union(elements, elms);
+            }
+        }
+        if (elem.type !== type) {
+            elements.push(elem);
+        }
+    });
+
+    this.childs = elements;
+    return elements;
+};
+
 Group.prototype.applyMatrix = function(matrix, callback){
     var group = new Group();
     group.style   = this.style;
