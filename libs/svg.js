@@ -358,7 +358,7 @@ Svg.prototype.calculateAllInnerBoxes = function calculateAllInnerBoxes(callback)
                     done();
                 });
                 break;
-            case 'group' :
+            case 'g' :
                 child.calculateAllInnerBoxes( function (group) {
                     svg.addElement(child);
                     done();
