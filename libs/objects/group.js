@@ -225,7 +225,7 @@ Group.prototype.calculateAllInnerBoxes = function calculateAllInnerBoxes(callbac
                     done();
                 });
                 break;
-            case 'group' :
+            case 'g' :
                 child.calculateAllInnerBoxes( function (group) {
                     group.childs.push(child);
                     done();
