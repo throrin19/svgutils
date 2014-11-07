@@ -375,6 +375,32 @@ Svg.prototype.calculateAllInnerBoxes = function calculateAllInnerBoxes(callback)
     });
 };
 
+/**
+ * Remove specifics types of objetcs in svg
+ * @param {object}          params              Function params
+ * @param {string|Array}    params.type         target type(s) (g, rect, ...)
+ */
+Svg.prototype.removeByType = function removeByType(params) {
+    this.elements = _.filter(this.elements, function (element) {
+        if (!_.isArray(params.type)) {
+            var t = params.type;
+            params.type = [];
+            params.type.push(t);
+        }
+
+        if (element.type === 'g') {
+            // remove elements for group
+            element.removeByType(params);
+            // if remove group type, add all elements in svg
+            if (_.contains(params.type, 'g')) {
+                _.union(this.elements, element.childs);
+            }
+        }
+
+        return !_.contains(params.type, element.type);
+    }, this);
+};
+
 module.exports = Svg;
 
 /**
