@@ -200,6 +200,32 @@ Group.prototype.getBBox = function(callback){
 };
 
 /**
+ * Remove specifics types of objetcs in group
+ * @param {object}          params              Function params
+ * @param {string|Array}    params.type         target type(s) (g, rect, ...)
+ */
+Group.prototype.removeByType = function removeByType(params) {
+    this.childs = _.filter(this.childs, function (element) {
+        if (!_.isArray(params.type)) {
+            var t = params.type;
+            params.type = [];
+            params.type.push(t);
+        }
+
+        if (element.type === 'g') {
+            // remove elements for group
+            element.removeByType(params);
+            // if remove group type, add all elements in svg
+            if (_.contains(params.type, 'g')) {
+                _.union(this.childs, element.childs);
+            }
+        }
+
+        return !_.contains(params.type, element.type);
+    }, this);
+};
+
+/**
  * Calculate all innerboxes in Group. Return copy of current group with elements with data attribute innerbox.
  * @param {function}    callback                    Callback Function
  */
