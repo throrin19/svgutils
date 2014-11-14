@@ -262,7 +262,8 @@ SvgObject.prototype.toString = function toString(){
  * @return {Path}                           Path Object
  */
 SvgObject.prototype.toPath = function toPath() {
-    var path = new require(__dirname + "/path")();
+    var Path = require(__dirname + "/path");
+    var path = new Path();
     path.classes    = this.classes;
     path.id         = this.id;
     path.name       = this.name;

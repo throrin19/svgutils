@@ -430,13 +430,13 @@ Svg.prototype.convertElementsToPath = function convertElementsToPath() {
                 elements.push(element.toPath());
                 break;
             case 'g' :
-                elements.push(element.convertElementsToPath());
+                element.convertElementsToPath();
+                elements.push(element);
                 break;
             default :
                 elements.push(element);
         }
     }, this);
-
     this.elements = elements;
 };
 
