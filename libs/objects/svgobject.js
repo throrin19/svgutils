@@ -3,8 +3,7 @@
 var _       = require('underscore'),
     builder = require('xmlbuilder'),
     async   = require('async'),
-    Matrix  = require(__dirname + '/../matrix/extends'),
-    Path    = require(require(__dirname + "/path"));
+    Matrix  = require(__dirname + '/../matrix/extends');
 
 /**
  *
@@ -255,7 +254,7 @@ SvgObject.prototype.toString = function toString(){
  * @return {Path}                           Path Object
  */
 SvgObject.prototype.toPath = function toPath() {
-    var path = new Path();
+    var path = new require(__dirname + "/path")();
     path.classes    = this.classes;
     path.id         = this.id;
     path.name       = this.name;
