@@ -44,7 +44,7 @@ Path.prototype.toJSON = function toJSON(matrix){
 Path.prototype.toXml = function toXml(matrix) {
     var xml = SvgObject.prototype.toXml.call(this, matrix);
 
-    xml.att('d', this.x);
+    xml.att('d', this.d);
 
     return xml;
 };
