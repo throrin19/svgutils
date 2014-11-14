@@ -8,5 +8,6 @@ module.exports = {
     Text        : require(__dirname + '/text'),
     Tspan       : require(__dirname + '/tspan'),
     Image       : require(__dirname + '/image'),
-    Circle      : require(__dirname + '/circle')
+    Circle      : require(__dirname + '/circle'),
+    Path        : require(__dirname + '/path')
 };

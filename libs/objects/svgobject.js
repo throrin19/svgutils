@@ -35,6 +35,14 @@ SvgObject.prototype.setClassesFromString = function setClassesFromString(classes
 };
 
 /**
+ * Add specific class to svgObject
+ * @param {string}  className   Class Name
+ */
+SvgObject.prototype.addClass = function addClass(className) {
+    this.classes.push(className);
+};
+
+/**
  * Set Stroke Color
  *
  * @param {string} stroke       Stroke Color (default : black)
@@ -245,6 +253,26 @@ SvgObject.prototype.toXml = function toXml(matrix){
  */
 SvgObject.prototype.toString = function toString(){
     return this.toXml().toString();
+};
+
+/**
+ * Return element converted into Path.
+ * For moment, works only with rect, polygon and polyline
+ * Others return empty path
+ * @return {Path}                           Path Object
+ */
+SvgObject.prototype.toPath = function toPath() {
+    var path = new require(__dirname + "/path")();
+    path.classes    = this.classes;
+    path.id         = this.id;
+    path.name       = this.name;
+    path.stroke     = this.stroke;
+    path.fill       = this.fill;
+    path.style      = this.style;
+    path.transform  = this.transform;
+    path.data       = this.data;
+
+    return path;
 };
 
 /**
