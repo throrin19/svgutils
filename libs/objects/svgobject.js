@@ -35,6 +35,14 @@ SvgObject.prototype.setClassesFromString = function setClassesFromString(classes
 };
 
 /**
+ * Add specific class to svgObject
+ * @param {string}  className   Class Name
+ */
+SvgObject.prototype.addClass = function addClass(className) {
+    this.classes.push(className);
+};
+
+/**
  * Set Stroke Color
  *
  * @param {string} stroke       Stroke Color (default : black)
