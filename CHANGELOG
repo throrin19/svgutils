@@ -2,7 +2,7 @@
 - convert elements into Path (object path created but not used at this time on import and manipulation)
 - add common class on all elements
 - add class on specific element
-- add xml header on svg result print
+- add possibility to set stylesheets to svg.
 [0.10.0]
 - Add function removeByType
 [0.9.3]
