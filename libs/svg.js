@@ -14,8 +14,9 @@ var Svg = function Svg() {
     if (!(this instanceof Svg))
         throw 'this function in a constructor. Use new to call it';
 
-    this.elements = [];
-    this.size     = { width: 100, height : 100 };
+    this.elements       = [];
+    this.size           = { width: 100, height : 100 };
+    this.stylesheets    = [];
 };
 
 /**
@@ -35,6 +36,14 @@ Svg.prototype.addElement = function toJSON(element) {
 };
 
 /**
+ * Add Specific stylesheet in SVG
+ * @param {string}      cssFilePath         Css File Path to add
+ */
+Svg.prototype.addStyleSheet = function addStyleSheet(cssFilePath) {
+    this.stylesheets.push(cssFilePath);
+};
+
+/**
  * Convert Svg to Json format
  * @param {boolean}     matrix              String representation without transform attribute
  * @returns {object}                        Svg Json Object representation
@@ -43,7 +52,8 @@ Svg.prototype.toJSON = function toXml(matrix) {
     if(typeof matrix == 'undefined') matrix = false;
 
     var json = {
-        elements : []
+        elements    : [],
+        stylesheets : this.stylesheets
     };
 
     _.each(this.elements, function (element) {
@@ -66,6 +76,10 @@ Svg.prototype.toXml = function toXml(matrix) {
     xml.att('xmlns', 'http://www.w3.org/2000/svg');
     xml.att('width', this.size.width+'px');
     xml.att('height', this.size.height+'px');
+
+    _.each(this.stylesheets, function (styleSheet) {
+        xml.ins('xml-stylesheet', 'type="text/xsl" href="'+ styleSheet +'"');
+    });
 
     _.each(this.elements, function (element) {
         xml.importXMLBuilder(element.toXml(matrix));
