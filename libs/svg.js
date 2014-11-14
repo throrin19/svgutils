@@ -401,6 +401,31 @@ Svg.prototype.removeByType = function removeByType(params) {
     }, this);
 };
 
+/**
+ * Convert Svg elements into Path.
+ * Works only on rect, polygon and polyline
+ */
+Svg.prototype.convertElementsToPath = function convertElementsToPath() {
+    var elements = [];
+
+    _.each(this.elements, function (element) {
+        switch(element.type) {
+            case 'rect' :
+            case 'polygon' :
+            case 'polyline' :
+                elements.push(element.toPath());
+                break;
+            case 'g' :
+                elements.push(element.convertElementsToPath());
+                break;
+            default :
+                elements.push(element);
+        }
+    }, this);
+
+    this.elements = elements;
+};
+
 module.exports = Svg;
 
 /**

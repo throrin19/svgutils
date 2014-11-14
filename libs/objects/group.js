@@ -226,6 +226,31 @@ Group.prototype.removeByType = function removeByType(params) {
 };
 
 /**
+ * Convert Svg elements into Path.
+ * Works only on rect, polygon and polyline
+ */
+Group.prototype.convertElementsToPath = function convertElementsToPath() {
+    var elements = [];
+
+    _.each(this.childs, function (element) {
+        switch(element.type) {
+            case 'rect' :
+            case 'polygon' :
+            case 'polyline' :
+                elements.push(element.toPath());
+                break;
+            case 'g' :
+                elements.push(element.convertElementsToPath());
+                break;
+            default :
+                elements.push(element);
+        }
+    }, this);
+
+    this.childs = elements;
+};
+
+/**
  * Calculate all innerboxes in Group. Return copy of current group with elements with data attribute innerbox.
  * @param {function}    callback                    Callback Function
  */
