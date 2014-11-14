@@ -25,8 +25,8 @@ Path.prototype.setD = function setD(d) {
 
 /**
  * Convert Path element to JSON element
- * @param   {object}        matrix      Matrix to apply before conversion
- * @returns {object}                    JSON representation of Path element
+ * @param   {boolean}       [matrix]       return transform attribute if false.
+ * @returns {object}                        JSON representation of Path element
  */
 Path.prototype.toJSON = function toJSON(matrix){
     var parentJSON = SvgObject.prototype.toJSON.call(this, matrix);
@@ -38,7 +38,8 @@ Path.prototype.toJSON = function toJSON(matrix){
 
 /**
  * Convert Path Element to xml object
- * @param {object}          matrix      Matrix to apply before conversion
+ * @param       {boolean}    [matrix]       return transform attribute if false.
+ * @returns     {xmlBuilder}                XML Object
  */
 Path.prototype.toXml = function toXml(matrix) {
     var xml = SvgObject.prototype.toXml.call(this, matrix);

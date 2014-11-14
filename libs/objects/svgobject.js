@@ -3,7 +3,8 @@
 var _       = require('underscore'),
     builder = require('xmlbuilder'),
     async   = require('async'),
-    Matrix  = require(__dirname + '/../matrix/extends');
+    Matrix  = require(__dirname + '/../matrix/extends'),
+    Path    = require(require(__dirname + "/path"));
 
 /**
  *
@@ -245,6 +246,26 @@ SvgObject.prototype.toXml = function toXml(matrix){
  */
 SvgObject.prototype.toString = function toString(){
     return this.toXml().toString();
+};
+
+/**
+ * Return element converted into Path.
+ * For moment, works only with rect, polygon and polyline
+ * Others return empty path
+ * @return {Path}                           Path Object
+ */
+SvgObject.prototype.toPath = function toPath() {
+    var path = new Path();
+    path.classes    = this.classes;
+    path.id         = this.id;
+    path.name       = this.name;
+    path.stroke     = this.stroke;
+    path.fill       = this.fill;
+    path.style      = this.style;
+    path.transform  = this.transform;
+    path.data       = this.data;
+
+    return path;
 };
 
 /**

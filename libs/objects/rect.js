@@ -95,6 +95,22 @@ Rect.prototype.toXml = function toXml(matrix){
     return xml;
 };
 
+/**
+ * Return element converted into Path.
+ * @return {Path}                           Path Object
+ */
+Rect.prototype.toPath = function toPath() {
+    var path = SvgObject.prototype.toPath.call(this);
+
+    path.d = 'M' + this.x + ' ' + this.y +
+             ' L' + this.x + ' ' + (this.y+this.height) +
+             ' L' + (this.x+this.width) + ' ' + (this.y+this.height) +
+             ' L' + (this.x+this.width) + ' ' + this.y +
+             ' Z';
+
+    return path;
+};
+
 Rect.prototype.applyMatrix = function applyMatrix(matrix, callback){
     var polygon = new Polygon();
     polygon.style   = this.style;

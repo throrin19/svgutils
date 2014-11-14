@@ -94,6 +94,26 @@ Polygon.prototype.toXml = function toXml(matrix) {
     return xml;
 };
 
+/**
+ * Return element converted into Path.
+ * @return {Path}                           Path Object
+ */
+Polygon.prototype.toPath = function toPath() {
+    var path = SvgObject.prototype.toPath.call(this);
+
+    path.d =  "";
+    this.points.forEach(function(point, index) {
+        if(index == 0){
+            path.d += "M " + point.x + " " + point.y;
+        } else {
+            path.d += " L" + point.x + " " + point.y
+        }
+    });
+    path.d += ' Z';
+
+    return path;
+};
+
 Polygon.prototype.applyMatrix = function applyMatrix(matrix, callback) {
     var polygon     = new Polygon();
     polygon.style   = this.style;
