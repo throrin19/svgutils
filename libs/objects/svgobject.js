@@ -277,6 +277,7 @@ SvgObject.prototype.toPath = function toPath() {
     path.fill       = this.fill;
     path.style      = this.style;
     path.transform  = this.transform;
+    path.bbox       = this.bbox;
     path.data       = this.data;
 
     return path;
