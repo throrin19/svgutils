@@ -204,6 +204,9 @@ SvgObject.prototype.toJSON = function toJSON(matrix){
         json.style = this.style;
     if(!_.isEmpty(this.data))
         json.data = this.data;
+    if (this.bbox) {
+        json.bbox = this.bbox;
+    }
     if(typeof this.transform != 'undefined' && matrix != true)
         json.transform = this.transform;
 
@@ -235,6 +238,9 @@ SvgObject.prototype.toXml = function toXml(matrix){
         xml.att("stroke", this.stroke);
     if(this.fill.length > 0)
         xml.att("fill", this.fill);
+    if (this.bbox) {
+        xml.att("data-bbox", JSON.stringify(this.bbox));
+    }
 
     _.each(this.data, function(value, key){
         if(key && value){
