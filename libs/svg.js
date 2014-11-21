@@ -53,7 +53,8 @@ Svg.prototype.toJSON = function toXml(matrix) {
 
     var json = {
         elements    : [],
-        stylesheets : this.stylesheets
+        stylesheets : this.stylesheets,
+        size        : this.size
     };
 
     _.each(this.elements, function (element) {
