@@ -6,7 +6,7 @@ var Matrix      = require(__dirname + '/../matrix/extends'),
     _           = require('underscore'),
     nUtil       = require('util');
 
-var EPSILON = 0.00001;
+var EPSILON = 0.01;
 
 var Polygon = function() {
     if (!(this instanceof Polygon)) {

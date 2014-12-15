@@ -1,7 +1,13 @@
 var Svg = require('../index').Svg;
 
 
-Svg.fromSvgDocument(__dirname + '/test.svg', function (err, svg) {
-    svg.convertElementsToPath();
-    console.log(svg.toString(true));
+Svg.fromJsonFile(__dirname + '/test.json', function (err, svg) {
+    var element = svg.elements[0];
+    element.getInnerBox(function (innerBox) {
+        //console.log(innerBox);
+    });
+    //var element = svg.elements[1];
+    //element.getInnerBox(function (innerBox) {
+    //    console.log(innerBox);
+    //});
 });
