@@ -196,7 +196,7 @@ module.exports.fromNode = function fromNode(node){
             text.value  = node._;
 
             if(_.isEmpty(text.id)){
-                text.setId(node._.replace(/[`~!@#$%^&*()|+\=?;:'",.<>\{\}\[\]\\\/ ]/img,''));
+                text.setId(node._.replace(/[`~!@#$%^&*()|+\=?;:'",<>\{\}\[\]\\\/ ]/img,''));
             }
         }
 
